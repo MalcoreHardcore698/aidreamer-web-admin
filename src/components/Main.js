@@ -3,18 +3,27 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useQuery } from '@apollo/react-hooks'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCompass, faPaperPlane, faTrophy, faBell, faCog } from '@fortawesome/free-solid-svg-icons'
+import {
+    faCompass,
+    faPaperPlane,
+    faTrophy,
+    faBell,
+    faCog,
+    faNewspaper,
+    faImage,
+    faGamepad,
+    faAddressBook
+} from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from './AuthContext'
 import Navigation from './ui/Navigation'
 import Container from './ui/Container'
 import Message from './ui/Message'
 import Button from './ui/Button'
 import Modal from './ui/Modal'
-import Auth from '../components/Auth'
+import Auth from './Auth'
 import { setUser } from '../utils/actions'
 import { GET_USER } from '../utils/queries'
 
-import ImageAvatar from '../assets/images/avatar.png'
 import SVGLogo from '../assets/images/logo'
 
 import routes from '../routes'
@@ -32,16 +41,24 @@ function getButton(handler, routes, icon) {
 
 const links = [
     {
-        path: '/profile',
-        component: <img src={ImageAvatar} alt="Avatar" />
-    },
-    {
         path: '/',
         component: SVGLogo
     },
     {
-        path: '/navigator',
+        path: '/users',
         component: <FontAwesomeIcon icon={faCompass} />
+    },
+    {
+        path: '/articles',
+        component: <FontAwesomeIcon icon={faNewspaper} />
+    },
+    {
+        path: '/offers',
+        component: <FontAwesomeIcon icon={faAddressBook} />
+    },
+    {
+        path: '/hubs',
+        component: <FontAwesomeIcon icon={faGamepad} />
     },
     {
         path: '/tours',
@@ -50,6 +67,10 @@ const links = [
     {
         path: '/chats',
         component: <FontAwesomeIcon icon={faPaperPlane} />
+    },
+    {
+        path: '/gallery',
+        component: <FontAwesomeIcon icon={faImage} />
     }
 ]
 

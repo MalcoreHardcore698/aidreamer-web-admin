@@ -6,7 +6,6 @@ import Main from './Main'
 import '../assets/styles/App.css'
 
 export default () => {
-
   const { token, login, logout, userId, ready } = useAuth()
   const isAuthenticated = !!token
 

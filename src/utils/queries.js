@@ -43,55 +43,6 @@ export const LOGIN = gql`
     }
 `
 
-export const REGISTER = gql`
-    mutation register(
-        $name: String!
-        $email: String!
-        $password: String!
-        $confirmPassword: String!
-    ) {
-        register(
-            registerInput: {
-                name: $name
-                email: $email
-                password: $password
-                confirmPassword: $confirmPassword
-            }
-        ) {
-            id
-            name
-            email
-            phone
-            role
-            balance
-            level
-            experience
-            avatar {
-                id
-                name
-                path
-            }
-            preferences {
-                id
-                title
-                color
-                slogan
-                icon {
-                    name
-                    path
-                }
-            }
-            chats {
-                chatId
-            }
-            token
-            isVerifiedEmail
-            isVerifiedPhone
-            isNotified
-        }
-    }
-`
-
 export const GET_ALL_OFFERS = gql`
     query allOffers($status: Status!) {
         allOffers(status: $status) {
