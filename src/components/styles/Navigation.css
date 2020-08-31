@@ -7,18 +7,18 @@
 
 .ui-navigation .block {
     display: flex;
-    grid-gap: 15px;
     width: max-content;
+    padding: 0 10px;
+}
+
+.ui-navigation .block:last-child {
+    grid-gap: 15px;
 }
 
 .ui-navigation .block:first-child,
 .ui-navigation .block:last-child button {
     background: white;
     border-radius: 25rem;
-}
-
-.ui-navigation .block:first-child {
-    padding-right: 10px;
 }
 
 .ui-navigation .block a,
@@ -53,15 +53,6 @@
     object-fit: contain;
 }
 
-.ui-navigation .block a:nth-child(2) {
-    font-size: 2rem;
-}
-
 .ui-navigation .block a:first-child {
-    padding-right: 20px;
-}
-
-.ui-navigation .block a:first-child img {
-    border-radius: 50%;
-    transform: scale(1.45) translateX(10px);
+    font-size: 2rem;
 }

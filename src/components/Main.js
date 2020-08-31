@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-    faCompass,
+    faUsers,
     faPaperPlane,
     faTrophy,
     faBell,
@@ -46,7 +46,7 @@ const links = [
     },
     {
         path: '/users',
-        component: <FontAwesomeIcon icon={faCompass} />
+        component: <FontAwesomeIcon icon={faUsers} />
     },
     {
         path: '/articles',
