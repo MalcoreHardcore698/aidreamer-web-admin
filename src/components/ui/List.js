@@ -26,7 +26,7 @@ export default (props) => {
                 <div
                     key={key}
                     className="ui-item"
-                    onClick={handler}
+                    onClick={() => handler(item)}
                 >
                     <Children item={item} />
                 </div>

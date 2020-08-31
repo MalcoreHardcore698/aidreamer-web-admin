@@ -14,8 +14,6 @@ import {
     faArrowLeft,
     faArrowRight
 } from '@fortawesome/free-solid-svg-icons'
-import { useSelector, useDispatch } from 'react-redux'
-import { setDataTable } from '../../utils/actions'
 import Row from './Row'
 import Container from './Container'
 import Button from './Button'
@@ -25,20 +23,21 @@ import Dropdown from './Dropdown'
 import Checkbox from './Checkbox'
 import Radiobox from './Radiobox'
 import { getPage, getMaxPage } from '../../utils/functions'
+import { config } from '../../utils/config'
 import '../styles/Table.css'
+
+const api = config.get('api')
 
 const limitDefault = 10
 const limitList = [5, 10, 15, 20, 30, 40, 50]
 
-const Manage = ({ actions, dishands }) => {
-    const state = useSelector(state => state)
-
+const Manage = ({ table, actions, dishands }) => {
     return (
         <div className="manage">
             {actions.map((Action, key) =>
                 <Action
                     key={key}
-                    table={state.table}
+                    table={table}
                     dishands={dishands}
                 />    
             )}
@@ -55,17 +54,21 @@ const Table = ({
     page,
     setPage,
 
+    table,
+    setTable,
+
     limits,
     setLimits,
 
     headers,
     setHeaders
 }) => {
-    const state = useSelector(state => state)
-
     return (
         <div className={`data ${name}`}>
             <Descriptors
+                table={table}
+                setTable={setTable}
+
                 limits={limits}
                 setLimits={setLimits}
 
@@ -80,12 +83,11 @@ const Table = ({
             />
 
             <div className={`table${gridable ? ' gridable' : ''}`}>
-                {!gridable && <Headers />}
+                {!gridable && <Headers table={table} setTable={setTable} />}
 
-                {(state.table.length === 0)
+                {(table.length === 0)
                     ? <Message text={empty} padding />
-                    : <Body />
-                }
+                    : <Body table={table} setTable={setTable} />}
             </div>
 
             <Pagination
@@ -129,16 +131,16 @@ const Descriptor = (props) => {
 }
 
 const Descriptors = ({
+    table,
+    setTable,
+
     headers,
     setHeaders,
 
     limits,
     setLimits
 }) => {
-    const state = useSelector(state => state)
-    const dispatch = useDispatch()
-
-    const size = state.table.length
+    const size = table.length
 
     const handlerVisible = (headers) => {
         let checkedCount = headers.reduce((prev, curr) => (curr.checked) ? prev + 1 : prev, 0)
@@ -147,7 +149,7 @@ const Descriptors = ({
 
         setHeaders(headers)
 
-        dispatch(setDataTable(state.table.map(t =>
+        setTable(table.map(t =>
             ({
                 ...t,
                 data: t.data.map((c, i) => ({
@@ -155,7 +157,7 @@ const Descriptors = ({
                     visible: headers[i].checked
                 }))
             })
-        )))
+        ))
     }
 
     return (
@@ -188,32 +190,29 @@ const Descriptors = ({
     )
 }
 
-const Headers = () => {
-    const state = useSelector(state => state)
-    const dispatch = useDispatch()
-
+const Headers = ({ table, setTable }) => {
     const [checked, setChecked] = useState(false)
 
     const handlerChecked = () => {
-        dispatch(setDataTable([
-            ...state.table.map(trace => ({
+        setTable([
+            ...table.map(trace => ({
                 ...trace,
                 checked: !checked
             }))
-        ]))
+        ])
         setChecked(!checked)
     }
 
     return (
         <div className="headers">
-            {(state.table.length > 0) ?
+            {(table.length > 0) ?
                 <React.Fragment>
                     <div className={`checkmark${checked ? ' checked' : ''}`} onClick={handlerChecked}>
                         <div className={`checkmarks-item`}>
                             <FontAwesomeIcon icon={faCheck} />
                         </div>
                     </div>
-                    {state.table[0].data.map((cell, iter) =>
+                    {table[0].data.map((cell, iter) =>
                         <Header
                             key={iter + 1}
                             iter={iter + 2}
@@ -239,27 +238,22 @@ const Header = ({ cell, iter }) => {
     )
 }
 
-const Body = () => {
-    const state = useSelector(state => state)
-
+const Body = ({ table, setTable }) => {
     return (
         <div className="body">
-            {state.table.map((trace, iter) =>
-                <Trace key={iter} trace={trace} />
+            {table.map((trace, iter) =>
+                <Trace key={iter} trace={trace} setTable={setTable} />
             )}
         </div>
     )
 }
 
-const Trace = ({ trace }) => {
-    const state = useSelector(state => state)
-    const dispatch = useDispatch()
-
+const Trace = ({ trace, setTable }) => {
     const handlerChecked = () => {
-        dispatch(setDataTable(state.table.map(t => (t.id === trace.id) ? ({
+        setTable(table => table.map(t => (t.id === trace.id) ? ({
             ...t,
             checked: !t.checked
-        }) : ({ ...t }))))
+        }) : ({ ...t })))
     }
 
     return (
@@ -290,9 +284,9 @@ const Cell = ({ cell, iter }) => {
             {(cell.type === 'color') &&
                 <span style={{ background: cell.value || 'black' }}></span>}
             {(cell.type === 'img') &&
-                <img src={`http://localhost:5000${cell.value.replace('./', '/')}`} alt={cell.value} />}
+                <img src={(cell.value).replace('./', `${api}/`)} alt={cell.value} />}
             {(cell.type === 'icon') &&
-                <img className="icon" src={`http://localhost:5000${cell.value.replace('./', '/')}`} alt={cell.value} />}
+                <img className="icon" src={(cell.value).replace('./', `${api}/`)} alt={cell.value} />}
             {(cell.type === 'hub') &&
                 <img className="hub" src={`http://localhost:5000${cell.value.replace('./', '/')}`} alt={cell.value} />}
         </div>
@@ -348,8 +342,7 @@ const Pagination = ({ page, min=0, max=0, setPage }) => {
 }
 
 export default ({ options }) => {
-    const state = useSelector(state => state)
-    const dispatch = useDispatch()
+    const [table, setTable] = useState([])
 
     const [dishands, setDishands] = useState(true)
     const [page, setPage] = useState(0)
@@ -365,6 +358,7 @@ export default ({ options }) => {
     const {
         name='default',
         data=[],
+        dataTable=[],
         actions=[]
     } = options || {}
 
@@ -373,56 +367,61 @@ export default ({ options }) => {
     ]
 
     useEffect(() => {
-        const limit = limits?.find(l => l.checked)?.value || limitDefault
-        const content = getPage(data, limit, page)
-        const table = content.map((trace, i) => ({
-            id: i,
-            data: trace.map((cell, j) => ({
-                id: `cell-${i}-${j}`,
-                header: cell.header,
-                value: cell.value,
-                type: cell.type,
-                sortabled: cell.hasOwnProperty('sortabled')
-                    ? cell.sortabled
-                    : false,
-                visible: cell.hasOwnProperty('visible')
-                    ? cell.visible 
-                    : true
-            })),
-            checked: false
-        }))
+        if (dataTable) {
+            const limit = limits?.find(l => l.checked)?.value || limitDefault
+            const content = getPage(dataTable, limit, page)
 
-        dispatch(setDataTable(table))
-    }, [data, limits, page, dispatch])
+            setTable(content.map((trace, i) => ({
+                ...data[i],
+                data: trace.map((cell, j) => ({
+                    id: `cell-${i}-${j}`,
+                    header: cell.header,
+                    value: cell.value,
+                    type: cell.type,
+                    sortabled: cell.hasOwnProperty('sortabled')
+                        ? cell.sortabled
+                        : false,
+                    visible: cell.hasOwnProperty('visible')
+                        ? cell.visible 
+                        : true
+                })),
+                checked: false
+            })))
+        }
+    }, [dataTable, data, limits, page])
 
     useEffect(() => {
-        const checked = state.table.filter(t => t.checked)
+        const checked = table.filter(t => t.checked)
         if (checked.length > 0) setDishands(false)
         else setDishands(true)
-    }, [state.table])
+    }, [table])
 
     useEffect(() => {
-        if (state.table) {
-            setHeaders(state.table[0]?.data.map((tr, i) => ({
+        if (table) {
+            setHeaders(table[0]?.data.map((tr, i) => ({
                 id: i,
                 value: tr.header,
                 checked: tr.visible
             })))
         }
-    }, [state.table])
+    }, [table])
 
     return (
         <div className={classes.join(' ')}>
             <Manage
+                table={table}
                 actions={actions}
                 dishands={dishands}
             />
             <Table
                 name={name}
 
+                table={table}
+                setTable={setTable}
+
                 page={page}
                 setPage={setPage}
-                max={getMaxPage(data, limits?.find(l => l.checked)?.value || limitDefault)}
+                max={getMaxPage(dataTable, limits?.find(l => l.checked)?.value || limitDefault)}
 
                 limits={limits}
                 setLimits={setLimits}

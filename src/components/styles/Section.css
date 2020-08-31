@@ -85,3 +85,7 @@
 .ui-section.my-articles .content > .ui-button {
     width: 100%;
 }
+
+.ui-section .content > .ui-unit {
+    flex-grow: 1;
+}

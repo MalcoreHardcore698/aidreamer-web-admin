@@ -1,21 +1,18 @@
 import React, { useState } from 'react'
-import Query from '../ui/Query'
 import Mutation from '../ui/Mutation'
 import Container from '../ui/Container'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
-import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
-import Dropzone from '../ui/Dropzone'
-import { GET_ALL_HUBS, EDIT_ARTICLE } from '../../utils/queries'
+import { EDIT_HUB } from '../../utils/queries'
 
-export default ({ status=false, article, close }) => {
-    const [title, setTitle] = useState(article.title)
-    const [description, setDescription] = useState(article.description)
-    const [body, setBody] = useState(article.body)
-    const [hub, setHub] = useState(article.hub.id)
-    const [image, setImage] = useState('')
-    const [_status, _setStatus] = useState(article.status)
+export default ({ status=false, hub, close }) => {
+    const [title, setTitle] = useState(hub.title)
+    const [description, setDescription] = useState(hub.description)
+    const [slogan, setSlogan] = useState(hub.slogan)
+    const [color, setColor] = useState(hub.color)
+    const [icon, setIcon] = useState(hub.icon)
+    const [_status, _setStatus] = useState(hub.status)
 
     return (
         <Container>
@@ -35,28 +32,22 @@ export default ({ status=false, article, close }) => {
                     setDescription(e.target.value)
                 }
             }} />
-            <TextArea options={{
-                value: body,
-                placeholder: 'Enter body',
+            <Input options={{
+                value: slogan,
+                placeholder: 'Enter slogan',
                 onChange: (e) => {
-                    setBody(e.target.value)
+                    setSlogan(e.target.value)
                 }
             }} />
 
-            <Query query={GET_ALL_HUBS}>
-                {({ data }) => (
-                    <Select options={{
-                        defaultValue: { value: article.hub.id, label: article.hub.title },
-                        options: data.allHubs.map(hub => ({
-                            value: hub.id,
-                            label: hub.title
-                        })),
-                        onChange: (e) => {
-                            setHub(e.value)
-                        }
-                    }} />
-                )}
-            </Query>
+            <Input options={{
+                type: 'color',
+                value: color,
+                placeholder: 'Choose color',
+                onChange: (e) => {
+                    setColor(e.target.value)
+                }
+            }} />
 
             {(status) && <Select options={{
                 defaultValue: { value: _status, label: _status },
@@ -69,29 +60,23 @@ export default ({ status=false, article, close }) => {
                 }
             }} />}
 
-            <Dropzone options={{
-                name: 'image',
-                image, setImage
-            }} />
-
-            <Mutation query={EDIT_ARTICLE}>
+            <Mutation query={EDIT_HUB}>
                 {({ action }) => (
                     <Button options={{
                         type: 'inactive',
                         handler: async () => {
                             const variables = {
-                                id: article.id,
-                                title, description,
-                                body, hub
+                                id: hub.id,
+                                title, description, slogan,
+                                status: 'PUBLISHED'
                             }
 
-                            if (image) variables.image = image
+                            if (icon) variables.icon = icon
                             if (status) variables.status = _status
 
-                            console.log(variables)
-
                             await action({ variables })
-                            if (close) close()
+
+                            close()
                         }
                     }}>
                         <p>Apply</p>

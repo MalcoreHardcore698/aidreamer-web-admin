@@ -97,19 +97,9 @@ main,
 
 main {
     display: grid;
+    grid-template-columns: 1fr;
     grid-gap: var(--grid-gap);
     padding-bottom: 180px;
-}
-
-main.home {
-    grid-template-columns: var(--w-aside) 1fr;
-}
-
-main.profile,
-main.navigator,
-main.tours,
-main.chats {
-    grid-template-columns: var(--w-aside) 1fr var(--w-aside);
 }
 
 main aside {

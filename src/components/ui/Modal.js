@@ -56,7 +56,7 @@ export default ({ options }) => {
         title,
         home,
         routes,
-        hideModal,
+        hideModal=() => {},
         closeByBackground=true
     } = options
 
@@ -123,7 +123,7 @@ export default ({ options }) => {
             <div className={classes.join(' ')}>
                 <div
                     className={`background${(!closeByBackground) ? ' clear' : ''}`}
-                    onClick={(closeByBackground) && handlerClose}
+                    onClick={(closeByBackground) ? handlerClose : () => {}}
                 ></div>
 
                 <Transition {...transitions.swing}>

@@ -1,5 +1,6 @@
 import gql from 'graphql-tag'
 
+// BEGIN USER
 export const LOGIN = gql`
     mutation login(
         $name: String!
@@ -43,306 +44,127 @@ export const LOGIN = gql`
     }
 `
 
-export const GET_ALL_OFFERS = gql`
-    query allOffers($status: Status!) {
-        allOffers(status: $status) {
+export const REGISTER = gql`
+    mutation register(
+        $name: String!
+        $email: String!
+        $password: String!
+        $confirmPassword: String!
+    ) {
+        register(
+            registerInput: {
+                name: $name
+                email: $email
+                password: $password
+                confirmPassword: $confirmPassword
+            }
+        ) {
             id
-            title
-            message
-            user {
+            name
+            email
+            phone
+            role
+            balance
+            level
+            experience
+            avatar {
                 id
                 name
-                avatar {
-                    id
+                path
+            }
+            preferences {
+                id
+                title
+                color
+                slogan
+                icon {
                     name
                     path
                 }
             }
-            hub {
+            chats {
+                chatId
+            }
+            token
+            isVerifiedEmail
+            isVerifiedPhone
+            isNotified
+        }
+    }
+`
+
+export const GET_ALL_USERS = gql`
+    query allUsers {
+        allUsers {
+            id
+            name
+            email
+            phone
+            role
+            balance
+            level
+            experience
+            avatar {
+                id
+                name
+                path
+            }
+            preferences {
                 id
                 title
                 color
-            }
-        }
-    }
-`
-
-export const GET_ALL_HUBS = gql`
-    query allHubs($status: Status!) {
-        allHubs(status: $status) {
-            id
-            title
-            description
-            slogan
-            icon {
-                id
-                name
-                path
-            }
-            poster {
-                id
-                name
-                path
-            }
-            color
-        }
-    }
-`
-
-export const GET_USER_ARTICLES = gql`
-    query allUserNews($id: ID!) {
-        allUserNews(id: $id) {
-            id
-            title
-            description
-            body
-            views
-            image {
-                path
-            }
-            comments {
-                message
-            }
-            hub {
-                title
-            }
-            author {
-                name
-                avatar {
+                slogan
+                icon {
+                    name
                     path
                 }
             }
+            chats {
+                chatId
+            }
+            updatedAt
             createdAt
+            isVerifiedEmail
+            isVerifiedPhone
+            isNotified
         }
     }
 `
 
-export const ADD_NEWS = gql`
-    mutation addNews(
-        $author: ID!
-        $title: String!
-        $description: String!
-        $body: String!
-        $hub: ID!
-        $image: Upload
-        $status: Status!
-    ) {
-        addNews(
-            author: $author
-            title: $title
-            description: $description
-            body: $body
-            hub: $hub
-            image: $image
-            status: $status
-        )
-    }
-`
-
-export const EDIT_NEWS = gql`
-    mutation editNews(
-        $id: ID!
-        $title: String
-        $description: String
-        $body: String
-        $hub: ID
-        $image: Upload
-    ) {
-        editNews(
-            id: $id
-            title: $title
-            description: $description
-            body: $body
-            hub: $hub
-            image: $image
-        )
-    }
-`
-
-export const GET_ALL_ARTICLES = gql`
-    query allNews($status: Status!) {
-        allNews(status: $status) {
+export const SUB_ALL_USERS = gql`
+    subscription users {
+        users {
             id
-            title
-            description
-            body
-            views
-            image {
-                path
-            }
-            comments {
-                message
-            }
-            hub {
-                title
-            }
-            author {
-                name
-                avatar {
-                    path
-                }
-            }
-            createdAt
-        }
-    }
-`
-
-export const SUB_USER_ARTICLES = gql`
-    subscription userArticles(
-        $id: ID!
-    ) {
-        userArticles(
-            id: $id
-        ) {
-            id
-            title
-            description
-            body
-            views
-            image {
-                path
-            }
-            comments {
-                message
-            }
-            hub {
-                title
-            }
-            author {
-                name
-                avatar {
-                    path
-                }
-            }
-            createdAt
-        }
-    }
-`
-
-export const SUB_ARTICLES = gql`
-    subscription articles {
-        articles {
-            id
-            title
-            description
-            body
-            views
-            image {
-                path
-            }
-            comments {
-                message
-            }
-            hub {
-                title
-            }
-            author {
-                name
-                avatar {
-                    path
-                }
-            }
-            createdAt
-        }
-    }
-`
-
-export const GET_NEWS = gql`
-    query getNews($id: ID!) {
-        getNews(id: $id) {
-            id
-            title
-            description
-            body
-            image {
-                id
-                name
-                path
-            }
-            hub {
-                id
-                title
-            }
-            source
-            url
-        }
-    }
-`
-
-export const DELETE_ARTICLE = gql`
-    mutation deleteNews(
-        $id: [ID!]!
-    ) {
-        deleteNews(id: $id)
-    }
-`
-
-export const GET_ALL_USER_TRANSACTIONS = gql`
-    query {
-        allUserTransactions {
-            id
-            title
-            date
-            sum
-        }
-    }
-`
-
-export const GET_ALL_USER_NOTIFICATIONS = gql`
-    query {
-        allUserNotifications {
-            id
-            title
             name
-            message
-            date
+            email
+            phone
+            role
+            balance
+            level
+            experience
+            avatar {
+                id
+                name
+                path
+            }
+            preferences {
+                id
+                title
+                color
+                slogan
+                icon {
+                    name
+                    path
+                }
+            }
+            chats {
+                chatId
+            }
+            isVerifiedEmail
+            isVerifiedPhone
+            isNotified
         }
     }
-`
-
-export const GET_POPULAR_HUB_CHAT = gql`
-    query {
-        getPopularHubChat {
-            id
-            title
-            description
-            slogan
-            members
-            offers
-        }
-    }
-`
-
-export const GET_ALL_TOURNAMENTS = gql`
-    query {
-        allTournaments {
-            id
-            title
-            members
-            prize
-        }
-    }
-`
-
-export const GET_ALL_AVATARS = gql`
-  query {
-    allAvatars {
-      id
-      order
-      name
-      path
-      complexity
-      hub {
-        id
-        title
-        color
-        icon {
-          id
-          path
-        }
-      }
-    }
-  }
 `
 
 export const GET_USER = gql`
@@ -382,9 +204,34 @@ export const GET_USER = gql`
     }
 `
 
-export const GET_HUB = gql`
-    query getHub($id: ID!) {
-        getHub(id: $id) {
+export const EDIT_USER = gql`
+    mutation editUser(
+        $name: String!
+        $email: String!
+        $password: String!
+    ) {
+        editUser(
+            name: $name
+            email: $email
+            password: $password
+        )
+    }
+`
+
+export const DELETE_USERS = gql`
+    mutation deleteUsers(
+        $id: [ID]
+    ) {
+        deleteUsers(id: $id)
+    }
+`
+// END USER
+
+// BEGIN HUB
+export const GET_ALL_HUBS = gql`
+    query allHubs($status: Status) {
+        allHubs(status: $status) {
+            id
             title
             description
             slogan
@@ -393,241 +240,267 @@ export const GET_HUB = gql`
                 name
                 path
             }
-            poster {
-                id
-                name
+            color
+            status
+        }
+    }
+`
+
+export const SUB_ALL_HUBS = gql`
+    subscription hubs($status: Status) {
+        hubs(status: $status) {
+            id
+            title
+            description
+            slogan
+            icon {
                 path
             }
             color
-            offers {
-                title
-                message
-                user {
-                    id
-                    name
-                    avatar {
-                        id
-                        name
-                        path
-                    }
-                }
-                hub {
-                    color
-                }
-            }
+            countUsers
+            countOffers
+            status
+            createdAt
         }
     }
 `
 
-export const ADD_CHAT = gql`
-    mutation addChat(
-        $id: ID!
+export const ADD_HUB = gql`
+    mutation addHub(
         $title: String!
-        $participants: [UserIDInput!]!
-        $owner: ID!
+        $description: String!
+        $slogan: String!
+        $color: String
+        $icon: ID
+        $status: Status!
     ) {
-        addChat(
+        addHub(
+            title: $title
+            description: $description
+            slogan: $slogan
+            color: $color
+            icon: $icon
+            status: $status
+        )
+    }
+`
+
+export const EDIT_HUB = gql`
+    mutation editHub(
+        $id: ID!
+        $title: String
+        $description: String
+        $slogan: String
+        $color: String
+        $icon: ID
+        $status: Status
+    ) {
+        editHub(
             id: $id
             title: $title
-            participants: $participants
-            owner: $owner
+            description: $description
+            slogan: $slogan
+            color: $color
+            icon: $icon
+            status: $status
         )
     }
 `
 
-export const GET_CHAT = gql`
-    query getChat(
-        $id: ID!
+export const DELETE_HUBS = gql`
+    mutation deleteHubs(
+        $id: [ID]
     ) {
-        getChat(
-            id: $id
-        ) {
+        deleteHubs(id: $id)
+    }
+`
+// END HUB
+
+// BEGIN ARTICLE
+export const GET_USER_ARTICLES = gql`
+    query allUserArticles($id: ID!) {
+        allUserArticles(id: $id) {
             id
             title
-            owner
-            participants {
-                id
-                name
-                avatar {
-                    id
-                    path
-                }
+            description
+            body
+            views
+            image {
+                path
             }
-            messages {
-                sender {
-                    id
-                    name
-                    avatar {
-                        id
-                        path
-                    }
-                }
-                receiver {
-                    id
-                    name
-                    avatar {
-                        id
-                        path
-                    }
-                }
+            comments {
                 message
-                dateCreated
-            }
-            dateCreated
-        }
-    }
-`
-
-export const CLOSE_USER_CHAT = gql`
-    mutation closeUserChat(
-        $userId: ID!
-        $chatId: ID!
-    ) {
-        closeUserChat(
-            userId: $userId
-            chatId: $chatId
-        )
-    }
-`
-
-export const ADD_MESSAGE = gql`
-    mutation addMessage(
-        $chat: ID!
-        $sender: ID!
-        $receiver: ID!
-        $message: String!
-    ) {
-        addMessage(
-            chat: $chat
-            sender: $sender
-            receiver: $receiver
-            message: $message
-        )
-    }
-`
-
-export const ADD_MESSAGE_SUBSCRIPTION = gql`
-    subscription messages($chat: ID!) {
-        messages (chat: $chat) {
-            id
-            message
-            sender {
-                id
-                name
-                avatar {
-                    id
-                    path
-                }
-            }
-            receiver {
-                id
-                name
-                avatar {
-                    id
-                    path
-                }
-            }
-            dateCreated
-        }
-    }
-`
-
-export const USER_CHAT_SUBSCRIPTION = gql`
-    subscription userchats($user: ID!) {
-        userchats(user: $user) {
-            id
-            userId
-            chatId
-        }
-    }
-`
-
-export const ADD_OFFER = gql`
-  mutation addOffer(
-    $title: String!
-    $message: String!
-    $user: ID!
-    $hub: ID!
-    $status: Status!
-    $dateEdited: String
-    $datePublished: String
-    $dateCreated: String!
-  ) {
-    addOffer(
-      title: $title
-      message: $message
-      user: $user
-      hub: $hub
-      status: $status
-      dateEdited: $dateEdited
-      datePublished: $datePublished
-      dateCreated: $dateCreated
-    )
-  }
-`
-
-export const GET_USER_OFFERS = gql`
-    query allUserOffers(
-        $id: ID!
-    ) {
-        allUserOffers(
-            id: $id
-        ) {
-            id
-            title
-            message
-            user {
-                id
-                name
-                avatar {
-                    id
-                    name
-                    path
-                }
             }
             hub {
                 id
                 title
-                color
             }
+            author {
+                id
+                name
+            }
+            createdAt
         }
     }
 `
 
-export const AUTH_USER = gql`
-    query authUser(
-        $name: String
-        $email: String
-        $password: String!
+export const GET_ALL_ARTICLES = gql`
+    query allArticles($status: Status) {
+        allArticles(status: $status) {
+            id
+            title
+            description
+            body
+            views
+            image {
+                path
+            }
+            comments {
+                message
+            }
+            hub {
+                id
+                title
+            }
+            author {
+                id
+                name
+            }
+            status
+            createdAt
+        }
+    }
+`
+
+export const SUB_USER_ARTICLES = gql`
+    subscription userArticles(
+        $id: ID!
     ) {
-        authUser(
-            name: $name
-            email: $email
-            password: $password
+        userArticles(
+            id: $id
         ) {
             id
-            name
-            password
-            email
-            phone
-            role
-            balance
-            level
-            experience
-            avatar {
+            title
+            description
+            body
+            views
+            image {
+                path
+            }
+            comments {
+                message
+            }
+            hub {
+                id
+                title
+            }
+            author {
+                id
+                name
+            }
+            createdAt
+        }
+    }
+`
+
+export const SUB_ARTICLES = gql`
+    subscription articles($status: Status) {
+        articles(status: $status) {
+            id
+            title
+            description
+            body
+            views
+            image {
+                path
+            }
+            comments {
+                message
+            }
+            hub {
+                id
+                title
+            }
+            author {
+                id
+                name
+            }
+            createdAt
+        }
+    }
+`
+
+export const GET_ARTICLE = gql`
+    query getArticle($id: ID!) {
+        getArticle(id: $id) {
+            id
+            title
+            description
+            body
+            image {
                 id
                 name
                 path
             }
-            preferences {
+            hub {
                 id
                 title
             }
-            dateLastAuth
-            dateRegistration
-            isVerifiedEmail
-            isVerifiedPhone
-            isNotified
+            source
+            url
         }
     }
 `
+
+export const ADD_ARTICLE = gql`
+    mutation addArticle(
+        $author: ID!
+        $title: String!
+        $description: String!
+        $body: String!
+        $hub: ID!
+        $image: Upload
+        $status: Status!
+    ) {
+        addArticle(
+            author: $author
+            title: $title
+            description: $description
+            body: $body
+            hub: $hub
+            image: $image
+            status: $status
+        )
+    }
+`
+
+export const EDIT_ARTICLE = gql`
+    mutation editArticle(
+        $id: ID!
+        $title: String
+        $description: String
+        $body: String
+        $hub: ID
+        $image: Upload
+        $status: Status
+    ) {
+        editArticle(
+            id: $id
+            title: $title
+            description: $description
+            body: $body
+            hub: $hub
+            image: $image
+            status: $status
+        )
+    }
+`
+
+export const DELETE_ARTICLES = gql`
+    mutation deleteArticles(
+        $articles: [InputArticle]
+    ) {
+        deleteArticles(articles: $articles)
+    }
+`
+// END ARTICLE
