@@ -1,0 +1,95 @@
+.ui-button {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: var(--height-main);
+    outline: none;
+    border: 1px solid var(--color-graylite);
+    border-radius: var(--br-main);
+    background: transparent;
+    box-shadow: var(--bs-entry);
+    font-weight: 600;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    color: var(--color-graylite);
+    transition: var(--transition);
+}
+
+.ui-button.icon {
+    width: var(--height-main);
+}
+
+.ui-button:not(.disabled):not(.clear):not([disabled]):hover {
+    color: var(--color-graydark);
+    border: 1px solid var(--color-graydark);
+}
+
+.ui-button.clear:hover {
+    color: var(--color-graydark);
+}
+
+.ui-button.active,
+.ui-button.active * {
+    position: relative;
+}
+
+.ui-button.active * {
+    z-index: var(--z-ten);
+}
+
+.ui-button.active:hover {
+    color: var(--color-accent);
+}
+
+.ui-button:not(.icon).active,
+.ui-button.flat {
+    padding: 0 25px;
+    font-weight: 600;
+}
+
+.ui-button.active::before {
+    content: '';
+    position: absolute;
+    z-index: var(--z-primary);
+    top: -1px;
+    left: -1px;
+    width: calc(100% + 2px);
+    height: calc(100% + 2px);
+    border-radius: var(--br-main);
+    background: var(--color-entry);
+}
+
+.ui-button[disabled],
+.ui-button.disabled {
+    background: var(--color-button-background-disabled);
+    border-color: var(--color-button-border-disabled);
+    cursor: default;
+}
+
+.ui-button.stretch {
+    width: 100%;
+}
+
+.ui-button.grow {
+    flex-grow: 1;
+}
+
+.ui-button.mbs15 {
+    margin-block-start: 15px;
+}
+
+.ui-button.clear {
+    height: auto;
+    border: none;
+    background: none;
+}
+
+.react-ripples {
+    border-radius: var(--br-main);
+}
+
+.react-ripples s {
+    z-index: var(--z-nine);
+}

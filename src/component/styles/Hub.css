@@ -1,0 +1,47 @@
+.ui-hub {
+    display: grid;
+    align-content: center;
+    align-self: center;
+    border-radius: 10px;
+    width: 385px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all .15s ease;
+}
+
+.ui-hub:hover {
+    opacity: .65;
+}
+
+.ui-hub .content {
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+}
+
+.ui-hub .content img {
+    height: 128px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.ui-hub .content .info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 1.25rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.25;
+    padding: 25px;
+    margin: 0;
+    color: white;
+    height: 100%;
+    transition: all .3s ease;
+}
+
+.ui-hub .content .info .slogan {
+    font-size: .875rem;
+    font-weight: 300;
+    margin-top: 15px;
+}

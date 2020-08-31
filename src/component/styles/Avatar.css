@@ -1,0 +1,32 @@
+.ui-avatar {
+    border-radius: var(--br-main);
+    overflow: hidden;
+    width: var(--height-main);
+    height: var(--height-main);
+    justify-self: center;
+}
+
+.ui-avatar.x64 {
+    width: 64px;
+    height: 64px;
+}
+
+.ui-avatar.x128 {
+    width: 128px;
+    height: 128px;
+}
+
+.ui-avatar.x256 {
+    width: 256px;
+    height: 256px;
+}
+
+.ui-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ui-avatar.circle {
+    border-radius: 50%;
+}

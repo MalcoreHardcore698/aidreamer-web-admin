@@ -1,0 +1,56 @@
+.ui-list {
+    display: flex;
+    flex-direction: column;
+
+    background: white;
+    box-shadow: var(--bx-main);
+    border-radius: var(--br-main);
+    border: var(--border-main);
+    width: 100%;
+    transition: var(--transition);
+}
+
+.ui-list .ui-item {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.ui-list.clickable:hover,
+.ui-list:not(.clickable) .ui-item:hover {
+    opacity: .75;
+}
+
+.ui-list .ui-item:not(:last-child) {
+    border-bottom: var(--border-main);
+}
+
+.ui-item {
+    display: grid;
+    grid-template-columns: 32px 1fr 32px;
+    align-content: center;
+    grid-gap: 10px;
+
+    color: var(--color-graydark);
+    padding: 10px;
+    font-weight: 600;
+}
+
+.ui-item .avatar img {
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}
+
+.ui-item .name {
+    display: flex;
+    align-self: center;
+}
+
+.ui-item .avatar,
+.ui-item .score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    align-self: center;
+}

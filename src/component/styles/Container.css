@@ -1,0 +1,14 @@
+.ui-container {
+    position: relative;
+    display: grid;
+    padding: var(--padding-content);
+    grid-gap: 15px;
+}
+
+.ui-container.clear {
+    padding: 0;
+}
+
+.ui-container.sticky {
+    width: max-content;
+}

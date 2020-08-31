@@ -1,0 +1,55 @@
+.ui-achievement {
+    display: grid;
+    grid-template-columns: 64px 1fr 64px;
+    grid-gap: var(--grid-gap);
+
+    align-content: center;
+
+    width: 100%;
+
+    background: white;
+    box-shadow: var(--bx-main);
+    border-radius: var(--br-main);
+    border: var(--border-main);
+    padding: var(--padding-content);
+
+    color: var(--color-graydark);
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+.ui-achievement:hover {
+    opacity: .75;
+}
+
+.ui-achievement .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.ui-achievement .icon svg {
+    width: 70%;
+    height: 70%;
+}
+
+.ui-achievement .message,
+.ui-achievement .points {
+    align-self: center;
+    font-weight: 700;
+}
+
+.ui-achievement .points {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgba(0, 0, 0, .045);
+    border-radius: 50%;
+
+    width: 48px;
+    height: 48px;
+}

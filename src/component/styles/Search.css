@@ -1,0 +1,16 @@
+.ui-search {
+    height: var(--height-main);
+    outline: none;
+    color: var(--color-graylite);
+    border: 1px solid var(--color-graylite);
+    border-radius: var(--br-main);
+    background: transparent;
+    padding: 0 15px;
+    font-weight: 600;
+    cursor: text;
+    transition: all .15s ease;
+}
+
+.ui-search::placeholder {
+    color: var(--color-graylite);
+}

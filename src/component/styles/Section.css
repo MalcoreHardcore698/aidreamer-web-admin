@@ -1,0 +1,87 @@
+.ui-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.ui-section .headline {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding-bottom: var(--padding-content);
+}
+
+.ui-section .headline .ui-row {
+    display: flex;
+    flex-grow: 1;
+}
+
+.ui-section > .headline > .ui-row {
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.ui-section .headline .ui-row .ui-search {
+    flex-grow: 100;
+}
+
+.ui-section .headline .ui-row .ui-slider {
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.ui-section .headline .ui-row .ui-slider .slide {
+    flex-grow: 1;
+    width: auto;
+}
+
+.ui-section .headline .ui-row .ui-slider .ui-message {
+    padding-block-start: 0;
+    padding-block-end: 0;
+    border: none;
+}
+
+.ui-section .headline h2 {
+    flex-grow: 100;
+    font-size: var(--fz-headline);
+    margin: 0;
+    padding: 0;
+    line-height: 1.75;
+}
+
+.ui-section .headline h2 .title {
+    color: var(--color-text);
+}
+
+.ui-section .headline h2 .subtitle {
+    color: var(--color-graylite);
+    font-weight: 400;
+    margin-inline-start: 5px;
+}
+
+.ui-section > .content {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: var(--padding-content);
+}
+
+.ui-section > .content > .ui-entry {
+    flex-grow: 1;
+    flex-basis: 320px;
+}
+
+.ui-section .ui-message {
+    padding: 25px;
+    flex-grow: 1;
+}
+
+.ui-section.chats > .content {
+    height: calc(100vh - 280px);
+}
+
+.ui-section.chats > .ui-message p {
+    height: 100%;
+}
+
+.ui-section.my-articles .content > .ui-button {
+    width: 100%;
+}

@@ -1,0 +1,23 @@
+.ui-alert {
+    border: var(--border-main);
+    border-radius: var(--br-main);
+    box-shadow: var(--bs-main);
+    background: white;
+    color: var(--color-text);
+    padding: var(--padding-content);
+    margin: var(--margin-content) 0;
+    font-weight: 600;
+    width: max-content;
+}
+
+.ui-alert.error {
+    border-block-start: 5px solid var(--color-background-red);
+}
+
+.ui-alert.warning {
+    border-block-start: 5px solid var(--color-background-orange);
+}
+
+.ui-alert.success {
+    border-block-start: 5px solid var(--color-background-blue);
+}

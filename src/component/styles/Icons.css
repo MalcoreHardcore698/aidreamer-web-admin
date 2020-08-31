@@ -1,0 +1,33 @@
+.icons {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(169px, 1fr));
+    grid-gap: 15px;
+    margin: 25px 0;
+}
+
+.icons .icon {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    align-content: center;
+    grid-gap: 10px;
+    border-radius: 5px;
+    background: #f3f3f3;
+    height: 48px;
+    padding: 0 5px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.icons .icon:hover {
+    opacity: .45;
+}
+
+.icons .icon span {
+    align-self: center;
+    line-height: 1.55;
+}
+
+.icons .icon svg {
+    justify-self: center;
+    font-size: 1.4rem;
+}

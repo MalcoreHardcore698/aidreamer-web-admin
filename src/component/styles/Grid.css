@@ -1,0 +1,132 @@
+.ui-grid {
+    position: relative;
+    font: 1rem 'Roboto', sans-serif;
+    overflow: hidden;
+    background: #f5f8fb;
+    border-radius: var(--br-main);
+}
+
+.ui-grid .group,
+.ui-grid .match {
+    position: relative;
+    border: 1px solid rgba(0,0,0,0.045);
+    margin: 15px auto;
+    width: min-content;
+    border-radius: 5px;
+    background: white;
+    overflow: hidden;
+}
+
+
+.ui-grid .group .participant:first-child,
+.ui-grid .match .participant:first-child {
+    border-radius: 5px 5px 0 0;
+    border-bottom: 1px solid rgba(0,0,0,0.045);
+}
+
+.ui-grid .headers,
+.ui-grid .participant {
+    display: grid;
+    grid-template-columns: 32px 1fr min-content;
+    grid-gap: 10px;
+    height: 40px;
+    width: 320px;
+    background: white;
+    margin: 15px auto;
+    padding: 5px;
+    cursor: pointer;
+    transition: all .3s ease;
+}
+
+.ui-grid .headers {
+    grid-template-columns: 32px 1fr min-content;
+    margin: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.045);
+}
+
+.ui-grid .participant:hover {
+    background: #f3f3f3;
+}
+
+.ui-grid .participant:hover .score {
+    background: #dadada;
+}
+
+.ui-grid .participant:hover .number {
+    color: #d8d8d8;
+    background: #eaeaea;
+}
+
+.ui-grid .headers .participant,
+.ui-grid .group .participant,
+.ui-grid .match .participant {
+    margin: 0;
+}
+
+.ui-grid .participant.error {
+    grid-template-columns: 1fr;
+}
+
+.ui-grid .headers p,
+.ui-grid .participant p {
+    margin: 0;
+    padding: 0;
+}
+
+.ui-grid .headers .row,
+.ui-grid .participant .row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ui-grid .participant.error .row {
+    justify-content: center;
+}
+
+.ui-grid .headers .block,
+.ui-grid .participant .block {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    transition: all .3s ease;
+}
+
+.ui-grid .participant .number,
+.ui-grid .participant .score {
+    background: #efefef;
+    color: #333333;
+    border-radius: 5px;
+    margin: 5px;
+    transition: all .3s ease;
+}
+
+.ui-grid .headers .block {
+    color: #333333;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.ui-grid .participant .number {
+    color: #e4e4e4;
+    background: #f9f9f9;
+}
+
+.ui-grid .participant.error p {
+    color: #d2d2d2;
+}
+
+.ui-grid .participant.winner .block.winner {
+    color: #ffffff;
+    background: #737373;
+    border-radius: 5px;
+    margin: 5px;
+    width: 32px;
+    height: 32px;
+}
+
+.ui-grid .headers .row:first-child {
+    justify-content: center;
+}

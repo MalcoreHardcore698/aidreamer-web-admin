@@ -1,0 +1,20 @@
+.ui-match {
+    display: flex;
+    flex-direction: column;
+
+    background: white;
+    box-shadow: var(--bx-main);
+    border-radius: var(--br-main);
+    border: var(--border-main);
+    cursor: pointer;
+    
+    transition: var(--transition);
+}
+
+.ui-match:hover {
+    opacity: .75;
+}
+
+.ui-match .ui-participant:first-child {
+    border-bottom: var(--border-main);
+}

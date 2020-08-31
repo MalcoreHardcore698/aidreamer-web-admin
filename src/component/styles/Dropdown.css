@@ -1,0 +1,46 @@
+.ui-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    z-index: var(--z-twenty);
+    border: var(--border-main);
+    border-radius: var(--br-main);
+    box-shadow: var(--bs-main);
+    background: white;
+    padding: 10px;
+    width: max-content;
+}
+
+.ui-dropdown.zoomIn {
+    animation: zoomIn 150ms;
+}
+
+.ui-dropdown.zoomOut {
+    animation: zoomOut 150ms;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+        transition: transform 150ms ease-in, opacity 150ms ease-in;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+        transition: transform 150ms ease-in, opacity 150ms ease-in;
+    }
+}
+
+@keyframes zoomOut {
+    from {
+        transform: scale(1);
+        opacity: 1;
+        transition: transform 150ms ease-in, opacity 150ms ease-in;
+    }
+    to {
+        transform: scale(0);
+        opacity: 0;
+        transition: transform 150ms ease-in, opacity 150ms ease-in;
+    }
+}

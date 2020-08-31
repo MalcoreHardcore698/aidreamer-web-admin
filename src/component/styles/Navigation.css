@@ -1,0 +1,67 @@
+.ui-navigation {
+    display: flex;
+    justify-content: space-between;
+    grid-gap: 15px;
+    padding: 25px 0;
+}
+
+.ui-navigation .block {
+    display: flex;
+    grid-gap: 15px;
+    width: max-content;
+}
+
+.ui-navigation .block:first-child,
+.ui-navigation .block:last-child button {
+    background: white;
+    border-radius: 25rem;
+}
+
+.ui-navigation .block:first-child {
+    padding-right: 10px;
+}
+
+.ui-navigation .block a,
+.ui-navigation .block button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 64px;
+    width: 64px;
+    border: none;
+    outline: none;
+    font-size: 1.25rem;
+    color: var(--color-graylite);
+}
+
+.ui-navigation .block a svg path,
+.ui-navigation .block button svg path {
+    fill: var(--color-graylite) !important;
+}
+
+.ui-navigation .block a.active {
+    color: var(--color-accent);
+}
+
+.ui-navigation .block a.active svg path {
+    fill: var(--color-accent) !important;
+}
+
+.ui-navigation .block a img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.ui-navigation .block a:nth-child(2) {
+    font-size: 2rem;
+}
+
+.ui-navigation .block a:first-child {
+    padding-right: 20px;
+}
+
+.ui-navigation .block a:first-child img {
+    border-radius: 50%;
+    transform: scale(1.45) translateX(10px);
+}

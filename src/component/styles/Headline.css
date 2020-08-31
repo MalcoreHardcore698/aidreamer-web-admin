@@ -1,0 +1,16 @@
+.ui-headline {
+    font-size: 1.85rem;
+    line-height: var(--line-height);
+}
+
+.ui-headline span:first-child {
+    color: var(--color-graydark);
+    font-weight: 600;
+    font-size: inherit;
+}
+
+.ui-headline span:last-child {
+    color: var(--color-graylite);
+    font-weight: 300;
+    font-size: inherit;
+}

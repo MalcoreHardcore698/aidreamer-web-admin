@@ -1,0 +1,217 @@
+.ui-table {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+.ui-table .manage {
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 15px;
+    margin-block-end: 15px;
+}
+
+.ui-table .manage > .ui-button,
+.ui-table .manage .react-ripples {
+    flex-grow: 1;
+}
+
+.ui-table .manage > .ui-button {
+    width: auto;
+}
+
+.ui-table .ui-message {
+    margin: 15px;
+}
+
+.ui-table .table {
+    position: relative;
+    border: none;
+    border-radius: var(--br-main);
+    background: white;
+    box-shadow: var(--bs-entry);
+    margin-block-start: var(--padding-content);
+    margin-block-end: var(--padding-content);
+    overflow: hidden;
+}
+
+.ui-table .trace.checked {
+    background: none;
+}
+
+.ui-table .trace .cell.img img {
+    width: 100%;
+}
+
+.ui-table .trace .cell.hub {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 16px;
+    height: 16px;
+    background: white;
+    border-radius: 4px 0 10px 0;
+    padding: 5px;
+}
+
+.ui-table .trace .cell.hub img {
+    object-fit: contain;
+    width: 14px;
+    filter: brightness(0.75);
+}
+
+.ui-table .table .checkmark {
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: .675rem;
+    color: transparent;
+    width: 18px;
+    height: 18px;
+    margin-left: 10px;
+    background: #d4d4d4;
+    border-radius: 5px;
+    transition: var(--transition);
+}
+
+.ui-table .trace.checked .checkmark {
+    background: #7e99f5;
+    color: white;
+}
+
+.ui-table .trace.checked {
+    background: #f0f3fd;
+    color: #5d7696;
+}
+
+.ui-table .descriptors {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    grid-gap: 15px;
+    margin-block-end: 15px;
+}
+
+.ui-table .descriptors .ui-search {
+    flex-grow: 1000;
+}
+
+.ui-table .descriptors .ui-button {
+    flex-grow: 1
+}
+
+.ui-table > p {
+    text-align: center;
+    padding: 25px;
+    color: #d6d6d6;
+    margin-top: 15px;
+    user-select: none;
+}
+
+.ui-table .trace {
+    display: grid;
+    grid-template-columns: 40px repeat(auto-fit, minmax(64px, 1fr));
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.ui-table.trace {
+    border-top: var(--border);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.ui-table .trace:hover {
+    background: #f3f3f3;
+    color: darkgrey;
+}
+
+.ui-table .trace.checked {
+    background: #f0f3fd;
+    color: #5d7696;
+}
+
+.ui-table .trace .cell {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding: 10px;
+    white-space: nowrap;
+    border-inline-end: var(--border-main);
+    border-block-end: var(--border-main);
+    width: calc(100% - 20px);
+}
+
+.ui-table .trace .cell:nth-child(2) {
+    border-inline-start: var(--border-main);
+}
+
+.ui-table .trace .cell:last-child {
+    border-inline-end: none;
+}
+
+.ui-table .trace:last-child .cell {
+    border-block-end: none;
+}
+
+.ui-table .trace .cell.color span {
+    display: flex;
+    height: 24px;
+    width: 100%;
+    border-radius: 5px;
+}
+
+.ui-table .trace .cell.img {
+    justify-self: start;
+}
+
+.ui-table .trace .cell.img img {
+    display: flex;
+    height: 24px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.ui-table .headers {
+    display: grid;
+    grid-template-columns: 40px repeat(auto-fit, minmax(64px, 1fr));
+    border-block-end: var(--border-main);
+    font-weight: 600;
+}
+
+.ui-table .headers .checkmark {
+    cursor: pointer;
+}
+
+.ui-table .headers .checkmark.checked {
+    background: #7e99f5;
+    color: white;
+}
+
+.ui-table .headers .header {
+    padding: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-inline-end: var(--border-main);
+    width: calc(100% - 20px);
+    transition: var(--transition);
+}
+
+.ui-table .headers .header:nth-child(2) {
+    border-inline-start: var(--border-main);
+}
+
+.ui-table .headers .header:last-child {
+    border-inline-end: none;
+}
+
+.ui-table .pagination {
+    display: grid;
+    grid-template-columns: min-content 1fr min-content;
+    grid-gap: 10px;
+}
