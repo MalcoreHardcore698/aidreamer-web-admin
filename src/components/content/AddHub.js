@@ -11,6 +11,7 @@ export default ({ status=false, close }) => {
     const [description, setDescription] = useState('')
     const [slogan, setSlogan] = useState('')
     const [color, setColor] = useState('')
+    // eslint-disable-next-line
     const [icon, setIcon] = useState('')
     const [_status, _setStatus] = useState('')
 

@@ -12,6 +12,7 @@ export default ({ user, close }) => {
     const [password, setPassword] = useState(user.password)
     const [confirmPassword, setConfirmPassword] = useState(user.password)
     const [email, setEmail] = useState(user.email)
+    // eslint-disable-next-line
     const [avatar, setAvatar] = useState('')
     const [role, setRole] = useState(user.role)
 

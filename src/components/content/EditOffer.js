@@ -5,41 +5,35 @@ import Mutation from '../ui/Mutation'
 import Container from '../ui/Container'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
-import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
-import Dropzone from '../ui/Dropzone'
-import { GET_ALL_HUBS, ADD_ARTICLE } from '../../utils/queries'
+import { EDIT_OFFER, GET_ALL_HUBS, GET_ALL_USERS } from '../../utils/queries'
 
-export default ({ status=false, close }) => {
+export default ({ user=false, status=false, offer, close }) => {
     const state = useSelector(state => state)
-    
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
-    const [body, setBody] = useState('')
-    const [hub, setHub] = useState('')
-    const [image, setImage] = useState('')
-    const [_status, _setStatus] = useState('')
+
+    const [title, setTitle] = useState(offer.title)
+    const [message, serMessage] = useState(offer.message)
+    const [hub, setHub] = useState({ value: offer.hub.id, label: offer.hub.title })
+    const [_user, _setUser] = useState({ value: offer.user.id, label: offer.user.name })
+    const [_status, _setStatus] = useState({ value: offer.status, label: offer.status })
 
     return (
         <Container>
             <Input options={{
                 type: 'text',
+                value: title,
                 placeholder: 'Enter title',
                 onChange: (e) => {
                     setTitle(e.target.value)
                 }
             }} />
+
             <Input options={{
                 type: 'text',
-                placeholder: 'Enter description',
+                value: message,
+                placeholder: 'Enter message',
                 onChange: (e) => {
-                    setDescription(e.target.value)
-                }
-            }} />
-            <TextArea options={{
-                placeholder: 'Enter body',
-                onChange: (e) => {
-                    setBody(e.target.value)
+                    serMessage(e.target.value)
                 }
             }} />
 
@@ -47,9 +41,9 @@ export default ({ status=false, close }) => {
                 {({ data }) => (
                     <Select options={{
                         value: hub,
-                        options: data.allHubs.map(hub => ({
-                            value: hub.id,
-                            label: hub.title
+                        options: data.allHubs.map(h => ({
+                            value: h.id,
+                            label: h.title
                         })),
                         onChange: (e) => {
                             setHub(e)
@@ -57,6 +51,21 @@ export default ({ status=false, close }) => {
                     }} />
                 )}
             </Query>
+
+            {(user) && <Query query={GET_ALL_USERS}>
+                {({ data }) => (
+                    <Select options={{
+                        value: _user,
+                        options: data.allUsers.map(user => ({
+                            value: user.id,
+                            label: user.name
+                        })),
+                        onChange: (e) => {
+                            _setUser(e)
+                        }
+                    }} />
+                )}
+            </Query>}
 
             {(status) && <Select options={{
                 value: _status,
@@ -69,32 +78,28 @@ export default ({ status=false, close }) => {
                 }
             }} />}
 
-            <Dropzone options={{
-                name: 'image',
-                image, setImage
-            }} />
-
-            <Mutation query={ADD_ARTICLE}>
+            <Mutation query={EDIT_OFFER}>
                 {({ action }) => (
                     <Button options={{
                         type: 'inactive',
                         handler: async () => {
                             const variables = {
-                                author: state.user.id,
-                                title, description,body,
+                                id: offer.id,
+                                title, message,
+                                user: state.user.id,
                                 hub: hub.value,
                                 status: 'PUBLISHED'
                             }
 
-                            if (image) variables.image = image
-                            if (status) variables.status = _status
+                            if (user) variables.user = _user.value
+                            if (status) variables.status = _status.value
 
                             await action({ variables })
 
                             close()
                         }
                     }}>
-                        <p>Add</p>
+                        <p>Apply</p>
                     </Button>
                 )}
             </Mutation>

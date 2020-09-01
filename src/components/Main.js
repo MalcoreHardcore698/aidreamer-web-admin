@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faUsers,
     faPaperPlane,
+    // eslint-disable-next-line 
     faTrophy,
     faBell,
     faCog,
@@ -60,10 +61,12 @@ const links = [
         path: '/hubs',
         component: <FontAwesomeIcon icon={faGamepad} />
     },
+    /*
     {
         path: '/tours',
         component: <FontAwesomeIcon icon={faTrophy} />
     },
+    */
     {
         path: '/chats',
         component: <FontAwesomeIcon icon={faPaperPlane} />

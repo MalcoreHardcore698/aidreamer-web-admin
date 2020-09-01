@@ -4,6 +4,7 @@ import Users from './components/Users'
 import Articles from './components/Articles'
 import Offers from './components/Offers'
 import Hubs from './components/Hubs'
+// eslint-disable-next-line 
 import Tours from './components/Tours'
 import Chats from './components/Chats'
 import Gallery from './components/Gallery'
@@ -34,11 +35,13 @@ export default [
         path: '/hubs',
         component: ({ showModal, hideModal }) => <Hubs showModal={showModal} hideModal={hideModal} />
     },
+    /*
     {
         exact: true,
         path: '/tours',
         component: ({ showModal, hideModal }) => <Tours showModal={showModal} hideModal={hideModal} />
     },
+    */
     {
         exact: true,
         path: '/chats',

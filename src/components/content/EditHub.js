@@ -11,6 +11,7 @@ export default ({ status=false, hub, close }) => {
     const [description, setDescription] = useState(hub.description)
     const [slogan, setSlogan] = useState(hub.slogan)
     const [color, setColor] = useState(hub.color)
+    // eslint-disable-next-line
     const [icon, setIcon] = useState(hub.icon)
     const [_status, _setStatus] = useState(hub.status)
 
@@ -71,7 +72,7 @@ export default ({ status=false, hub, close }) => {
                                 status: 'PUBLISHED'
                             }
 
-                            if (icon) variables.icon = icon
+                            // if (icon) variables.icon = icon
                             if (status) variables.status = _status
 
                             await action({ variables })

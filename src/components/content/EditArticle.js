@@ -46,26 +46,26 @@ export default ({ status=false, article, close }) => {
             <Query query={GET_ALL_HUBS}>
                 {({ data }) => (
                     <Select options={{
-                        defaultValue: { value: article.hub.id, label: article.hub.title },
+                        value: hub,
                         options: data.allHubs.map(hub => ({
                             value: hub.id,
                             label: hub.title
                         })),
                         onChange: (e) => {
-                            setHub(e.value)
+                            setHub(e)
                         }
                     }} />
                 )}
             </Query>
 
             {(status) && <Select options={{
-                defaultValue: { value: _status, label: _status },
+                value: _status,
                 options: [
                     { value: 'MODERATION', label: 'MODERATION' },
                     { value: 'PUBLISHED', label: 'PUBLISHED' }
                 ],
                 onChange: (e) => {
-                    _setStatus(e.value)
+                    _setStatus(e)
                 }
             }} />}
 
@@ -82,13 +82,11 @@ export default ({ status=false, article, close }) => {
                             const variables = {
                                 id: article.id,
                                 title, description,
-                                body, hub
+                                body, hub: hub.value
                             }
 
                             if (image) variables.image = image
                             if (status) variables.status = _status
-
-                            console.log(variables)
 
                             await action({ variables })
                             if (close) close()
