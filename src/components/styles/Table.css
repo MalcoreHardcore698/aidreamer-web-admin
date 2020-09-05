@@ -171,8 +171,6 @@
 
 .ui-table .trace .cell.img img {
     display: flex;
-    height: 24px;
-    width: auto;
     object-fit: contain;
     border-radius: 5px;
 }

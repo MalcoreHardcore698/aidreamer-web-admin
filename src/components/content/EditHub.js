@@ -16,7 +16,7 @@ export default ({ status=false, hub, close }) => {
     const [_status, _setStatus] = useState(hub.status)
 
     return (
-        <Container>
+        <Container type="fat">
             <Input options={{
                 type: 'text',
                 value: title,
@@ -64,7 +64,7 @@ export default ({ status=false, hub, close }) => {
             <Mutation query={EDIT_HUB}>
                 {({ action }) => (
                     <Button options={{
-                        type: 'inactive',
+                        state: 'inactive',
                         handler: async () => {
                             const variables = {
                                 id: hub.id,
@@ -73,7 +73,8 @@ export default ({ status=false, hub, close }) => {
                             }
 
                             // if (icon) variables.icon = icon
-                            if (status) variables.status = _status
+                            if (color) variables.color = color
+                            if (status) variables.status = _status.value
 
                             await action({ variables })
 

@@ -27,7 +27,7 @@ export default ({ showModal }) => {
     const dispatch = useDispatch()
     
     return (
-        <main className="home">
+        <main className="dashboard">
             <aside>
                 <Row type="flex sb">
                     <Headline>
@@ -55,8 +55,7 @@ export default ({ showModal }) => {
                                     actions: [
                                         ({ table, dishands }) => (
                                             <Button options={{
-                                                type: 'icon',
-                                                state: (dishands) ? 'disable' : 'active',
+                                                state: (dishands) ? 'disable icon inactive' : 'active icon',
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
@@ -96,8 +95,7 @@ export default ({ showModal }) => {
                                             const offer = (docs.length === 1) ? docs[0] : false
                                             return (
                                                 <Button options={{
-                                                    type: 'icon',
-                                                    state: (dishands || (!offer)) ? 'disable' : 'active',
+                                                    state: (dishands || (!offer)) ? 'disable icon inactive' : 'active icon',
                                                     disabled: dishands || (!offer),
                                                     classNames: 'stretch',
                                                     handler: () => (offer) && showModal([{
@@ -117,8 +115,7 @@ export default ({ showModal }) => {
                                         },
                                         () => (
                                             <Button options={{
-                                                type: 'icon',
-                                                state: 'active',
+                                                state: 'icon active',
                                                 classNames: 'stretch',
                                                 handler: () => showModal([
                                                     {

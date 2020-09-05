@@ -5,7 +5,7 @@ import './styles/Table.css'
 
 export default () => {
     return (
-        <main className="home">
+        <main className="dashboard">
             <aside>
                 <Row type="flex sb">
                     <Headline>

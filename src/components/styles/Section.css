@@ -60,18 +60,17 @@
 
 .ui-section > .content {
     display: flex;
-    flex-wrap: wrap;
-    grid-gap: var(--padding-content);
+    flex-direction: column;
 }
 
+.ui-section > .content > .ui-skeleton,
 .ui-section > .content > .ui-entry {
-    flex-grow: 1;
     flex-basis: 320px;
 }
 
 .ui-section .ui-message {
     padding: 25px;
-    flex-grow: 1;
+    grid-column: 1 / 3;
 }
 
 .ui-section.chats > .content {
@@ -84,8 +83,9 @@
 
 .profile .ui-section .content > .ui-button {
     width: 100%;
+    grid-column: 1 / 3;
 }
 
 .ui-section .content > .ui-unit {
-    flex-grow: 1;
+    grid-column: 1 / 3;
 }

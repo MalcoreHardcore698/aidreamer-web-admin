@@ -2,12 +2,16 @@ import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 import Dropzone from 'react-dropzone-uploader'
+import { config } from '../../utils/config'
 import '../styles/Dropzone.css'
+
+const api = config.get('api')
 
 export default ({ options }) => {
     const [preview, setPreview] = useState('')
 
     const {
+        ref,
         name,
         value,
         styles={},
@@ -22,18 +26,22 @@ export default ({ options }) => {
     }
 
     return (
-        <div className="ui-dropzone" styles={styles}>
-            {(preview && value) && <div className="preview">
+        <div className={`ui-dropzone${(preview || value) ? ' with-preview' : ''}`} styles={styles}>
+            {(preview || value) && <div className="preview">
                 {(preview) ?
                     <img src={preview} alt="Preview" />
-                :(value && value.includes('blob')) ?
-                    <img src={value} alt={name} />
                 : (value) ?
-                    <img src={`http://localhost:5000${value.replace('./', '/')}`} alt={name} />
+                   <img
+                        className="image"
+                        src={(value).replace('./', `${api}/`)}
+                        alt="Article"
+                    />
                 : <FontAwesomeIcon icon={faImage} />}
             </div>}
 
             <Dropzone
+                ref={ref}
+                name={name}
                 maxFiles={1}
                 multiple={false}
                 onChangeStatus={handleChangeStatus}

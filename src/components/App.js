@@ -6,16 +6,12 @@ import Main from './Main'
 import '../assets/styles/App.css'
 
 export default () => {
-  const { token, login, logout, userId, ready } = useAuth()
-  const isAuthenticated = !!token
-
-  if (!ready && !userId) {
-    return <p>Loading</p>
-  }
+  const { sessionID, login, logout } = useAuth()
+  const isAuthenticated = !!sessionID
 
   return (
     <AuthContext.Provider value={{
-      token, login, logout, userId, isAuthenticated
+      sessionID, login, logout, isAuthenticated
     }}>
       <div className="app">
         <Router>

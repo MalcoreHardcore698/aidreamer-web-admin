@@ -25,10 +25,11 @@ export default ({ entry, query, handler, close }) => {
                     <p>No</p>
                 </Button>
                 <Mutation query={query}>
-                    {({ action }) => (
+                    {({ action, loading }) => (
                         <Button options={{
                             state: 'inactive',
                             classNames: 'grow',
+                            disabled: loading,
                             handler: async () => {
                                 await handler(action, entry, state.documents)
                                 close()

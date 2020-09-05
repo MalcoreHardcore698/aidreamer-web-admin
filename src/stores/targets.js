@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock, faFire } from '@fortawesome/free-solid-svg-icons'
 
 export default [
-    { type: 'all', value: <p>All</p> },
-    { type: 'last', value: <FontAwesomeIcon icon={faClock} /> },
-    { type: 'popular', value: <FontAwesomeIcon icon={faFire} /> }
+    { type: 'date', value: <FontAwesomeIcon icon={faClock} /> },
+    { type: 'views', value: <FontAwesomeIcon icon={faFire} /> }
 ]

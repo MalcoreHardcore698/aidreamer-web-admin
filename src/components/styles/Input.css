@@ -5,6 +5,7 @@
     border-radius: var(--br-main);
     background: transparent;
     padding: 0 15px;
+    width: auto;
 
     font-weight: 600;
     font-size: 14px;

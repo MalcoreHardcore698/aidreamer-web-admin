@@ -16,11 +16,13 @@ const Search = ({ options }) => {
     const {
         type="text",
         placeholder='Search',
+        classNames,
         onChange=() => {}
     } = options || {}
 
     const classes = [
-        'ui-search'
+        'ui-search',
+        classNames
     ]
 
     return (

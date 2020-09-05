@@ -13,6 +13,9 @@
     justify-content: center;
     align-items: center;
 
+    position: relative;
+    z-index: var(--z-ninetynine);
+
     font-weight: 600;
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
@@ -23,6 +26,7 @@
     object-fit: cover;
     border-radius: var(--br-main);
     border: 1px solid var(--color-graylite);
+    overflow: hidden;
 
     cursor: pointer;
     transition: var(--transition);
@@ -31,6 +35,18 @@
 .ui-dropzone .dzu-dropzone:hover {
     color: var(--color-accent);
     border: 1px solid var(--color-accent);
+}
+
+.ui-dropzone.with-preview .dzu-dropzone {
+    border-color: transparent;
+    background: white;
+    border-radius: 0;
+    color: white;
+    opacity: 0;
+}
+
+.ui-dropzone.with-preview .dzu-dropzone:hover {
+    opacity: .45;
 }
 
 .ui-dropzone .dzu-inputLabel {
@@ -53,6 +69,14 @@
     height: 256px;
     border-radius: 5px;
     overflow: hidden;
+}
+
+.ui-dropzone .dzu-previewContainer,
+.ui-dropzone .preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: var(--z-ten);
 }
 
 .ui-dropzone .dzu-previewContainer img,

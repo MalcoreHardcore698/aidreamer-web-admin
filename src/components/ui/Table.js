@@ -115,8 +115,7 @@ const Descriptor = (props) => {
     return (
         <Container clear sticky>
             <Button options={{
-                type: 'icon',
-                state: 'inactive',
+                state: 'icon inactive',
                 disabled: (size === 0),
                 handler: () => setDropdown(!dropdown)
             }}>
@@ -280,7 +279,7 @@ const Cell = ({ cell, iter }) => {
             style={{ gridColumn: `${iter} / ${iter + 1}` }}
         >
             {(cell.type === 'text') &&
-                <p>{cell.value}</p>}
+                <p>{(cell.value.length > 99) ? `${cell.value.slice(0, 100)}...` : cell.value}</p>}
             {(cell.type === 'color') &&
                 <span style={{ background: cell.value || 'black' }}></span>}
             {(cell.type === 'img') &&
@@ -300,8 +299,7 @@ const Pagination = ({ page, min=0, max=0, setPage }) => {
             if (i < 5) {
                 pages.push(
                     <Button key={i} options={{
-                        type: 'icon',
-                        state: (page === i) ? 'disabled' : 'active',
+                        state: (page === i) ? 'disabled icon inactive' : 'active icon',
                         disabled: (page === i),
                         classNames: 'grow',
                         handler: () => setPage(i)
@@ -317,8 +315,7 @@ const Pagination = ({ page, min=0, max=0, setPage }) => {
     return (
         <div className="pagination">
             <Button options={{
-                type: 'icon',
-                state: (page === min) ? 'disabled' : 'active',
+                state: (page === min) ? 'disabled icon inactive' : 'active icon',
                 disabled: (page === min),
                 classNames: 'grow',
                 handler: () => setPage(page - 1)
@@ -329,8 +326,7 @@ const Pagination = ({ page, min=0, max=0, setPage }) => {
             <Row>{renderPages()}</Row>
 
             <Button options={{
-                type: 'icon',
-                state: (page === max) ? 'disabled' : 'active',
+                state: (page === max) ? 'disabled icon inactive' : 'active icon',
                 disabled: (page === max),
                 classNames: 'grow',
                 handler: () => setPage(page + 1)

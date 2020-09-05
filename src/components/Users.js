@@ -27,7 +27,7 @@ export default ({ showModal }) => {
     const dispatch = useDispatch()
     
     return (
-        <main className="home">
+        <main className="dashboard">
             <aside>
                 <Row type="flex sb">
                     <Headline>
@@ -47,7 +47,7 @@ export default ({ showModal }) => {
                                         { header: 'Аватар', value: user.avatar.path, type: 'img', visible: false },
                                         { header: 'Имя', value: user.name, type: 'text' },
                                         { header: 'Email', value: user.email, type: 'text' },
-                                        { header: 'Роль', value: user.role, type: 'text' },
+                                        { header: 'Роль', value: user.role.name, type: 'text' },
                                         { header: 'Баланс', value: user.balance, type: 'text', visible: false },
                                         { header: 'Дата последнего входа', value: user.updatedAt, type: 'text', visible: false },
                                         { header: 'Дата регистрации', value: user.createdAt, type: 'text' },
@@ -58,8 +58,7 @@ export default ({ showModal }) => {
                                     actions: [
                                         ({ table, dishands }) => (
                                             <Button options={{
-                                                type: 'icon',
-                                                state: (dishands) ? 'disable' : 'active',
+                                                state: (dishands) ? 'disable icon inactive' : 'active icon',
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
@@ -93,8 +92,7 @@ export default ({ showModal }) => {
                                             const user = (docs.length === 1) ? docs[0] : false
                                             return (
                                                 <Button options={{
-                                                    type: 'icon',
-                                                    state: (dishands || (!user)) ? 'disable' : 'active',
+                                                    state: (dishands || (!user)) ? 'disable icon inactive' : 'active icon',
                                                     disabled: dishands || (!user),
                                                     classNames: 'stretch',
                                                     handler: () => (user) && showModal([{
@@ -113,8 +111,7 @@ export default ({ showModal }) => {
                                         },
                                         () => (
                                             <Button options={{
-                                                type: 'icon',
-                                                state: 'active',
+                                                state: 'active icon',
                                                 classNames: 'stretch',
                                                 handler: () => showModal([
                                                     {

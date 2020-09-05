@@ -11,6 +11,13 @@
     transition: all .15s ease;
 }
 
+.ui-search.clear {
+    height: auto !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
+
 .ui-search::placeholder {
     color: var(--color-graylite);
 }

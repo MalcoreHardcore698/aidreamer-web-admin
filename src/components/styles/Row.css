@@ -11,6 +11,11 @@
     width: 100%;
 }
 
+.ui-row.col2 {
+    grid-template-columns: repeat(auto-fit, minmax(164px, 1fr));
+    grid-auto-flow: initial;
+}
+
 .ui-row.flex .ui-section {
     flex-grow: 1;
     flex-basis: 512px;
@@ -22,8 +27,4 @@
 
 .ui-row.search .ui-search {
     flex-grow: 100;
-}
-
-.ui-row.search .ui-button {
-    flex-grow: 1;
 }

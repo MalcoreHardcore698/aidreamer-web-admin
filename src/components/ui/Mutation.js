@@ -6,8 +6,5 @@ export default (props) => {
 
     const Children = props.children
 
-    if (loading) return <p>Loading</p>
-    if (error) return <p>Error</p>
-
-    return <Children data={data} action={action} />
+    return <Children error={error} data={data} loading={loading} action={action} />
 }

@@ -7,6 +7,7 @@
 
 import React from 'react'
 import Skeleton from 'react-skeleton-loader'
+import '../styles/Skeleton.css'
 
 export default ({ component, options }) => {
     const classes = [

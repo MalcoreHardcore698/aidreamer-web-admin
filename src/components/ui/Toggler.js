@@ -5,7 +5,7 @@
  *
 **/
 
-import React, { useState } from 'react'
+import React from 'react'
 import Message from './Message'
 import '../styles/Toggler.css'
 
@@ -22,9 +22,8 @@ export default ({ options }) => {
         type
     ]
 
-    const [current, setCurrent] = useState(targets[0]?.type)
     const handlerState = (target) => {
-        setCurrent(target)
+        handler(target)
     }
 
     return (
@@ -32,11 +31,8 @@ export default ({ options }) => {
             {targets.map((target, key) =>
                 <div
                     key={key}
-                    className={`toggle${(target.type === current) ? ' active' : ''}`}
-                    onClick={() => (state && handler)
-                        ? handler
-                        : handlerState(target.type)
-                    }
+                    className={`toggle${(target.type === state) ? ' active' : ''}`}
+                    onClick={() => handlerState(target.type)}
                 >
                     {target.value}
                 </div>    

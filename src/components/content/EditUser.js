@@ -17,7 +17,7 @@ export default ({ user, close }) => {
     const [role, setRole] = useState(user.role)
 
     return (
-        <Container>
+        <Container type="fat">
             <Input options={{
                 type: 'text',
                 value: name,
@@ -77,7 +77,7 @@ export default ({ user, close }) => {
             <Mutation query={EDIT_USER}>
                 {({ action }) => (
                     <Button options={{
-                        type: 'inactive',
+                        state: 'inactive',
                         handler: async () => {
                             const variables = {
                                 id: user.id,

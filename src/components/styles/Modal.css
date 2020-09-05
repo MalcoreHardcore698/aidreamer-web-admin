@@ -1,17 +1,22 @@
 .ui-modal {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
     position: fixed;
     top: 0;
     left: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     width: 100%;
     height: 100%;
     z-index: var(--z-ninetynine);
+    overflow: auto;
+}
+
+.ui-modal.center {
+    align-items: center;
 }
 
 .ui-modal .background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -28,9 +33,13 @@
 
 .ui-modal .wrapper {
     position: relative;
+    top: 15%;
     left: 0;
     right: 0;
-    width: 60%;
+    min-width: 25%;
+    max-width: 80%;
+    width: min-content;
+    margin-block-end: 75px;
     background: white;
     border: var(--border-main);
     border-radius: var(--br-main);
@@ -38,8 +47,23 @@
     z-index: var(--z-one-hundred-one);
 }
 
+.ui-modal.center .wrapper {
+    top: 0;
+}
+
+.ui-modal .wrapper form {
+    position: relative;
+    display: grid;
+    padding: var(--padding-content);
+    grid-gap: 15px;
+}
+
 .ui-modal .wrapper .content > p {
     margin-block-start: 10px;
+}
+
+.ui-modal .wrapper .fat {
+    min-width: 35vw;
 }
 
 .ui-modal .wrapper.slideOutLeft {
@@ -59,16 +83,17 @@
 }
 
 .ui-modal .wrapper .headline {
+    display: flex;
     position: relative;
     border-bottom: var(--border-main);
     line-height: 1;
 }
 
-.ui-modal .wrapper .headline button {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 5px;
+.ui-modal .wrapper .headline .react-ripples {
+    position: relative;
+    left: 50px;
+    margin: 5px 0 5px -45px;
+    min-width: 45px;
 }
 
 .ui-modal .wrapper .headline h1 {
@@ -76,7 +101,8 @@
     color: var(--color-text);
     text-align: center;
     margin: 0;
-    padding: 15px 85px;
+    padding: 15px;
+    width: 100%;
 }
 
 .ui-modal .wrapper .ui-entry {

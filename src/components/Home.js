@@ -10,7 +10,7 @@ export default ({ showModal, hideModal }) => {
     if (!state.user) return null
     
     return (
-        <main className="home">
+        <main className="dashboard">
             <aside>
                 <Row type="flex sb">
                     <Headline>

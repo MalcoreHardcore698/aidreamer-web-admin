@@ -25,7 +25,8 @@ const wsLink = new WebSocketLink({
 })
 
 const uploadLink = createUploadLink({
-  uri: `${api}/graphql`
+  uri: `${api}/graphql`,
+  credentials: 'include'
 })
 
 const splitLink = split(
@@ -34,7 +35,7 @@ const splitLink = split(
     return (
       definition.kind === 'OperationDefinition' &&
       definition.operation === 'subscription'
-    );
+    )
   },
   wsLink,
   uploadLink

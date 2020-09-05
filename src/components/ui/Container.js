@@ -5,7 +5,7 @@ export default (props) => {
     const Children = props.children
     
     const classes = [
-        'ui-container',
+        'ui-container', props.type,
         (props.clear) ? 'clear' : '',
         (props.sticky) ? 'sticky' : ''
     ]

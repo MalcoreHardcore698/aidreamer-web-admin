@@ -15,6 +15,10 @@
     transition: all .15s ease;
 }
 
+.ui-textarea.short {
+    height: 64px;
+}
+
 .ui-textarea::placeholder {
     color: var(--color-graylite);
     font-weight: 600;

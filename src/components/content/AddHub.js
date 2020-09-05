@@ -16,7 +16,7 @@ export default ({ status=false, close }) => {
     const [_status, _setStatus] = useState('')
 
     return (
-        <Container>
+        <Container type="fat">
             <Input options={{
                 type: 'text',
                 placeholder: 'Enter title',
@@ -61,14 +61,14 @@ export default ({ status=false, close }) => {
             <Mutation query={ADD_HUB}>
                 {({ action }) => (
                     <Button options={{
-                        type: 'inactive',
+                        state: 'inactive',
                         handler: async () => {
                             const variables = {
                                 title, description, slogan,
                                 color, status: 'PUBLISHED'
                             }
 
-                            if (icon) variables.icon = icon
+                            // if (icon) variables.icon = icon
                             if (status) variables.status = _status
 
                             await action({ variables })

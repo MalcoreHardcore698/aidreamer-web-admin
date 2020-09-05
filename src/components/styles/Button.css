@@ -3,9 +3,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    grid-gap: 10px;
     height: var(--height-main);
     outline: none;
-    border: 1px solid var(--color-graylite);
+    border: none;
     border-radius: var(--br-main);
     background: transparent;
     box-shadow: var(--bs-entry);
@@ -14,14 +15,19 @@
     font-family: 'Roboto', sans-serif;
     cursor: pointer;
     color: var(--color-graylite);
+    flex-grow: 1;
     transition: var(--transition);
+}
+
+.ui-button.inactive {
+    border: 1px solid var(--color-graylite);
 }
 
 .ui-button.icon {
     width: var(--height-main);
 }
 
-.ui-button:not(.disabled):not(.clear):not([disabled]):hover {
+.ui-button.inactive:not(.disabled):not(.clear):not([disabled]):hover {
     color: var(--color-graydark);
     border: 1px solid var(--color-graydark);
 }
@@ -61,6 +67,10 @@
     background: var(--color-entry);
 }
 
+.ui-button.active.red::before {
+    background: #a93434;
+}
+
 .ui-button[disabled],
 .ui-button.disabled {
     background: var(--color-button-background-disabled);
@@ -68,28 +78,29 @@
     cursor: default;
 }
 
-.ui-button.stretch {
-    width: 100%;
-}
-
-.ui-button.grow {
-    flex-grow: 1;
-}
-
-.ui-button.mbs15 {
-    margin-block-start: 15px;
-}
-
-.ui-button.clear {
-    height: auto;
-    border: none;
-    background: none;
-}
-
 .react-ripples {
+    display: flex;
     border-radius: var(--br-main);
 }
 
 .react-ripples s {
     z-index: var(--z-nine);
+}
+
+.stretch {
+    width: 100%;
+}
+
+.grow {
+    flex-grow: 1;
+}
+
+.mbs15 {
+    margin-block-start: 15px;
+}
+
+.clear {
+    height: auto;
+    border: none;
+    background: none;
 }

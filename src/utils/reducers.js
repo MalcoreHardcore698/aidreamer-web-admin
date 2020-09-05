@@ -4,9 +4,7 @@ import C from './types'
 export function userReducer(state = {}, action) {
     switch (action.type) {
         case C.SET_USER:
-            return {
-                ...action.payload.user
-            }
+            return action.payload.user
         case C.ADD_CHAT:
             return {
                 ...state,
@@ -21,6 +19,15 @@ export function userReducer(state = {}, action) {
                     (chat.chatId !== action.payload.chatId)
                 )
             }
+        default:
+            return state
+    }
+}
+
+export function formReducer(state={}, { type, payload }) {
+    switch (type) {
+        case C.SET_FORM:
+            return payload.form
         default:
             return state
     }
@@ -55,6 +62,7 @@ export function tableReducer(state=[], { type, payload }) {
 
 export const reducers = combineReducers({
     user: userReducer,
+    form: formReducer,
     document: documentReducer,
     documents: documentsReducer,
     table: tableReducer

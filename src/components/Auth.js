@@ -4,6 +4,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { AuthContext } from './AuthContext'
 import Input from './ui/Input'
 import Button from './ui/Button'
+import Checkbox from './ui/Checkbox'
 import Alert from './ui/Alert'
 import ImageLogo from '../assets/images/logo.js'
 import { LOGIN } from '../utils/queries'
@@ -17,6 +18,10 @@ const Login = ({ setLoading, setError }) => {
 
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
+
+    const [settings, setSettings] = useState([
+        { id: 0, value: 'Remember Me', checked: false }
+    ])
 
     useEffect(() => {
         setLoading(loading)
@@ -32,14 +37,21 @@ const Login = ({ setLoading, setError }) => {
                     setName(e.target.value)
                 }
             }} />
+
             <Input options={{
                 type: 'password',
                 value: password,
-                placeholder: 'Enter Password',
+                placeholder: 'Enter password',
                 onChange: (e) => {
                     setPassword(e.target.value)
                 }
             }} />
+
+            <Checkbox options={{
+                list: settings,
+                handler: setSettings
+            }} />
+            
             <Button options={{
                 type: 'inactive',
                 handler: () => {
@@ -50,7 +62,7 @@ const Login = ({ setLoading, setError }) => {
                     })
                     .then(data => {
                         const user = data.data.login
-                        auth.login(user.token, user.id)
+                        auth.login(user.sessionID)
                         dispatch(setUser(user))
                     })
                     .catch(err => {
@@ -62,7 +74,7 @@ const Login = ({ setLoading, setError }) => {
                     setPassword('')
                 }
             }}>
-                <p>Sign In</p>
+                <p>Log In</p>
             </Button>
         </React.Fragment>
     )
@@ -72,10 +84,14 @@ export default () => {
     const [loading, setLoading] = useState('')
     const [error, setError] = useState('')
 
+    const classes = [
+        (loading) ? 'loading' : 'form'
+    ]
+
     return (
         <main className="auth">
             {(error) && <Alert type="error" message={error} />}
-            <form className={`${(loading) ? 'loading' : 'form'}`}>
+            <form className={classes.join(' ')}>
                 <div className="logo">
                     {ImageLogo}
                 </div>

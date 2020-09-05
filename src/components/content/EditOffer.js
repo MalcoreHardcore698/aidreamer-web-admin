@@ -1,64 +1,102 @@
 import React, { useState } from 'react'
+import { useMutation } from '@apollo/react-hooks'
 import { useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
+import Row from '../ui/Row'
 import Query from '../ui/Query'
-import Mutation from '../ui/Mutation'
-import Container from '../ui/Container'
+import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
+import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
-import { EDIT_OFFER, GET_ALL_HUBS, GET_ALL_USERS } from '../../utils/queries'
+import Toggler from '../ui/Toggler'
+import { GET_ALL_HUBS, GET_ALL_USERS, EDIT_OFFER } from '../../utils/queries'
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 export default ({ user=false, status=false, offer, close }) => {
     const state = useSelector(state => state)
+    const [action, { loading }] = useMutation(EDIT_OFFER)
 
-    const [title, setTitle] = useState(offer.title)
-    const [message, serMessage] = useState(offer.message)
-    const [hub, setHub] = useState({ value: offer.hub.id, label: offer.hub.title })
-    const [_user, _setUser] = useState({ value: offer.user.id, label: offer.user.name })
-    const [_status, _setStatus] = useState({ value: offer.status, label: offer.status })
+    const[hub, setHub] = useState(offer.hub.id)
+    const [_user, _setUser] = useState(offer.user.id)
+    const [_status, _setStatus] = useState(offer.status)
+
+    const { handleSubmit, register, errors } = useForm()
+    const onSubmit = async (form) => {
+        if (!hub) return
+
+        const variables = {
+            id: offer.id,
+            title: form.title,
+            message: form.message,
+            hub, user: state.user.id,
+            status: 'PUBLISHED'
+        }
+
+        if (_user) variables.user = _user
+        if (_status) variables.status = _status
+
+        await action({ variables })
+
+        close()
+    }
 
     return (
-        <Container>
-            <Input options={{
-                type: 'text',
-                value: title,
-                placeholder: 'Enter title',
-                onChange: (e) => {
-                    setTitle(e.target.value)
-                }
-            }} />
+        <form className="fat" onSubmit={handleSubmit(onSubmit)}>
+            {(errors.email || errors.username) && <Alert type="error" message={
+                (errors.email.message) || (errors.username.message)
+            } />}
 
             <Input options={{
+                ref: register({ required: true }),
                 type: 'text',
-                value: message,
-                placeholder: 'Enter message',
-                onChange: (e) => {
-                    serMessage(e.target.value)
-                }
+                name: 'title',
+                defaultValue: offer.title || '',
+                disabled: loading,
+                placeholder: 'Enter title'
             }} />
 
-            <Query query={GET_ALL_HUBS}>
+            <TextArea options={{
+                ref: register({ required: true }),
+                type: 'text',
+                name: 'message',
+                defaultValue: offer.message || '',
+                disabled: loading,
+                placeholder: 'Enter message'
+            }} />
+
+            <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
                 {({ data }) => (
-                    <Select options={{
-                        value: hub,
-                        options: data.allHubs.map(h => ({
-                            value: h.id,
-                            label: h.title
-                        })),
-                        onChange: (e) => {
-                            setHub(e)
-                        }
-                    }} />
+                    <Toggler options={{
+                        type: 'auto',
+                        state: hub,
+                        handler: setHub,
+                        targets: (data && data.allHubs).map((hub, key) => ({
+                            type: hub.id,
+                            value: (
+                                <Row key={key}>
+                                    {(hub.icon && hub.icon.path) &&
+                                    <div className="icon">
+                                        <img src={(hub.icon.path).replace('./', `${api}/`)} alt={hub.title} />
+                                    </div>}
+                                    <p>{hub.title}</p>
+                                </Row>
+                            )}))
+                        }}
+                    />
                 )}
             </Query>
 
             {(user) && <Query query={GET_ALL_USERS}>
                 {({ data }) => (
                     <Select options={{
+                        name: 'users',
                         value: _user,
-                        options: data.allUsers.map(user => ({
-                            value: user.id,
-                            label: user.name
+                        options: data.allUsers.map(u => ({
+                            value: u.id,
+                            label: u.name
                         })),
                         onChange: (e) => {
                             _setUser(e)
@@ -68,6 +106,7 @@ export default ({ user=false, status=false, offer, close }) => {
             </Query>}
 
             {(status) && <Select options={{
+                name: 'status',
                 value: _status,
                 options: [
                     { value: 'MODERATION', label: 'MODERATION' },
@@ -78,31 +117,13 @@ export default ({ user=false, status=false, offer, close }) => {
                 }
             }} />}
 
-            <Mutation query={EDIT_OFFER}>
-                {({ action }) => (
-                    <Button options={{
-                        type: 'inactive',
-                        handler: async () => {
-                            const variables = {
-                                id: offer.id,
-                                title, message,
-                                user: state.user.id,
-                                hub: hub.value,
-                                status: 'PUBLISHED'
-                            }
-
-                            if (user) variables.user = _user.value
-                            if (status) variables.status = _status.value
-
-                            await action({ variables })
-
-                            close()
-                        }
-                    }}>
-                        <p>Apply</p>
-                    </Button>
-                )}
-            </Mutation>
-        </Container>
+            <Button options={{
+                type: 'submit',
+                state: 'inactive',
+                classNames: 'grow'
+            }}>
+                <p>Save</p>
+            </Button>
+        </form>
     )
 }

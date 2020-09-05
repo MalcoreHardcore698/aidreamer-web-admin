@@ -1,101 +1,122 @@
 import React, { useState } from 'react'
+import { useMutation } from '@apollo/react-hooks'
+import { useForm } from 'react-hook-form'
+import Row from '../ui/Row'
 import Query from '../ui/Query'
-import Mutation from '../ui/Mutation'
-import Container from '../ui/Container'
+import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
 import Dropzone from '../ui/Dropzone'
+import Toggler from '../ui/Toggler'
 import { GET_ALL_HUBS, EDIT_ARTICLE } from '../../utils/queries'
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 export default ({ status=false, article, close }) => {
-    const [title, setTitle] = useState(article.title)
-    const [description, setDescription] = useState(article.description)
-    const [body, setBody] = useState(article.body)
-    const [hub, setHub] = useState(article.hub.id)
-    const [image, setImage] = useState('')
-    const [_status, _setStatus] = useState(article.status)
+    const [action, { loading }] = useMutation(EDIT_ARTICLE)
+
+    const[hub, setHub] = useState(article.hub.id)
+    const[image, setImage] = useState(null)
+
+    const { handleSubmit, register, errors } = useForm()
+    const onSubmit = async (form) => {
+        if (!hub) return
+
+        const variables = {
+            id: article.id,
+            title: form.title,
+            description: form.description,
+            body: form.body, hub
+        }
+
+        if (image) variables.image = image
+        if (form.status) variables.status = form.status
+
+        await action({ variables })
+
+        close()
+    }
 
     return (
-        <Container>
+        <form className="fat" onSubmit={handleSubmit(onSubmit)}>
+            {(errors.email || errors.username) && <Alert type="error" message={
+                (errors.email.message) || (errors.username.message)
+            } />}
+
             <Input options={{
+                ref: register({ required: true }),
                 type: 'text',
-                value: title,
-                placeholder: 'Enter title',
-                onChange: (e) => {
-                    setTitle(e.target.value)
-                }
-            }} />
-            <Input options={{
-                type: 'text',
-                value: description,
-                placeholder: 'Enter description',
-                onChange: (e) => {
-                    setDescription(e.target.value)
-                }
-            }} />
-            <TextArea options={{
-                value: body,
-                placeholder: 'Enter body',
-                onChange: (e) => {
-                    setBody(e.target.value)
-                }
+                name: 'title',
+                defaultValue: article.title || '',
+                disabled: loading,
+                placeholder: 'Enter title'
             }} />
 
-            <Query query={GET_ALL_HUBS}>
+            <Input options={{
+                ref: register({ required: true }),
+                type: 'text',
+                name: 'description',
+                defaultValue: article.description || '',
+                disabled: loading,
+                placeholder: 'Enter description'
+            }} />
+
+            <TextArea options={{
+                ref: register({ required: true }),
+                type: 'text',
+                name: 'body',
+                defaultValue: article.body || '',
+                disabled: loading,
+                placeholder: 'Enter body'
+            }} />
+
+            <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
                 {({ data }) => (
-                    <Select options={{
-                        value: hub,
-                        options: data.allHubs.map(hub => ({
-                            value: hub.id,
-                            label: hub.title
-                        })),
-                        onChange: (e) => {
-                            setHub(e)
-                        }
-                    }} />
+                    <Toggler options={{
+                        type: 'auto',
+                        state: hub || article.hub.id,
+                        handler: setHub,
+                        targets: (data && data.allHubs).map((hub, key) => ({
+                            type: hub.id,
+                            value: (
+                                <Row key={key}>
+                                    {(hub.icon && hub.icon.path) &&
+                                    <div className="icon">
+                                        <img src={(hub.icon.path).replace('./', `${api}/`)} alt={hub.title} />
+                                    </div>}
+                                    <p>{hub.title}</p>
+                                </Row>
+                            )}))
+                        }}
+                    />
                 )}
             </Query>
 
             {(status) && <Select options={{
-                value: _status,
+                value: article.status,
                 options: [
                     { value: 'MODERATION', label: 'MODERATION' },
                     { value: 'PUBLISHED', label: 'PUBLISHED' }
-                ],
-                onChange: (e) => {
-                    _setStatus(e)
-                }
+                ]
             }} />}
 
             <Dropzone options={{
+                ref: register,
                 name: 'image',
-                image, setImage
+                value: article.image.path,
+                setImage
             }} />
 
-            <Mutation query={EDIT_ARTICLE}>
-                {({ action }) => (
-                    <Button options={{
-                        type: 'inactive',
-                        handler: async () => {
-                            const variables = {
-                                id: article.id,
-                                title, description,
-                                body, hub: hub.value
-                            }
-
-                            if (image) variables.image = image
-                            if (status) variables.status = _status
-
-                            await action({ variables })
-                            if (close) close()
-                        }
-                    }}>
-                        <p>Apply</p>
-                    </Button>
-                )}
-            </Mutation>
-        </Container>
+            <Button options={{
+                type: 'submit',
+                state: 'inactive',
+                classNames: 'grow'
+            }}>
+                <p>Save</p>
+            </Button>
+        </form>
     )
 }

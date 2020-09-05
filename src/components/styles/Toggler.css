@@ -36,11 +36,28 @@
     background: var(--color-entry);
 }
 
+.wrapper .ui-toggler {
+    width: 100%;
+}
+
+.wrapper .ui-toggler .toggle {
+    flex-grow: 1;
+}
+
+.wrapper .ui-toggler .toggle.active::before {
+    background: var(--color-accent);
+}
+
 .ui-toggler .toggle.active {
     background: var(--color-entry);
     box-shadow: var(--bs-entry);
     border-radius: var(--br-main);
     color: var(--color-accent);
+}
+
+.wrapper .ui-toggler .toggle.active {
+    background: var(--color-accent);
+    color: white;
 }
 
 .ui-toggler .toggle * {
@@ -74,5 +91,5 @@
 }
 
 .ui-toggler .toggle {
-    padding: 10px 0;
+    padding: 10px;
 }

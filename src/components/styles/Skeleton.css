@@ -1,3 +1,10 @@
+.ui-skeleton {
+	flex-grow: 1;
+}
+
 .ui-skeleton .react-skeleton-load {
-	border: 1px solid var(--color-graylite);
+	background: var(--color-statusbar-background) !important;
+	width: 100% !important;
+	flex-grow: 1;
+	opacity: .75;
 }

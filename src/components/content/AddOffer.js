@@ -1,59 +1,92 @@
 import React, { useState } from 'react'
+import { useMutation } from '@apollo/react-hooks'
 import { useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
+import Row from '../ui/Row'
 import Query from '../ui/Query'
-import Mutation from '../ui/Mutation'
-import Container from '../ui/Container'
+import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
+import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
-import { ADD_OFFER, GET_ALL_HUBS, GET_ALL_USERS } from '../../utils/queries'
+import Toggler from '../ui/Toggler'
+import { GET_ALL_HUBS, GET_ALL_USERS, ADD_OFFER } from '../../utils/queries'
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 export default ({ user=false, status=false, close }) => {
     const state = useSelector(state => state)
+    const [action, { loading }] = useMutation(ADD_OFFER)
 
-    const [title, setTitle] = useState('')
-    const [message, serMessage] = useState('')
-    const [hub, setHub] = useState('')
+    const[hub, setHub] = useState(null)
     const [_user, _setUser] = useState('')
     const [_status, _setStatus] = useState('')
 
+    const { handleSubmit, register, errors } = useForm()
+    const onSubmit = async (form) => {
+        if (!hub) return
+
+        const variables = {
+            title: form.title,
+            message: form.message,
+            hub, user: state.user.id,
+            status: 'PUBLISHED'
+        }
+
+        if (_user) variables.user = _user.value
+        if (_status) variables.status = _status.value
+
+        await action({ variables })
+
+        close()
+    }
+
     return (
-        <Container>
+        <form className="fat" onSubmit={handleSubmit(onSubmit)}>
+            {(errors.email || errors.username) && <Alert type="error" message={
+                (errors.email.message) || (errors.username.message)
+            } />}
+
             <Input options={{
+                ref: register({ required: true }),
                 type: 'text',
                 name: 'title',
-                placeholder: 'Enter title',
-                onChange: (e) => {
-                    setTitle(e.target.value)
-                }
+                disabled: loading,
+                placeholder: 'Enter title'
             }} />
 
-            <Input options={{
+            <TextArea options={{
+                ref: register({ required: true }),
                 type: 'text',
                 name: 'message',
-                placeholder: 'Enter message',
-                onChange: (e) => {
-                    serMessage(e.target.value)
-                }
+                disabled: loading,
+                placeholder: 'Enter message'
             }} />
 
-            <Query query={GET_ALL_HUBS}>
+            <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
                 {({ data }) => (
-                    <Select options={{
-                        name: 'hubs',
-                        value: hub,
-                        options: data.allHubs.map(h => ({
-                            value: h.id,
-                            label: h.title
-                        })),
-                        onChange: (e) => {
-                            setHub(e)
-                        }
-                    }} />
+                    <Toggler options={{
+                        type: 'auto',
+                        state: hub,
+                        handler: setHub,
+                        targets: (data && data.allHubs).map((hub, key) => ({
+                            type: hub.id,
+                            value: (
+                                <Row key={key}>
+                                    {(hub.icon && hub.icon.path) &&
+                                    <div className="icon">
+                                        <img src={(hub.icon.path).replace('./', `${api}/`)} alt={hub.title} />
+                                    </div>}
+                                    <p>{hub.title}</p>
+                                </Row>
+                            )}))
+                        }}
+                    />
                 )}
             </Query>
 
-            {(status) && <Query query={GET_ALL_USERS}>
+            {(user) && <Query query={GET_ALL_USERS}>
                 {({ data }) => (
                     <Select options={{
                         name: 'users',
@@ -81,30 +114,13 @@ export default ({ user=false, status=false, close }) => {
                 }
             }} />}
 
-            <Mutation query={ADD_OFFER}>
-                {({ action }) => (
-                    <Button options={{
-                        type: 'inactive',
-                        handler: async () => {
-                            const variables = {
-                                title, message,
-                                hub: hub.value,
-                                user: state.user.id,
-                                status: 'PUBLISHED'
-                            }
-
-                            if (user) variables.user = _user.value
-                            if (status) variables.status = _status.value
-
-                            await action({ variables })
-
-                            close()
-                        }
-                    }}>
-                        <p>Add</p>
-                    </Button>
-                )}
-            </Mutation>
-        </Container>
+            <Button options={{
+                type: 'submit',
+                state: 'inactive',
+                classNames: 'grow'
+            }}>
+                <p>Add</p>
+            </Button>
+        </form>
     )
 }

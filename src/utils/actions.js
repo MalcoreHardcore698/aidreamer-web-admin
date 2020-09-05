@@ -4,7 +4,16 @@ export function setUser(user) {
     return {
         type: C.SET_USER,
         payload: {
-            user
+            user: (user?.name) ? user : null
+        }
+    }
+}
+
+export function setForm(form) {
+    return {
+        type: C.SET_FORM,
+        payload: {
+            form
         }
     }
 }

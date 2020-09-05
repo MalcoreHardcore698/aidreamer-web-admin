@@ -5,13 +5,11 @@
 
     align-content: center;
 
-    width: 100%;
-
     background: white;
     box-shadow: var(--bx-main);
     border-radius: var(--br-main);
     border: var(--border-main);
-    padding: var(--padding-content);
+    padding: 10px 5px;
 
     color: var(--color-graydark);
     cursor: pointer;

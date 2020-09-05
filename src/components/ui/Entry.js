@@ -15,11 +15,11 @@ import '../styles/Entry.css'
 
 const Manage = ({ manageOffset, handlerEdit, handlerDelete }) => {
     return (
-        <Row className="manage" style={{ top: (manageOffset) ? 277 : 15 }}>
-            <Button options={{ type: 'icon', handler: handlerEdit }}>
+        <Row className="manage" style={{ top: (manageOffset) ? 154 : 15 }}>
+            <Button options={{ state: 'icon inactive', handler: handlerEdit }}>
                 <FontAwesomeIcon icon={faPen} />
             </Button>
-            <Button options={{ type: 'icon', handler: handlerDelete }}>
+            <Button options={{ state: 'icon inactive', handler: handlerDelete }}>
                 <FontAwesomeIcon icon={faTrash} />
             </Button>
         </Row>
