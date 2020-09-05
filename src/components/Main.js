@@ -458,7 +458,7 @@ const Content = () => {
                                 component={() => props.component({ showModal, hideModal })}
                             />
                         )}
-                        <Redirect from="/auth" to={`/`} />
+                        <Redirect to="/" />
                     </React.Fragment>
                 )}
 

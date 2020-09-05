@@ -1,95 +1,117 @@
 import React, { useState } from 'react'
-import Mutation from '../ui/Mutation'
-import Container from '../ui/Container'
+import { useMutation } from '@apollo/react-hooks'
+import { useForm } from 'react-hook-form'
+import Query from '../ui/Query'
+import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import Select from '../ui/Select'
-import { REGISTER } from '../../utils/queries'
+import { REGISTER, GET_ALL_ROLES } from '../../utils/queries'
 
-export default ({ close }) => {
-    const [name, setName] = useState('')
-    const [phone, setPhone] = useState('')
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
-    const [email, setEmail] = useState('')
+export default ({ user=false, close }) => {
+    const [action, { loading }] = useMutation(REGISTER)
+
     // eslint-disable-next-line
     const [avatar, setAvatar] = useState('')
-    const [role, setRole] = useState('')
+    const [role, setRole] = useState(null)
+
+    const { handleSubmit, register, errors } = useForm()
+    const onSubmit = async (form) => {
+        const variables = {
+            name: form.name,
+            phone: form.phone,
+            email: form.email,
+            password: form.password,
+            confirmPassword: form.confirmPassword
+        }
+
+        if (role) variables.role = role.value
+        if (avatar) variables.avatar = avatar
+
+        await action({ variables })
+
+        close()
+    }
 
     return (
-        <Container type="fat">
+        <form className="fat" onSubmit={handleSubmit(onSubmit)}>
+            {( 
+                errors.name ||
+                errors.phone ||
+                errors.email ||
+                errors.password ||
+                errors.confirmPassword)
+            &&
+                <Alert type="error" message={
+                    (errors.name.message) ||
+                    (errors.phone.message) ||
+                    (errors.email.message) ||
+                    (errors.password.message) ||
+                    (errors.confirmPassword.message)
+                } />
+            }
+
             <Input options={{
+                ref: register(),
                 type: 'text',
-                placeholder: 'Enter name',
-                onChange: (e) => {
-                    setName(e.target.value)
-                }
+                name: 'name',
+                disabled: loading,
+                placeholder: 'Enter name'
             }} />
 
             <Input options={{
-                type: 'number',
-                placeholder: 'Enter phone',
-                onChange: (e) => {
-                    setPhone(e.target.value)
-                }
+                ref: register(),
+                type: 'text',
+                name: 'phone',
+                disabled: loading,
+                placeholder: 'Enter phone'
             }} />
 
             <Input options={{
+                ref: register(),
+                type: 'text',
+                name: 'email',
+                disabled: loading,
+                placeholder: 'Enter email'
+            }} />
+
+            <Input options={{
+                ref: register(),
                 type: 'password',
-                placeholder: 'Enter password',
-                onChange: (e) => {
-                    setPassword(e.target.value)
-                }
+                name: 'password',
+                disabled: loading,
+                placeholder: 'Enter password'
             }} />
 
             <Input options={{
+                ref: register(),
                 type: 'password',
-                placeholder: 'Enter confirm password',
-                onChange: (e) => {
-                    setConfirmPassword(e.target.value)
-                }
+                name: 'confirmPassword',
+                disabled: loading,
+                placeholder: 'Enter confirm password'
             }} />
 
-            <Input options={{
-                type: 'email',
-                placeholder: 'Enter email',
-                onChange: (e) => {
-                    setEmail(e.target.value)
-                }
-            }} />
-
-            <Select options={{
-                options: [
-                    { value: 'USER', label: 'USER' },
-                    { value: 'MODERATOR', label: 'MODERATOR' },
-                    { value: 'ADMINISTRATOR', label: 'ADMINISTRATOR' }
-                ],
-                onChange: (e) => {
-                    setRole(e.value)
-                }
-            }} />
-
-            <Mutation query={REGISTER}>
-                {({ action }) => (
-                    <Button options={{
-                        type: 'inactive',
-                        handler: async () => {
-                            const variables = {
-                                name, password, confirmPassword,
-                                email, phone, role
-                            }
-
-                            if (avatar) variables.avatar = avatar
-
-                            await action({ variables })
-
-                            close()
+            {(user) && <Query query={GET_ALL_ROLES} pseudo={{ count: 1, height: 45 }}>
+                {({ data }) => (
+                   <Select options={{
+                        defaultValue: role,
+                        options: data.allRoles.map(role => ({
+                            value: role.id, label: role.name
+                        })),
+                        onChange: (e) => {
+                            setRole(e)
                         }
-                    }}>
-                        <p>Add</p>
-                    </Button>
+                    }} />
                 )}
-            </Mutation>
-        </Container>
+            </Query>}
+
+            <Button options={{
+                type: 'submit',
+                state: 'inactive',
+                classNames: 'grow'
+            }}>
+                <p>Add</p>
+            </Button>
+        </form>
     )
 }

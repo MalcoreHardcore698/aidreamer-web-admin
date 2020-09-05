@@ -53,11 +53,12 @@ const Login = ({ setLoading, setError }) => {
             }} />
             
             <Button options={{
-                type: 'inactive',
+                state: 'inactive',
                 handler: () => {
                     onLogin({
                         variables: {
-                            name, password
+                            name, password,
+                            area: 'DASHBOARD'
                         }
                     })
                     .then(data => {

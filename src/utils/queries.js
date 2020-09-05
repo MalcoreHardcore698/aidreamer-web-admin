@@ -5,10 +5,12 @@ export const LOGIN = gql`
     mutation login(
         $name: String!
         $password: String!
+        $area: String
     ) {
         login(
             name: $name
             password: $password
+            area: $area
         ) {
             id
             name
@@ -39,6 +41,8 @@ export const LOGIN = gql`
                 chatId
             }
             sessionID
+            updatedAt
+            createdAt
         }
     }
 `
@@ -64,7 +68,6 @@ export const REGISTER = gql`
                 avatar: $avatar
             }
         ) {
-            id
             name
             email
             phone
@@ -93,6 +96,8 @@ export const REGISTER = gql`
                 chatId
             }
             sessionID
+            updatedAt
+            createdAt
         }
     }
 `
@@ -100,7 +105,6 @@ export const REGISTER = gql`
 export const GET_ALL_USERS = gql`
     query allUsers {
         allUsers {
-            id
             name
             email
             phone
@@ -137,7 +141,6 @@ export const GET_ALL_USERS = gql`
 export const SUB_ALL_USERS = gql`
     subscription users {
         users {
-            id
             name
             email
             phone
@@ -165,6 +168,8 @@ export const SUB_ALL_USERS = gql`
             chats {
                 chatId
             }
+            updatedAt
+            createdAt
         }
     }
 `
@@ -172,7 +177,6 @@ export const SUB_ALL_USERS = gql`
 export const GET_USER = gql`
     query getUser {
         getUser {
-            id
             name
             password
             email
@@ -201,20 +205,40 @@ export const GET_USER = gql`
             chats {
                 chatId
             }
+            updatedAt
+            createdAt
         }
     }
 `
 
 export const EDIT_USER = gql`
     mutation editUser(
-        $name: String!
-        $email: String!
-        $password: String!
+        $name: String
+        $email: String
+        $password: String
+        $phone: String
+        $role: ID
+        $balance: Int
+        $level: Int
+        $avatar: ID
+        $availableAvatars: [ID]
+        $experience: Int
+        $preferences: [ID]
+        $settings: [Setting]
     ) {
         editUser(
             name: $name
             email: $email
             password: $password
+            phone: $phone
+            role: $role
+            balance: $balance
+            level: $level
+            avatar: $avatar
+            availableAvatars: $availableAvatars
+            experience: $experience
+            preferences: $preferences
+            settings: $settings
         )
     }
 `
@@ -243,6 +267,8 @@ export const GET_ALL_HUBS = gql`
             }
             color
             status
+            updatedAt
+            createdAt
         }
     }
 `
@@ -261,6 +287,7 @@ export const SUB_ALL_HUBS = gql`
             countUsers
             countOffers
             status
+            updatedAt
             createdAt
         }
     }
@@ -340,6 +367,7 @@ export const GET_USER_ARTICLES = gql`
                 id
                 name
             }
+            updatedAt
             createdAt
         }
     }
@@ -368,6 +396,7 @@ export const GET_ALL_ARTICLES = gql`
                 name
             }
             status
+            updatedAt
             createdAt
         }
     }
@@ -399,6 +428,7 @@ export const SUB_USER_ARTICLES = gql`
                 id
                 name
             }
+            updatedAt
             createdAt
         }
     }
@@ -426,6 +456,7 @@ export const SUB_ARTICLES = gql`
                 id
                 name
             }
+            updatedAt
             createdAt
         }
     }
@@ -449,6 +480,8 @@ export const GET_ARTICLE = gql`
             }
             source
             url
+            updatedAt
+            createdAt
         }
     }
 `
@@ -522,6 +555,7 @@ export const GET_USER_OFFERS = gql`
                 title
             }
             status
+            updatedAt
             createdAt
         }
     }
@@ -542,6 +576,7 @@ export const SUB_USER_OFFERS = gql`
                 title
             }
             status
+            updatedAt
             createdAt
         }
     }
@@ -562,6 +597,7 @@ export const GET_ALL_OFFERS = gql`
                 title
             }
             status
+            updatedAt
             createdAt
         }
     }
@@ -582,6 +618,7 @@ export const SUB_ALL_OFFERS = gql`
                 title
             }
             status
+            updatedAt
             createdAt
         }
     }
@@ -633,3 +670,69 @@ export const DELETE_OFFERS = gql`
     }
 `
 // END HUB
+
+// BEGIN ROLE
+export const GET_ALL_ROLES = gql`
+    query allRoles {
+        allRoles {
+            id
+            name
+            permissions
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const ADD_ROLE = gql`
+    mutation addRole(
+        $name: String!
+        $permissions: [Permission!]!
+    ) {
+        addRole(
+            name: $name
+            permissions: $permissions
+        )
+    }
+`
+
+export const EDIT_ROLE = gql`
+    mutation editRole(
+        $id: ID!
+        $name: String!
+        $permissions: [Permission]
+    ) {
+        editRole(
+            id: $id
+            name: $name
+            permissions: $permissions
+        )
+    }
+`
+
+export const DELETE_ROLES = gql`
+    mutation deleteRoles($id: [ID]!) {
+        deleteRoles(id: $id)
+    }
+`
+
+export const SUB_ALL_ROLES = gql`
+    subscription roles {
+        roles {
+            id
+            name
+            permissions
+            updatedAt
+            createdAt
+        }
+    }
+`
+// END ROLE
+
+// BEGIN PERMITIONS
+export const GET_ALL_PERMITIONS = gql`
+    query allPermissions {
+        allPermissions
+    }
+`
+// END PERMITIONS

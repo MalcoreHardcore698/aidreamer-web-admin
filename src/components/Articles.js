@@ -6,6 +6,7 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
+import Moment from 'react-moment'
 
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
@@ -50,8 +51,8 @@ export default ({ showModal }) => {
                                         { header: 'Изображение', value: article.image.path, type: 'img' },
                                         { header: 'Сообщество', value: article.hub.title, type: 'text' },
                                         { header: 'Статус', value: article.status, type: 'text' },
-                                        { header: 'Дата редактирования', value: article.updatedAt, type: 'text', visible: false },
-                                        { header: 'Дата создания', value: article.createdAt, type: 'text' }
+                                        { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(article.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },
+                                        { header: 'Дата создания', value: <Moment date={new Date(new Date().setTime(article.createdAt))} format="DD.MM.YYYY" />, type: 'text' }
                                     ])),
                                     actions: [
                                         ({ table, dishands }) => (

@@ -6,6 +6,7 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
+import Moment from 'react-moment'
 
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
@@ -43,17 +44,12 @@ export default ({ showModal }) => {
                                 <Table options={{
                                     data: ((subData && subData.users) || data.allUsers),
                                     dataTable: ((subData && subData.users) || data.allUsers).map(user => ([
-                                        { header: 'ID', value: user.id, type: 'text', visible: false },
                                         { header: 'Аватар', value: user.avatar.path, type: 'img', visible: false },
                                         { header: 'Имя', value: user.name, type: 'text' },
                                         { header: 'Email', value: user.email, type: 'text' },
                                         { header: 'Роль', value: user.role.name, type: 'text' },
-                                        { header: 'Баланс', value: user.balance, type: 'text', visible: false },
-                                        { header: 'Дата последнего входа', value: user.updatedAt, type: 'text', visible: false },
-                                        { header: 'Дата регистрации', value: user.createdAt, type: 'text' },
-                                        { header: 'Подтвержден Email', value: user.isVerifiedEmail, type: 'text', visible: false },
-                                        { header: 'Подтвержден телефон', value: user.isVerifiedPhone, type: 'text', visible: false },
-                                        { header: 'Включены уведомления', value: user.isNotified, type: 'text', visible: false }
+                                        { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(user.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },
+                                        { header: 'Дата создания', value: <Moment date={new Date(new Date().setTime(user.createdAt))} format="DD.MM.YYYY" />, type: 'text' }
                                     ])),
                                     actions: [
                                         ({ table, dishands }) => (
@@ -99,7 +95,6 @@ export default ({ showModal }) => {
                                                         path: '/',
                                                         title: 'Edit User',
                                                         component: ({ close }) => <EditUser
-                                                            status
                                                             user={user}
                                                             close={close}
                                                         />
@@ -118,7 +113,7 @@ export default ({ showModal }) => {
                                                         path: '/',
                                                         title: 'Add User',
                                                         component: ({ close }) => <AddUser
-                                                            status
+                                                            user
                                                             close={close}
                                                         />
                                                     }

@@ -96,6 +96,14 @@
     min-width: 45px;
 }
 
+.ui-modal .wrapper .ui-message {
+    text-align: center;
+}
+
+.ui-modal .wrapper .ui-row .react-ripples {
+    flex-grow: 1;
+}
+
 .ui-modal .wrapper .headline h1 {
     font-size: 18px;
     color: var(--color-text);

@@ -6,6 +6,7 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
+import Moment from 'react-moment'
 
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
@@ -49,8 +50,8 @@ export default ({ showModal }) => {
                                         { header: 'Пользователь', value: offer.user.name, type: 'text' },
                                         { header: 'Сообщество', value: offer.hub.title, type: 'text' },
                                         { header: 'Статус', value: offer.status, type: 'text' },
-                                        { header: 'Дата последнего входа', value: offer.updatedAt, type: 'text', visible: false },
-                                        { header: 'Дата создания', value: offer.createdAt, type: 'text' }
+                                        { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(offer.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },
+                                        { header: 'Дата создания', value: <Moment date={new Date(new Date().setTime(offer.createdAt))} format="DD.MM.YYYY" />, type: 'text' }
                                     ])),
                                     actions: [
                                         ({ table, dishands }) => (
@@ -84,7 +85,7 @@ export default ({ showModal }) => {
                                                                 close={close}
                                                             />
                                                         }
-                                                    ])
+                                                    ], true)
                                                 }
                                             }}>
                                                 <FontAwesomeIcon icon={faTrash} />
@@ -107,7 +108,7 @@ export default ({ showModal }) => {
                                                             offer={offer}
                                                             close={close}
                                                         />
-                                                    }])
+                                                    }], true)
                                                 }}>
                                                     <FontAwesomeIcon icon={faPen} />
                                                 </Button>
@@ -127,7 +128,7 @@ export default ({ showModal }) => {
                                                             close={close}
                                                         />
                                                     }
-                                                ])
+                                                ], true)
                                             }}>
                                                 <FontAwesomeIcon icon={faPlus} />
                                             </Button>
