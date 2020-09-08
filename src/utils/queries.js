@@ -346,8 +346,8 @@ export const DELETE_HUBS = gql`
 
 // BEGIN ARTICLE
 export const GET_USER_ARTICLES = gql`
-    query allUserArticles($id: ID!) {
-        allUserArticles(id: $id) {
+    query allUserArticles($name: String!) {
+        allUserArticles(name: $name) {
             id
             title
             description
@@ -404,10 +404,10 @@ export const GET_ALL_ARTICLES = gql`
 
 export const SUB_USER_ARTICLES = gql`
     subscription userArticles(
-        $id: ID!
+        $name: String!
     ) {
         userArticles(
-            id: $id
+            name: $name
         ) {
             id
             title
@@ -541,8 +541,8 @@ export const DELETE_ARTICLES = gql`
 
 // BEGIN OFFER
 export const GET_USER_OFFERS = gql`
-    query allUserOffers($id: ID!) {
-        allUserOffers(id: $id) {
+    query allUserOffers($name: String!) {
+        allUserOffers(name: $name) {
             id
             title
             message
@@ -562,8 +562,8 @@ export const GET_USER_OFFERS = gql`
 `
 
 export const SUB_USER_OFFERS = gql`
-    subscription userOffers($id: ID!) {
-        userOffers(id: $id) {
+    subscription userOffers($name: String!) {
+        userOffers(name: $name) {
             id
             title
             message
