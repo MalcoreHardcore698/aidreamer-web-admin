@@ -30,7 +30,7 @@ export default (props) => {
     }
 
     if (loading || !data) return (
-        <Row type="flex">
+        <Row type="flex loader" style={{ gridColumn: '1 / 5' }}>
             {renderSkeleton()}
         </Row>
     )

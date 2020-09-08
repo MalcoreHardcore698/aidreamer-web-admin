@@ -11,7 +11,6 @@
 }
 
 .ui-list .ui-item {
-    cursor: pointer;
     transition: var(--transition);
 }
 
@@ -30,19 +29,22 @@
 
 .ui-item {
     display: grid;
-    grid-template-columns: 32px 1fr 32px;
+    grid-template-columns: 32px 1fr max-content;
     align-content: center;
     grid-gap: 10px;
 
     color: var(--color-graydark);
     padding: 10px;
     font-weight: 600;
+
+    cursor: pointer;
 }
 
 .ui-item .avatar img {
     border-radius: 50%;
     width: 25px;
     height: 25px;
+    overflow: hidden;
 }
 
 .ui-item .name {

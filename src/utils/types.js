@@ -7,6 +7,6 @@ export default {
 
     ADD_OFFER: 'ADD_OFFER',
 
-    ADD_CHAT: 'ADD_CHAT',
+    SET_CHAT: 'SET_CHAT',
     CLOSE_CHAT: 'CLOSE_CHAT'
 }

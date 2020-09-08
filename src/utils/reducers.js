@@ -24,10 +24,10 @@ export function userReducer(state = {}, action) {
     }
 }
 
-export function formReducer(state={}, { type, payload }) {
+export function chatReducer(state={}, { type, payload }) {
     switch (type) {
-        case C.SET_FORM:
-            return payload.form
+        case C.SET_CHAT:
+            return payload.chat
         default:
             return state
     }
@@ -62,7 +62,7 @@ export function tableReducer(state=[], { type, payload }) {
 
 export const reducers = combineReducers({
     user: userReducer,
-    form: formReducer,
+    chat: chatReducer,
     document: documentReducer,
     documents: documentsReducer,
     table: tableReducer

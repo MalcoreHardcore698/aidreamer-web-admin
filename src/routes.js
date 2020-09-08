@@ -6,7 +6,9 @@ import Offers from './components/Offers'
 import Hubs from './components/Hubs'
 import Tours from './components/Tours'
 import Chats from './components/Chats'
-import Gallery from './components/Gallery'
+import Images from './components/Images'
+import Avatars from './components/Avatars'
+import Icons from './components/Icons'
 import Pets from './components/Pets'
 import Roles from './components/Roles'
 import Languages from './components/Languages'
@@ -59,8 +61,18 @@ export default [
     },
     {
         exact: true,
-        path: '/gallery',
-        component: ({ showModal, hideModal }) => <Gallery showModal={showModal} hideModal={hideModal} />
+        path: '/images',
+        component: ({ showModal, hideModal }) => <Images showModal={showModal} hideModal={hideModal} />
+    },
+    {
+        exact: true,
+        path: '/avatars',
+        component: ({ showModal, hideModal }) => <Avatars showModal={showModal} hideModal={hideModal} />
+    },
+    {
+        exact: true,
+        path: '/icons',
+        component: ({ showModal, hideModal }) => <Icons showModal={showModal} hideModal={hideModal} />
     },
     {
         exact: true,

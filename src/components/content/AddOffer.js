@@ -10,17 +10,16 @@ import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
 import Toggler from '../ui/Toggler'
-import { GET_ALL_HUBS, GET_ALL_USERS, ADD_OFFER } from '../../utils/queries'
+import { GET_ALL_HUBS, ADD_OFFER } from '../../utils/queries'
 import { config } from '../../utils/config'
 
 const api = config.get('api')
 
-export default ({ user=false, status=false, close }) => {
+export default ({ status=false, close }) => {
     const state = useSelector(state => state)
     const [action, { loading }] = useMutation(ADD_OFFER)
 
     const[hub, setHub] = useState(null)
-    const [_user, _setUser] = useState('')
     const [_status, _setStatus] = useState('')
 
     const { handleSubmit, register, errors } = useForm()
@@ -34,7 +33,6 @@ export default ({ user=false, status=false, close }) => {
             status: 'PUBLISHED'
         }
 
-        if (_user) variables.user = _user.value
         if (_status) variables.status = _status.value
 
         await action({ variables })
@@ -44,8 +42,8 @@ export default ({ user=false, status=false, close }) => {
 
     return (
         <form className="fat" onSubmit={handleSubmit(onSubmit)}>
-            {(errors.email || errors.username) && <Alert type="error" message={
-                (errors.email.message) || (errors.username.message)
+            {(errors.email) && <Alert type="error" message={
+                (errors.email.message)
             } />}
 
             <Input options={{
@@ -85,22 +83,6 @@ export default ({ user=false, status=false, close }) => {
                     />
                 )}
             </Query>
-
-            {(user) && <Query query={GET_ALL_USERS}>
-                {({ data }) => (
-                    <Select options={{
-                        name: 'users',
-                        value: _user,
-                        options: data.allUsers.map(u => ({
-                            value: u.id,
-                            label: u.name
-                        })),
-                        onChange: (e) => {
-                            _setUser(e)
-                        }
-                    }} />
-                )}
-            </Query>}
 
             {(status) && <Select options={{
                 name: 'status',

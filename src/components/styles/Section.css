@@ -89,3 +89,9 @@
 .ui-section .content > .ui-unit {
     grid-column: 1 / 3;
 }
+
+@media only screen and (max-width: 565px) {
+    .ui-section .content .grid {
+        grid-template-columns: 1fr !important;
+    }
+}

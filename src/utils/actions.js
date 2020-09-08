@@ -18,11 +18,11 @@ export function setForm(form) {
     }
 }
 
-export function addChat(chatId) {
+export function setChat(chat) {
     return {
-        type: C.ADD_CHAT,
+        type: C.SET_CHAT,
         payload: {
-            chatId
+            chat
         }
     }
 }

@@ -49,7 +49,9 @@ export default ({ options }) => {
     }
 
     const renderMessage = () => {
-        return <p>{message}</p>
+        const length = message.length
+        const msg = (length > 25) ? `${message.slice(0, 25)}...` : message
+        return <p>{msg}</p>
     }
 
     return (

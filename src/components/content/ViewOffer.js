@@ -5,7 +5,7 @@ import Entry from '../ui/Entry'
 
 export default ({ offer }) => {
     return (
-        <Container>
+        <Container type="clear">
             <Entry options={{
                 capacious: false,
                 userBar: {
@@ -13,12 +13,14 @@ export default ({ offer }) => {
                     status: offer.user.status || 'Online',
                     avatar: offer.user.avatar?.path
                 },
-                statusBar: [
-                    {
-                        lite: <Moment date={new Date(new Date().setTime(offer.createdAt))} format="MMM, DD" />,
-                        dark: <Moment date={new Date(new Date().setTime(offer.createdAt))} format="h:m" />
-                    }
-                ]
+                statusBar: {
+                    options: [
+                        {
+                            lite: <Moment date={new Date(new Date().setTime(offer.createdAt))} format="MMM, DD" />,
+                            dark: <Moment date={new Date(new Date().setTime(offer.createdAt))} format="h:m" />
+                        }
+                    ]
+                }
             }}>
                 <h2 className="title">{offer.title}</h2>
                 <p>{offer.message}</p>

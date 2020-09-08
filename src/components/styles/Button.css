@@ -78,6 +78,12 @@
     cursor: default;
 }
 
+.ui-button.icon.small {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+}
+
 .react-ripples {
     display: flex;
     border-radius: var(--br-main);

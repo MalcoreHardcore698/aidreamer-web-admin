@@ -192,3 +192,27 @@
     display: grid;
     grid-template-columns: 25px 1fr;
 }
+
+@media only screen and (max-width: 545px) {
+    .ui-navigation .block {
+        grid-gap: 10px;
+    }
+    
+    .ui-navigation:not(.dashboard) .block a:first-child {
+        padding-right: 15px;
+    }
+    
+    .ui-navigation:not(.dashboard) .block a:first-child img {
+        transform: scale(1.45) translateX(5px);
+    }
+    
+    .ui-navigation:not(.dashboard) .block a:nth-child(2) {
+        font-size: 1.25rem;
+    }
+    
+    .ui-navigation:not(.dashboard) .block a, .ui-navigation:not(.dashboard) .block button {
+        font-size: 1rem;
+        height: 36px;
+        width: 36px;
+    }
+}

@@ -21,7 +21,9 @@
     background: white;
     box-shadow: var(--bx-main);
     border-radius: var(--br-main);
-    border: var(--border-main);
+	border: var(--border-main);
+	
+	overflow: hidden;
 }
 
 .ui-notify .icon img {

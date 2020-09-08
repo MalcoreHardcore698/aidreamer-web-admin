@@ -29,7 +29,7 @@ export default ({ status=false, close }) => {
         if (!hub) return
 
         const variables = {
-            author: state.user.id,
+            author: state.user.name,
             title: form.title,
             description: form.description,
             body: form.body, hub,
@@ -38,7 +38,7 @@ export default ({ status=false, close }) => {
 
         if (image) variables.image = image
         if (form.status) variables.status = form.status
-
+        
         await action({ variables })
 
         close()

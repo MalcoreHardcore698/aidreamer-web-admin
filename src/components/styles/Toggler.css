@@ -93,3 +93,10 @@
 .ui-toggler .toggle {
     padding: 10px;
 }
+
+@media only screen and (max-width: 480px) {
+    .ui-toggler {
+        height: auto;
+        flex-wrap: wrap;
+    }
+}

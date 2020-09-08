@@ -1,0 +1,4 @@
+.ui-tabs {
+    display: flex;
+    justify-content: space-between;
+}

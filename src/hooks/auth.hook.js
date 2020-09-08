@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react'
 import { setCookie, getCookie, clearCookie } from '../utils/functions'
-// import { v4 } from 'uuid'
 
 const cookie = 'secret'
 
@@ -9,7 +8,6 @@ export const useAuth = () => {
   const [ready, setReady] = useState(false)
 
   const login = useCallback((value) => {
-    console.log(value)
     if (value) {
       setSessionID(value)
       setCookie(cookie, value)

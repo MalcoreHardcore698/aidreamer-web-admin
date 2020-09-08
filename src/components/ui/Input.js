@@ -15,7 +15,8 @@ export default ({ options }) => {
         defaultValue,
         placeholder='Write a message...',
         autoComplete="Default text",
-        onChange=() => {}
+        onChange=() => {},
+        onKeyPress=() => {}
     } = options
 
     const classes = [
@@ -31,8 +32,9 @@ export default ({ options }) => {
             defaultValue={defaultValue}
             className={classes.join(' ')}
             placeholder={placeholder}
-            onChange={onChange}
             autoComplete={autoComplete}
+            onChange={onChange}
+            onKeyPress={onKeyPress}
         />
     )
 }

@@ -66,14 +66,17 @@ body::-webkit-scrollbar-track,
 textarea::-webkit-scrollbar,
 textarea::-webkit-scrollbar-track,
 .ui-modal::-webkit-scrollbar,
-.ui-modal::-webkit-scrollbar-track {
+.ui-modal::-webkit-scrollbar-track,
+.ui-chat .messages::-webkit-scrollbar,
+.ui-chat .messages::-webkit-scrollbar-track {
     width: 0;
 }
 
 html::-webkit-scrollbar-button,
 body::-webkit-scrollbar-button,
 textarea::-webkit-scrollbar-button,
-.ui-modal::-webkit-scrollbar-button {
+.ui-modal::-webkit-scrollbar-button,
+.ui-chat .messages::-webkit-scrollbar-button {
     display: none;
 }
 
@@ -240,6 +243,14 @@ main.tours .ui-section > .content > .ui-entry {
     flex-basis: auto;
 }
 
+main.chats .ui-section > .content > .ui-message {
+    flex-grow: 1;
+}
+
+main.chats aside:first-child .loader {
+    flex-direction: column;
+}
+
 .ui-chat {
     display: flex;
     flex-direction: column;
@@ -264,14 +275,74 @@ main.tours .ui-section > .content > .ui-entry {
     height: 100%;
 }
 
-.ui-chat form {
+.ui-chat > .ui-row {
     padding: var(--padding-content);
     background: var(--color-statusbar-background);
     border-block-start: var(--border-main);
+    width: calc(100% - 30px);
 }
 
-.ui-chat form .ui-input {
+.ui-chat > .ui-row  .ui-input {
     flex-grow: 100;
+}
+
+.ui-chat .messages {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+    height: 425px;
+    overflow-y: scroll;
+}
+
+.ui-chat .messages .message {
+    display: grid;
+    grid-template-columns: 45px 1fr;
+    grid-gap: 10px;
+}
+
+
+.ui-chat .messages .message .avatar {
+    align-self: end;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    box-shadow: var(--bs-entry);
+    background-color: var(--color-statusbar-background);
+    overflow: hidden;
+}
+
+.ui-chat .messages .message .content {
+    box-shadow: var(--bs-entry);
+    border-radius: var(--br-main);
+    padding: 10px 15px;
+    width: max-content;
+    max-width: 65%;
+    min-width: 64px;
+}
+
+.ui-chat .messages .message .content.dark {
+    background: var(--color-text);
+    color: white;
+}
+
+.ui-chat .messages .message .content.lite {
+    background: var(--color-statusbar-background);
+    color: var(--color-text);
+}
+
+.ui-chat .messages .message .content .date {
+    text-align: right;
+    font-size: 12px;
+    width: 100%;
+    margin-block-start: 5px;
+}
+
+.ui-chat .messages .message .content.lite .date {
+    color: #8f99a7;
+}
+
+.ui-chat .messages .message .content.dark .date {
+    color: #8388a0;
 }
 
 .ui-section .content .grid {
@@ -325,5 +396,17 @@ main.tours .ui-section > .content > .ui-entry {
     main {
         grid-template-columns: 1fr !important;
         padding-bottom: 180px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    main {
+        display: flex;
+        flex-direction: column;
+        padding-bottom: 75px;
+    }
+
+    .ui-chat .messages .message .content {
+        max-width: 85%;
     }
 }

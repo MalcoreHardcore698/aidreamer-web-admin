@@ -7,19 +7,22 @@
 
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import Message from './Message'
 import Button from './Button'
 import Row from './Row'
 import '../styles/Entry.css'
 
-const Manage = ({ manageOffset, handlerEdit, handlerDelete }) => {
+const Manage = ({ manageOffset, handlerView, handlerEdit, handlerDelete }) => {
     return (
-        <Row className="manage" style={{ top: (manageOffset) ? 154 : 15 }}>
-            <Button options={{ state: 'icon inactive', handler: handlerEdit }}>
+        <Row className="manage small" style={{ top: (manageOffset) ? 154 : 15 }}>
+            <Button options={{ state: 'icon inactive small', handler: handlerView }}>
+                <FontAwesomeIcon icon={faEye} />
+            </Button>
+            <Button options={{ state: 'icon inactive small', handler: handlerEdit }}>
                 <FontAwesomeIcon icon={faPen} />
             </Button>
-            <Button options={{ state: 'icon inactive', handler: handlerDelete }}>
+            <Button options={{ state: 'icon inactive small', handler: handlerDelete }}>
                 <FontAwesomeIcon icon={faTrash} />
             </Button>
         </Row>
@@ -37,6 +40,7 @@ export default (props) => {
         statusBar,
         classNames,
         handler=() => {},
+        handlerView=() => {},
         handlerEdit=() => {},
         handlerDelete=() => {}
     } = props.options || {}
@@ -56,23 +60,26 @@ export default (props) => {
         return (
             <div className="user-bar">
                 <img className="avatar" src={userBar.avatar} alt="Avatar" />
-                <p className="content">
+                <p className={`content${(userBar.rightButton) ? ' top-offset' : ''}`}>
                     <span className="name">{userBar.name}</span>
                     <span className="status">{userBar.status}</span>
                 </p>
+
+                {(userBar.rightButton) && (userBar.rightButton)}
             </div>
         )
     }
 
     const renderContent = () => {
         return (
-            <div className="content-wrapper">
+            <div className="content-wrapper" onClick={handler}>
                 {(!Children)
                     ? <Message text="No Content" />
                     : <React.Fragment>
                         <div className="content">{Children}</div>
                         {(editable) && <Manage
                             manageOffset={manageOffset}
+                            handlerView={handlerView}
                             handlerEdit={handlerEdit}
                             handlerDelete={handlerDelete}
                         />}
@@ -88,18 +95,26 @@ export default (props) => {
         
         return (
             <div className="status-bar">
-                {statusBar.map((item, key) =>
+                {statusBar.options.map((item, key) =>
                     <p key={key}>
                         <span className="lite">{item.lite}</span>
                         <span className="dark">{item.dark}</span>
                     </p>
+                )}
+
+                {(statusBar.input) && (
+                    <div className="input">{statusBar.input}</div>
+                )}
+
+                {(statusBar.body) && (
+                    <div className="body">{statusBar.body}</div>
                 )}
             </div>
         )
     }
     
     return (
-        <div className={classes.join(' ')} onClick={handler}>
+        <div className={classes.join(' ')}>
             {renderUserBar()}
             {renderContent()}
             {renderStatusBar()}

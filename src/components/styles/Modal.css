@@ -53,7 +53,8 @@
 
 .ui-modal .wrapper form {
     position: relative;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     padding: var(--padding-content);
     grid-gap: 15px;
 }
@@ -63,7 +64,7 @@
 }
 
 .ui-modal .wrapper .fat {
-    min-width: 35vw;
+    width: 70vh;
 }
 
 .ui-modal .wrapper.slideOutLeft {
@@ -113,16 +114,16 @@
     width: 100%;
 }
 
-.ui-modal .wrapper .ui-entry {
+.ui-modal .wrapper .ui-entry .content {
     cursor: default;
 }
 
-.ui-modal .wrapper .ui-entry:hover {
+.ui-modal .wrapper .ui-entry .content:hover {
     opacity: 1;
 }
 
-.ui-modal .wrapper .ui-entry .content-wrapper {
-    padding: 0 0 var(--padding-content) 0;
+.ui-modal .wrapper .ui-notify {
+    width: auto;
 }
 
 @keyframes slideOutLeft {
@@ -171,8 +172,13 @@
 
 @media only screen and (max-width: 998px) {
     .ui-modal .wrapper {
+        top: 75px;
         max-width: 100%;
         width: 80%;
+    }
+
+    .ui-modal .wrapper .fat {
+        width: auto;
     }
 }
 

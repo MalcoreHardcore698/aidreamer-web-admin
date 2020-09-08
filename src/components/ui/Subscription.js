@@ -10,7 +10,7 @@ export default (props) => {
     const Children = props.children
 
     useEffect(() => {
-        props.refetch()
+        if (props.refetch) props.refetch()
     }, [data, props])
 
     return <Children subData={data} />
