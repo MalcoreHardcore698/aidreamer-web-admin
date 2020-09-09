@@ -50,7 +50,7 @@ export default ({ showModal }) => {
                                         { header: 'Название', value: avatar.name, type: 'text', visible: false },
                                         { header: 'Путь', value: avatar.path, type: 'text', visible: false },
                                         { header: 'Редкость', value: avatar.complexity, type: 'text' },
-                                        { header: 'Сообщество', value: avatar.hub.name, type: 'text' },
+                                        { header: 'Сообщество', value: avatar.hub.title, type: 'text' },
                                         { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(avatar.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },
                                         { header: 'Дата создания', value: <Moment date={new Date(new Date().setTime(avatar.createdAt))} format="DD.MM.YYYY" />, type: 'text' }
                                     ])),
@@ -94,17 +94,17 @@ export default ({ showModal }) => {
                                         ),
                                         ({ table, dishands }) => {
                                             const docs = table.filter(t => t.checked)
-                                            const icon = (docs.length === 1) ? docs[0] : false
+                                            const avatar = (docs.length === 1) ? docs[0] : false
                                             return (
                                                 <Button options={{
-                                                    state: (dishands || (!icon)) ? 'disable icon inactive' : 'active icon',
-                                                    disabled: dishands || (!icon),
+                                                    state: (dishands || (!avatar)) ? 'disable icon inactive' : 'active icon',
+                                                    disabled: dishands || (!avatar),
                                                     classNames: 'stretch',
-                                                    handler: () => (icon) && showModal([{
+                                                    handler: () => (avatar) && showModal([{
                                                         path: '/',
                                                         title: 'Edit Avatar',
                                                         component: ({ close }) => <EditAvatar
-                                                            icon={icon}
+                                                            avatar={avatar}
                                                             close={close}
                                                         />
                                                     }], true)

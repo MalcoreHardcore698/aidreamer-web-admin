@@ -236,12 +236,126 @@ export const DELETE_USERS = gql`
     }
 `
 
+// BEGIN CHAT
+export const GET_ALL_CHAT_TYPES = gql`
+    query allChatTypes {
+        allChatTypes
+    }
+`
+
+export const ADD_CHAT = gql`
+    mutation addChat(
+        $type: ChatType!
+        $title: String!
+        $members: [String]!
+    ) {
+        addChat (
+            type: $type
+            title: $title
+            members: $members
+        )
+    }
+`
+
+export const EDIT_CHAT = gql`
+    mutation editChat(
+        $id: ID!
+        $type: ChatType
+        $title: String
+        $members: [String]
+    ) {
+        editChat (
+            id: $id
+            type: $type
+            title: $title
+            members: $members
+        )
+    }
+`
+
+export const DELETE_CHATS = gql`
+    mutation deleteChats(
+        $id: [ID]!
+    ) {
+        deleteChats (
+            id: $id
+        )
+    }
+`
+
+export const GET_ALL_CHATS = gql`
+    query allChats {
+        allChats {
+            id
+            type
+            title
+            members {
+                name
+                avatar {
+                    path
+                }
+            }
+            messages {
+                user {
+                    name
+                    avatar {
+                        path
+                    }
+                }
+                text
+                type
+                updatedAt
+                createdAt
+            }
+        }
+    }
+`
+
+export const SUB_ALL_CHATS = gql`
+    subscription chats {
+        chats {
+            id
+            type
+            title
+            members {
+                name
+                avatar {
+                    path
+                }
+            }
+            messages {
+                user {
+                    name
+                    avatar {
+                        path
+                    }
+                }
+                text
+                type
+                updatedAt
+                createdAt
+            }
+        }
+    }
+`
+
+export const DELETE_USER_CHATS = gql`
+    mutation deleteUserChats(
+        $id: [ID]!
+    ) {
+        deleteUserChats(
+            id: $id
+        )
+    }
+`
+
 export const GET_USER_CHATS = gql`
     query allUserChats {
         allUserChats {
             id
             chat {
                 id
+                type
                 title
                 members {
                     name
@@ -306,6 +420,7 @@ export const SUB_USER_CHATS = gql`
             id
             chat {
                 id
+                type
                 title
                 members {
                     name
@@ -411,6 +526,7 @@ export const ADD_USER_CHAT_MESSAGE = gql`
         )
     }
 `
+// END CHAT
 
 export const SUB_NOTIFICATIONS = gql`
     subscription notifications {

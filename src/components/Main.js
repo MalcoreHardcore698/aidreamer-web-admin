@@ -7,11 +7,13 @@ import {
     faNewspaper,
     faAddressBook,
     faGamepad,
+    // eslint-disable-next-line
     faPaw,
     faEye,
     faImage,
     faGlobeAsia,
     faPaperPlane,
+    // eslint-disable-next-line
     faTrophy,
     faBell,
     faTheaterMasks,
@@ -151,17 +153,6 @@ const Content = () => {
                         )
                     },
                     {
-                        path: '/tours',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faTrophy} />
-                                </p>
-                                <p>Tours</p>
-                            </Row>
-                        )
-                    },
-                    {
                         path: '/chats',
                         component: (
                             <Row>
@@ -169,6 +160,18 @@ const Content = () => {
                                     <FontAwesomeIcon icon={faPaperPlane} />
                                 </p>
                                 <p>Chats</p>
+                            </Row>
+                        )
+                    },
+                    /*
+                    {
+                        path: '/tours',
+                        component: (
+                            <Row>
+                                <p className="icon">
+                                    <FontAwesomeIcon icon={faTrophy} />
+                                </p>
+                                <p>Tours</p>
                             </Row>
                         )
                     },
@@ -183,6 +186,7 @@ const Content = () => {
                             </Row>
                         )
                     },
+                    */
                     {
                         path: '/roles',
                         groupTitle: 'Settings',

@@ -40,6 +40,7 @@ export default ({ close }) => {
                 {({ data }) => (
                     <Select options={{
                         value: permissions,
+                        placeholder: 'Choose permissions',
                         options: data.allPermissions.map(p => ({
                             value: p,
                             label: p
