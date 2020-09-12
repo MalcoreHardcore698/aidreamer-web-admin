@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -19,14 +18,11 @@ import AddImage from './content/AddImage'
 import EditImage from './content/EditImage'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import { GET_ALL_IMAGES, SUB_ALL_IMAGES, DELETE_IMAGES } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -58,14 +54,14 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Offer',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_IMAGES}
-                                                                handler={async (action, entry, docs) => {
+                                                                entries={table.filter(t => t.checked)}
+                                                                handler={async (action, entry, entries) => {
                                                                     await action({
                                                                         variables: {
                                                                             id: (entry)
@@ -73,10 +69,7 @@ export default ({ showModal }) => {
                                                                                     id: entry.id,
                                                                                     user: entry.user.id
                                                                                 }]
-                                                                                : docs.map(doc => ({
-                                                                                    id: doc.id,
-                                                                                    user: doc.user.id
-                                                                                }))
+                                                                                : entries.map(ent => ent._id)
                                                                         }
                                                                     })
                                                                 }}

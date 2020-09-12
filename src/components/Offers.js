@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -19,14 +18,11 @@ import AddOffer from './content/AddOffer'
 import EditOffer from './content/EditOffer'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import { GET_ALL_OFFERS, SUB_ALL_OFFERS, DELETE_OFFERS } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -60,13 +56,13 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Offer',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_OFFERS}
+                                                                entries={table.filter(t => t.checked)}
                                                                 handler={async (action, entry, docs) => {
                                                                     await action({
                                                                         variables: {

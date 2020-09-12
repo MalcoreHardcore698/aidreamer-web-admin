@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -19,14 +18,11 @@ import AddArticle from './content/AddArticle'
 import EditArticle from './content/EditArticle'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import { GET_ALL_ARTICLES, SUB_ARTICLES, DELETE_ARTICLES } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -45,10 +41,11 @@ export default ({ showModal }) => {
                                     data: ((subData && subData.articles) || data.allArticles),
                                     dataTable: ((subData && subData.articles) || data.allArticles).map(article => ([
                                         { header: 'ID', value: article.id, type: 'text', visible: false },
-                                        { header: 'Заголовок', value: article.title, type: 'text' },
-                                        { header: 'Описание', value: article.description, type: 'text' },
-                                        { header: 'Содержание', value: article.body, type: 'text', visible: false },
                                         { header: 'Изображение', value: article.image.path, type: 'img' },
+                                        { header: 'Заголовок', value: article.title, type: 'text' },
+                                        { header: 'Описание', value: article.description, type: 'text', visible: false },
+                                        { header: 'Комментарии', value: article.comments.length, type: 'text' },
+                                        { header: 'Содержание', value: article.body, type: 'text', visible: false },
                                         { header: 'Сообщество', value: article.hub.title, type: 'text' },
                                         { header: 'Статус', value: article.status, type: 'text' },
                                         { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(article.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },
@@ -61,13 +58,13 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Article?',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_ARTICLES}
+                                                                entries={table.filter(t => t.checked)}
                                                                 handler={async (action, entry, docs) => {
                                                                     await action({
                                                                         variables: {
@@ -86,7 +83,7 @@ export default ({ showModal }) => {
                                                                 close={close}
                                                             />
                                                         }
-                                                    ])
+                                                    ], true)
                                                 }
                                             }}>
                                                 <FontAwesomeIcon icon={faTrash} />

@@ -3,10 +3,11 @@ import { useMutation } from '@apollo/react-hooks'
 import { useForm } from 'react-hook-form'
 import Query from '../ui/Query'
 import Alert from '../ui/Alert'
+import List from '../ui/List'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import Select from '../ui/Select'
-import { EDIT_USER, GET_ALL_ROLES } from '../../utils/queries'
+import { EDIT_USER, GET_ALL_ROLES, GET_ALL_AVATARS } from '../../utils/queries'
 import { config } from '../../utils/config'
 
 // eslint-disable-next-line
@@ -15,7 +16,6 @@ const api = config.get('api')
 export default ({ user, close }) => {
     const [action, { loading }] = useMutation(EDIT_USER)
 
-    // eslint-disable-next-line
     const [avatar, setAvatar] = useState('')
     const [role, setRole] = useState({
         value: user.role.id, label: user.role.name
@@ -30,7 +30,7 @@ export default ({ user, close }) => {
         }
 
         if (role) variables.role = role.value
-        if (avatar) variables.avatar = avatar
+        if (avatar) variables.avatar = avatar.id
 
         await action({ variables })
 
@@ -74,6 +74,7 @@ export default ({ user, close }) => {
                 {({ data }) => (
                    <Select options={{
                         defaultValue: role,
+                        placeholder: 'Choose role',
                         options: data.allRoles.map(role => ({
                             value: role.id, label: role.name
                         })),
@@ -81,6 +82,25 @@ export default ({ user, close }) => {
                             setRole(e)
                         }
                     }} />
+                )}
+            </Query>
+
+            <Query query={GET_ALL_AVATARS} pseudo={{ count: 1, height: 45 }}>
+                {({ data }) => (
+                    <List options={{
+                        type: 'grid',
+                        state: avatar,
+                        list: data.allAvatars,
+                        handlerItem: setAvatar
+                    }}>
+                        {({ item }) => (
+                            <img
+                                className="image"
+                                src={(item.path).replace('./', `${api}/`)}
+                                alt="Hub"
+                            />
+                        )}
+                    </List>
                 )}
             </Query>
 

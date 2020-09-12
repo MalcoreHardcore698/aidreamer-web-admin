@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -18,14 +17,11 @@ import AddLanguage from './content/AddLanguage'
 import EditLanguage from './content/EditLanguage'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import { GET_ALL_LANGUAGES, DELETE_LANGUAGES } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -53,13 +49,13 @@ export default ({ showModal }) => {
                                         disabled: dishands,
                                         classNames: 'stretch',
                                         handler: () => {
-                                            dispatch(setDocuments(table.filter(t => t.checked)))
                                             showModal([
                                                 {
                                                     path: '/',
                                                     title: 'Delete Language',
                                                     component: ({ close }) => <DeleteEntries
                                                         query={DELETE_LANGUAGES}
+                                                        entries={table.filter(t => t.checked)}
                                                         handler={async (action, entry, docs) => {
                                                             await action({
                                                                 variables: {

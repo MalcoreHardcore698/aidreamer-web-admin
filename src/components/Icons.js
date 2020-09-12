@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -19,14 +18,11 @@ import AddIcon from './content/AddIcon'
 import EditIcon from './content/EditIcon'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import { GET_ALL_ICONS, SUB_ALL_ICONS, DELETE_ICONS } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -45,9 +41,10 @@ export default ({ showModal }) => {
                                     data: ((subData && subData.icons) || data.allIcons),
                                     dataTable: ((subData && subData.icons) || data.allIcons).map(icon => ([
                                         { header: 'ID', value: icon.id, type: 'text', visible: false },
-                                        { header: 'Изображение', value: icon.path, type: 'img' },
-                                        { header: 'Название', value: icon.name, type: 'text' },
-                                        { header: 'Путь', value: icon.path, type: 'text' },
+                                        { header: 'Изображение', value: icon.path, type: 'icon' },
+                                        { header: 'Сообщество', value: icon.hub.title, type: 'text' },
+                                        { header: 'Название', value: icon.name, type: 'text', visible: false },
+                                        { header: 'Путь', value: icon.path, type: 'text', visible: false },
                                         { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(icon.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },
                                         { header: 'Дата создания', value: <Moment date={new Date(new Date().setTime(icon.createdAt))} format="DD.MM.YYYY" />, type: 'text' }
                                     ])),
@@ -58,14 +55,14 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Offer',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_ICONS}
-                                                                handler={async (action, entry, docs) => {
+                                                                entries={table.filter(t => t.checked)}
+                                                                handler={async (action, entry, entries) => {
                                                                     await action({
                                                                         variables: {
                                                                             id: (entry)
@@ -73,10 +70,7 @@ export default ({ showModal }) => {
                                                                                     id: entry.id,
                                                                                     user: entry.user.id
                                                                                 }]
-                                                                                : docs.map(doc => ({
-                                                                                    id: doc.id,
-                                                                                    user: doc.user.id
-                                                                                }))
+                                                                                : entries.map(ent => ent._id)
                                                                         }
                                                                     })
                                                                 }}

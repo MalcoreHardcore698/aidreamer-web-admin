@@ -97,6 +97,7 @@ export default ({ status=false, article, close }) => {
 
             {(status) && <Select options={{
                 value: article.status,
+                placeholder: 'Choose status',
                 options: [
                     { value: 'MODERATION', label: 'MODERATION' },
                     { value: 'PUBLISHED', label: 'PUBLISHED' }

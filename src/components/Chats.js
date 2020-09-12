@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -19,14 +18,11 @@ import AddChat from './content/AddChat'
 import EditChat from './content/EditChat'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import { GET_ALL_CHATS, SUB_ALL_CHATS, DELETE_CHATS } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -59,13 +55,13 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Chat',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_CHATS}
+                                                                entries={table.filter(t => t.checked)}
                                                                 handler={async (action, entry, docs) => {
                                                                     await action({
                                                                         variables: {

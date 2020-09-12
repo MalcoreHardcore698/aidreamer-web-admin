@@ -1,57 +1,83 @@
 import React, { useState } from 'react'
-import Mutation from '../ui/Mutation'
-import Container from '../ui/Container'
+import { useMutation } from '@apollo/react-hooks'
+import { useForm } from 'react-hook-form'
+import Query from '../ui/Query'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
+import List from '../ui/List'
+import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
-import { EDIT_HUB } from '../../utils/queries'
+import { GET_ALL_ICONS, EDIT_HUB } from '../../utils/queries'
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 export default ({ status=false, hub, close }) => {
-    const [title, setTitle] = useState(hub.title)
-    const [description, setDescription] = useState(hub.description)
-    const [slogan, setSlogan] = useState(hub.slogan)
-    const [color, setColor] = useState(hub.color)
-    // eslint-disable-next-line
-    const [icon, setIcon] = useState(hub.icon)
+    const [action, { loading }] = useMutation(EDIT_HUB)
+
+    const[image, setImage] = useState(hub.icon || {})
     const [_status, _setStatus] = useState(hub.status)
 
+    const { handleSubmit, register } = useForm()
+
+    const onSubmit = async (form) => {
+        const variables = {
+            id: hub._id,
+            title: form.title,
+            description: form.description,
+            slogan: form.slogan,
+            color: form.color
+        }
+
+        if (image) variables.icon = image.id
+        if (form.status) variables.status = form.status
+
+        await action({ variables })
+
+        close()
+    }
+
     return (
-        <Container type="fat">
+        <form className="fat" onSubmit={handleSubmit(onSubmit)}>
             <Input options={{
+                ref: register({ required: true }),
                 type: 'text',
-                value: title,
-                placeholder: 'Enter title',
-                onChange: (e) => {
-                    setTitle(e.target.value)
-                }
+                name: 'title',
+                defaultValue: hub.title || '',
+                disabled: loading,
+                placeholder: 'Enter title'
             }} />
-            <Input options={{
+            
+            <TextArea options={{
+                ref: register({ required: true }),
                 type: 'text',
-                value: description,
-                placeholder: 'Enter description',
-                onChange: (e) => {
-                    setDescription(e.target.value)
-                }
-            }} />
-            <Input options={{
-                value: slogan,
-                placeholder: 'Enter slogan',
-                onChange: (e) => {
-                    setSlogan(e.target.value)
-                }
+                name: 'description',
+                defaultValue: hub.description || '',
+                disabled: loading,
+                placeholder: 'Enter description'
             }} />
 
             <Input options={{
+                ref: register({ required: true }),
+                type: 'text',
+                name: 'slogan',
+                defaultValue: hub.slogan || '',
+                disabled: loading,
+                placeholder: 'Enter slogan'
+            }} />
+
+            <Input options={{
+                ref: register({ required: true }),
                 type: 'color',
-                value: color,
-                placeholder: 'Choose color',
-                onChange: (e) => {
-                    setColor(e.target.value)
-                }
+                name: 'slogan',
+                defaultValue: hub.color || '',
+                disabled: loading,
+                placeholder: 'Enter color'
             }} />
 
             {(status) && <Select options={{
                 defaultValue: { value: _status, label: _status },
+                placeholder: 'Choose status',
                 options: [
                     { value: 'MODERATION', label: 'MODERATION' },
                     { value: 'PUBLISHED', label: 'PUBLISHED' }
@@ -61,30 +87,32 @@ export default ({ status=false, hub, close }) => {
                 }
             }} />}
 
-            <Mutation query={EDIT_HUB}>
-                {({ action }) => (
-                    <Button options={{
-                        state: 'inactive',
-                        handler: async () => {
-                            const variables = {
-                                id: hub.id,
-                                title, description, slogan,
-                                status: 'PUBLISHED'
-                            }
-
-                            // if (icon) variables.icon = icon
-                            if (color) variables.color = color
-                            if (status) variables.status = _status.value
-
-                            await action({ variables })
-
-                            close()
-                        }
+            <Query query={GET_ALL_ICONS} pseudo={{ count: 1, height: 45 }}>
+                {({ data }) => (
+                    <List options={{
+                        type: 'grid',
+                        state: image,
+                        list: data.allIcons,
+                        handlerItem: setImage
                     }}>
-                        <p>Apply</p>
-                    </Button>
+                        {({ item }) => (
+                            <img
+                                className="image"
+                                src={(item.path).replace('./', `${api}/`)}
+                                alt="Hub"
+                            />
+                        )}
+                    </List>
                 )}
-            </Mutation>
-        </Container>
+            </Query>
+
+            <Button options={{
+                type: 'submit',
+                state: 'inactive',
+                classNames: 'grow'
+            }}>
+                <p>Save</p>
+            </Button>
+        </form>
     )
 }

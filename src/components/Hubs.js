@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -19,14 +18,11 @@ import AddHub from './content/AddHub'
 import EditHub from './content/EditHub'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import { GET_ALL_HUBS, SUB_ALL_HUBS, DELETE_HUBS } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -45,10 +41,10 @@ export default ({ showModal }) => {
                                     data: ((subData && subData.hubs) || data.allHubs),
                                     dataTable: ((subData && subData.hubs) || data.allHubs).map(hub => ([
                                         { header: 'ID', value: hub.id, type: 'text', visible: false },
+                                        { header: 'Иконка', value: hub.icon.path, type: 'icon' },
                                         { header: 'Заголовок', value: hub.title, type: 'text' },
                                         { header: 'Описание', value: hub.description, type: 'text' },
                                         { header: 'Слоган', value: hub.slogan, type: 'text', visible: false },
-                                        { header: 'Иконка', value: hub.icon.path, type: 'img', visible: false },
                                         { header: 'Цвет', value: hub.color, type: 'color' },
                                         { header: 'Пользователи', value: hub.countUsers, type: 'text', visible: false },
                                         { header: 'Статус', value: hub.status, type: 'text' },
@@ -62,13 +58,13 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Article?',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_HUBS}
+                                                                entries={table.filter(t => t.checked)}
                                                                 handler={async (action, entry, docs) => {
                                                                     await action({
                                                                         variables: {

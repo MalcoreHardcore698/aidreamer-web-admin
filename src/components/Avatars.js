@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -19,14 +18,11 @@ import AddAvatar from './content/AddAvatar'
 import EditAvatar from './content/EditAvatar'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
-import { GET_ALL_AVATARS, SUB_ALL_AVATARS, DELETE_ICONS } from '../utils/queries'
+import { GET_ALL_AVATARS, SUB_ALL_AVATARS, DELETE_AVATARS } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -45,7 +41,7 @@ export default ({ showModal }) => {
                                     data: ((subData && subData.avatars) || data.allAvatars),
                                     dataTable: ((subData && subData.avatars) || data.allAvatars).map(avatar => ([
                                         { header: 'ID', value: avatar.id, type: 'text', visible: false },
-                                        { header: 'Изображение', value: avatar.path, type: 'img' },
+                                        { header: 'Изображение', value: avatar.path, type: 'icon' },
                                         { header: 'Порядок', value: avatar.order, type: 'text' },
                                         { header: 'Название', value: avatar.name, type: 'text', visible: false },
                                         { header: 'Путь', value: avatar.path, type: 'text', visible: false },
@@ -61,14 +57,14 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Avatar',
                                                             component: ({ close }) => <DeleteEntries
-                                                                query={DELETE_ICONS}
-                                                                handler={async (action, entry, docs) => {
+                                                                query={DELETE_AVATARS}
+                                                                entries={table.filter(t => t.checked)}
+                                                                handler={async (action, entry, entries) => {
                                                                     await action({
                                                                         variables: {
                                                                             id: (entry)
@@ -76,10 +72,7 @@ export default ({ showModal }) => {
                                                                                     id: entry.id,
                                                                                     user: entry.user.id
                                                                                 }]
-                                                                                : docs.map(doc => ({
-                                                                                    id: doc.id,
-                                                                                    user: doc.user.id
-                                                                                }))
+                                                                                : entries.map(ent => ent._id)
                                                                         }
                                                                     })
                                                                 }}

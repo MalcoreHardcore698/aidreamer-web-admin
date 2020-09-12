@@ -94,6 +94,7 @@ export default ({ user=false, status=false, offer, close }) => {
                     <Select options={{
                         name: 'users',
                         value: _user,
+                        placeholder: 'Choose user',
                         options: data.allUsers.map(u => ({
                             value: u.id,
                             label: u.name
@@ -108,6 +109,7 @@ export default ({ user=false, status=false, offer, close }) => {
             {(status) && <Select options={{
                 name: 'status',
                 value: _status,
+                placeholder: 'Choose status',
                 options: [
                     { value: 'MODERATION', label: 'MODERATION' },
                     { value: 'PUBLISHED', label: 'PUBLISHED' }

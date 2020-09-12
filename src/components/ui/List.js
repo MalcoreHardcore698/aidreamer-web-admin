@@ -13,13 +13,14 @@ export default (props) => {
 
     const {
         list,
+        type,
         state={},
         handler,
         handlerItem,
     } = props.options || {}
 
     const classes = [
-        'ui-list',
+        'ui-list', type,
         (handler) ? ' clickable' : ''
     ]
 

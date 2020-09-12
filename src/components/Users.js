@@ -5,7 +5,6 @@ import {
     faPlus,
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 import Moment from 'react-moment'
 
 import Query from './ui/Query'
@@ -19,14 +18,11 @@ import AddUser from './content/AddUser'
 import EditUser from './content/EditUser'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import { GET_ALL_USERS, SUB_ALL_USERS, DELETE_USERS } from '../utils/queries'
 
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-    
     return (
         <main className="dashboard">
             <aside>
@@ -44,7 +40,7 @@ export default ({ showModal }) => {
                                 <Table options={{
                                     data: ((subData && subData.users) || data.allUsers),
                                     dataTable: ((subData && subData.users) || data.allUsers).map(user => ([
-                                        { header: 'Аватар', value: user.avatar.path, type: 'img', visible: false },
+                                        { header: 'Аватар', value: user.avatar.path, type: 'icon' },
                                         { header: 'Имя', value: user.name, type: 'text' },
                                         { header: 'Email', value: user.email, type: 'text' },
                                         { header: 'Роль', value: user.role.name, type: 'text' },
@@ -58,13 +54,13 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Article?',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_USERS}
+                                                                entries={table.filter(t => t.checked)}
                                                                 handler={async (action, entry, docs) => {
                                                                     await action({
                                                                         variables: {
@@ -77,7 +73,7 @@ export default ({ showModal }) => {
                                                                 close={close}
                                                             />
                                                         }
-                                                    ])
+                                                    ], true)
                                                 }
                                             }}>
                                                 <FontAwesomeIcon icon={faTrash} />

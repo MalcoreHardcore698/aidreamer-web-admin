@@ -95,6 +95,7 @@ export default ({ user=false, close }) => {
                 {({ data }) => (
                    <Select options={{
                         defaultValue: role,
+                        placeholder: 'Choose role',
                         options: data.allRoles.map(role => ({
                             value: role.id, label: role.name
                         })),

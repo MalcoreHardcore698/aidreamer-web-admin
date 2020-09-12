@@ -369,6 +369,7 @@ export default ({ options }) => {
 
             setTable(content.map((trace, i) => ({
                 ...data[i],
+                _id: data[i].id,
                 id: i,
                 data: trace.map((cell, j) => ({
                     id: `cell-${i}-${j}`,

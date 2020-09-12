@@ -1,14 +1,12 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import Mutation from '../ui/Mutation'
 import Row from '../ui/Row'
 import Container from '../ui/Container'
 import Message from '../ui/Message'
 import Button from '../ui/Button'
 
-export default ({ entry, query, handler, close }) => {
-    const state = useSelector(state => state)
-    const docs = (entry) ? 'this' : state.documents.length
+export default ({ entry, entries, query, handler, close }) => {
+    const docs = (entry) ? 'this' : entries.length
     const ents = (docs > 1 && !entry) ? 'entries' : 'entry'
 
     return (
@@ -31,7 +29,7 @@ export default ({ entry, query, handler, close }) => {
                             classNames: 'grow',
                             disabled: loading,
                             handler: async () => {
-                                await handler(action, entry, state.documents)
+                                await handler(action, entry, entries)
                                 close()
                             }
                         }}>

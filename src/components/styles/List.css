@@ -10,6 +10,11 @@
     transition: var(--transition);
 }
 
+.ui-list.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(64px, 64px));
+}
+
 .ui-list .ui-item {
     transition: var(--transition);
 }
@@ -27,6 +32,11 @@
     color: var(--color-accent) !important;
 }
 
+.ui-list.grid .ui-item.checked {
+    background: var(--color-accent) !important;
+    border-radius: var(--br-main) !important;
+}
+
 .ui-item {
     display: grid;
     grid-template-columns: 32px 1fr max-content;
@@ -40,11 +50,23 @@
     cursor: pointer;
 }
 
+.ui-list.grid .ui-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+}
+
 .ui-item .avatar img {
     border-radius: 50%;
     width: 25px;
     height: 25px;
     overflow: hidden;
+}
+
+.ui-list.grid .ui-item .image {
+    width: 30px;
 }
 
 .ui-item .name {

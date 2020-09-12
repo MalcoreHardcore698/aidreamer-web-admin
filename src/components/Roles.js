@@ -1,5 +1,4 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faPen,
@@ -19,7 +18,6 @@ import EditRole from './content/EditRole'
 import AddRole from './content/AddRole'
 import DeleteEntries from './content/DeleteEntries'
 
-import { setDocuments } from '../utils/actions'
 import {
     GET_ALL_ROLES,
     DELETE_ROLES,
@@ -29,8 +27,6 @@ import {
 import './styles/Table.css'
 
 export default ({ showModal }) => {
-    const dispatch = useDispatch()
-
     return (
         <main className="dashboard">
             <aside>
@@ -59,13 +55,13 @@ export default ({ showModal }) => {
                                                 disabled: dishands,
                                                 classNames: 'stretch',
                                                 handler: () => {
-                                                    dispatch(setDocuments(table.filter(t => t.checked)))
                                                     showModal([
                                                         {
                                                             path: '/',
                                                             title: 'Delete Role?',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_ROLES}
+                                                                entries={table.filter(t => t.checked)}
                                                                 handler={async (action, entry, docs) => {
                                                                     await action({
                                                                         variables: {

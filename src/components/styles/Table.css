@@ -57,10 +57,10 @@
     padding: 5px;
 }
 
-.ui-table .trace .cell.hub img {
+.ui-table .trace .cell .icon {
     object-fit: contain;
-    width: 14px;
-    filter: brightness(0.75);
+    width: 64px;
+    border-radius: 5px;
 }
 
 .ui-table .table .checkmark {
