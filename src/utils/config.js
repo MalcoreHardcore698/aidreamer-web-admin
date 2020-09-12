@@ -1,7 +1,7 @@
 export const config = {
     proxy: {
-        api: 'http://localhost:5000',
-        apiWs: 'ws://localhost:5000',
+        api: 'http://api.aidreamer.com',
+        apiWs: 'ws://api.aidreamer.com'
     },
     get: (key) => {
         return config.proxy[key]
