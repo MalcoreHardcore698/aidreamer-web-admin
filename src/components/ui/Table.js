@@ -287,7 +287,7 @@ const Cell = ({ cell, iter }) => {
             {(cell.type === 'icon') &&
                 <img className="icon" src={(cell.value).replace('./', `${api}/`)} alt={cell.value} />}
             {(cell.type === 'hub') &&
-                <img className="hub" src={`http://localhost:5000${cell.value.replace('./', '/')}`} alt={cell.value} />}
+                <img className="hub" src={`${api}${cell.value.replace('./', '/')}`} alt={cell.value} />}
         </div>
     )
 }
