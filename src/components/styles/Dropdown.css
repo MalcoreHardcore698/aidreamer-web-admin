@@ -3,11 +3,9 @@
     top: 50px;
     right: 0;
     z-index: var(--z-twenty);
-    border: var(--border-main);
     border-radius: var(--br-main);
     box-shadow: var(--bs-main);
     background: white;
-    padding: 10px;
     width: max-content;
 }
 

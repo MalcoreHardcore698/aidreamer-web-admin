@@ -4,7 +4,6 @@
  * MISSION: ...
  *
 **/
-
 import React from 'react'
 import Message from './Message'
 import '../styles/Toggler.css'
@@ -22,16 +21,24 @@ export default ({ options }) => {
         type
     ]
 
+    const classesToggle = (target) => [
+        'toggle',
+        (target?.classNames),
+        (target.type === state) ? ' active' : ''
+    ]
+
     const handlerState = (target) => {
+        if (target === 'erase')
+            return null
         handler(target)
     }
 
     return (
         <div className={classes.join(' ')}>
-            {targets.map((target, key) =>
+            {targets.filter(t => t).map((target, key) =>
                 <div
                     key={key}
-                    className={`toggle${(target.type === state) ? ' active' : ''}`}
+                    className={classesToggle(target).join(' ')}
                     onClick={() => handlerState(target.type)}
                 >
                     {target.value}

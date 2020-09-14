@@ -27,6 +27,13 @@ export function setChat(chat) {
     }
 }
 
+export function setCurrentHub(hub) {
+    return {
+        type: C.SET_CURRENT_HUB,
+        payload: hub
+    }
+}
+
 export function closeChat(chatId) {
     return {
         type: C.CLOSE_CHAT,

@@ -60,10 +60,23 @@ export function tableReducer(state=[], { type, payload }) {
     }
 }
 
+export function filtersReducer(state={}, { type, payload }) {
+    switch(type) {
+        case C.SET_CURRENT_HUB:
+            return {
+                ...state,
+                currentHub: payload
+            }
+        default:
+            return state
+    }
+}
+
 export const reducers = combineReducers({
     user: userReducer,
     chat: chatReducer,
     document: documentReducer,
     documents: documentsReducer,
-    table: tableReducer
+    table: tableReducer,
+    filters: filtersReducer
 })

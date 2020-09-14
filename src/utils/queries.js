@@ -475,6 +475,7 @@ export const SUB_MESSAGES = gql`
 export const OPEN_USER_CHAT = gql`
     mutation openUserChat(
         $name: String!
+        $type: ChatType!
     ) {
         openUserChat(
             name: $name
@@ -533,6 +534,11 @@ export const SUB_NOTIFICATIONS = gql`
         notifications {
             id
             text
+            user {
+                avatar {
+                    path
+                }
+            }
             createdAt
         }
     }
@@ -543,6 +549,11 @@ export const GET_USER_NOTIFICATIONS = gql`
         allUserNotifications {
             id
             text
+            user {
+                avatar {
+                    path
+                }
+            }
             createdAt
         }
     }
@@ -672,6 +683,7 @@ export const GET_USER_ARTICLES = gql`
             hub {
                 id
                 title
+                color
             }
             author {
                 id
@@ -709,10 +721,14 @@ export const GET_ALL_ARTICLES = gql`
             hub {
                 id
                 title
+                color
             }
             author {
                 id
                 name
+                avatar {
+                    path
+                }
             }
             status
             updatedAt
@@ -751,10 +767,14 @@ export const SUB_USER_ARTICLES = gql`
             hub {
                 id
                 title
+                color
             }
             author {
                 id
                 name
+                avatar {
+                    path
+                }
             }
             updatedAt
             createdAt
@@ -792,6 +812,7 @@ export const SUB_ARTICLES = gql`
             hub {
                 id
                 title
+                color
             }
             author {
                 id
@@ -830,6 +851,7 @@ export const GET_ARTICLE = gql`
             hub {
                 id
                 title
+                color
             }
             source
             url
@@ -942,10 +964,14 @@ export const GET_USER_OFFERS = gql`
             user {
                 id
                 name
+                avatar {
+                    path
+                }
             }
             hub {
                 id
                 title
+                color
             }
             status
             updatedAt
@@ -967,10 +993,14 @@ export const SUB_USER_OFFERS = gql`
             user {
                 id
                 name
+                avatar {
+                    path
+                }
             }
             hub {
                 id
                 title
+                color
             }
             status
             updatedAt
@@ -988,10 +1018,14 @@ export const GET_ALL_OFFERS = gql`
             user {
                 id
                 name
+                avatar {
+                    path
+                }
             }
             hub {
                 id
                 title
+                color
             }
             status
             updatedAt
@@ -1013,10 +1047,14 @@ export const SUB_ALL_OFFERS = gql`
             user {
                 id
                 name
+                avatar {
+                    path
+                }
             }
             hub {
                 id
                 title
+                color
             }
             status
             updatedAt

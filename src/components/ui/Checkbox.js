@@ -13,6 +13,7 @@ import '../styles/Checkbox.css'
 export default ({ options }) => {
     const {
         type,
+        state=[],
         list=[],
         handler
     } = options || {}
@@ -23,23 +24,21 @@ export default ({ options }) => {
     ]
 
     const handlerChecked = (item) => {
-        handler(list.map(el => (el.id === item.id)
-        ? ({
-            ...el,
-            checked: !el.checked
-        }) : ({
-            ...el
-        })))
+        const founded = state.find(el => el.id === item.id)
+        handler((founded)
+            ? state.filter(el => el.id !== item.id)
+            : ([ ...state, item ])
+        )
     }
 
     return (
         <ul className={classes.join(' ')}>
             {list.map((item, key) =>
-                <li key={key} onClick={() => handlerChecked(item)} className={(item.checked) ? 'checked' : 'empty'}>
+                <li key={key} onClick={() => handlerChecked(item)} className={(state.find(el => el.id === item.id)) ? 'checked' : 'empty'}>
                     <div className="checkmark">
                         <FontAwesomeIcon icon={faCheck} />
                     </div>
-                    <p>{item.value}</p>
+                    <p>{item.title}</p>
                 </li>    
             )}
         </ul>

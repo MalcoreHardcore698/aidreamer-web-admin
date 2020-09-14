@@ -1,22 +1,17 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useForm } from 'react-hook-form'
-import Row from '../ui/Row'
-import Query from '../ui/Query'
 import Alert from '../ui/Alert'
 import Input from '../ui/Input'
 import Button from '../ui/Button'
-import Toggler from '../ui/Toggler'
+import HubToggler from '../ui/HubToggler'
 import Dropzone from '../ui/Dropzone'
-import { GET_ALL_HUBS, ADD_AVATAR } from '../../utils/queries'
-import { config } from '../../utils/config'
-
-const api = config.get('api')
+import { ADD_AVATAR } from '../../utils/queries'
 
 export default ({ close }) => {
     const [action, { loading }] = useMutation(ADD_AVATAR)
 
-    const[hub, setHub] = useState(null)
+    const[hub, setHub] = useState({})
     const[image, setImage] = useState(null)
 
     const { handleSubmit, register, errors } = useForm()
@@ -27,7 +22,7 @@ export default ({ close }) => {
             order: parseInt(form.order),
             complexity: parseInt(form.complexity),
             file: image,
-            hub
+            hub: hub.id
         }
 
         await action({ variables })
@@ -63,27 +58,10 @@ export default ({ close }) => {
                 setImage
             }} />
 
-            <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
-                {({ data }) => (
-                    <Toggler options={{
-                        type: 'auto',
-                        state: hub,
-                        handler: setHub,
-                        targets: (data && data.allHubs).map((hub, key) => ({
-                            type: hub.id,
-                            value: (
-                                <Row key={key}>
-                                    {(hub.icon && hub.icon.path) &&
-                                    <div className="icon">
-                                        <img src={(hub.icon.path).replace('./', `${api}/`)} alt={hub.title} />
-                                    </div>}
-                                    <p>{hub.title}</p>
-                                </Row>
-                            )}))
-                        }}
-                    />
-                )}
-            </Query>
+            <HubToggler override={{
+                state: hub,
+                handler: setHub
+            }} />
 
             <Button options={{
                 type: 'submit',

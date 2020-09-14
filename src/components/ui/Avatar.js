@@ -7,6 +7,9 @@
 
 import React from 'react'
 import '../styles/Avatar.css'
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 export default ({ avatar, properties=[] }) => {
     const classes = [
@@ -16,7 +19,7 @@ export default ({ avatar, properties=[] }) => {
 
     return (
         <div className={classes.join(' ')}>
-            <img src={avatar?.path} alt="Avatar" />
+            <img src={(avatar?.path || '').replace('./', `${api}/`)} alt="Avatar" />
         </div>
     )
 }

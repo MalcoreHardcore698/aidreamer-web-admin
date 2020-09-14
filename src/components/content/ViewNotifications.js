@@ -5,6 +5,7 @@ import Query from './../ui/Query'
 import Subscription from './../ui/Subscription'
 import Message from './../ui/Message'
 import List from './../ui/List'
+import Avatar from '../ui/Avatar'
 
 import {
     GET_USER_NOTIFICATIONS,
@@ -28,9 +29,7 @@ export default () => {
                                 <List options={{ list: notifications }}>
                                     {({ item }) => (
                                         <React.Fragment>
-                                            <p className="avatar">
-                                                <img src={item.img} alt="User" />
-                                            </p>
+                                            <Avatar avatar={{ path: item?.user?.avatar?.path }} properties={['circle']} />
                                             <p className="name">{item.text}</p>
                                             <p className="date">
                                                 <Moment date={new Date(new Date().setTime(item.createdAt))} format="h:m" />

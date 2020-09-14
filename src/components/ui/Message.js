@@ -14,6 +14,6 @@ export default ({ text, padding }) => {
         <p
             className="ui-message"
             style={{ padding: (padding) ? 15 : 0 }}
-        >{text}</p>
+        >{text || 'Undefined'}</p>
     )
 }

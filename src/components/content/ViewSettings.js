@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react'
+import { useMutation } from '@apollo/react-hooks'
+import { useForm } from 'react-hook-form'
 import { useSelector, useDispatch } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
@@ -8,47 +10,118 @@ import {
     faQuestion
 } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from '../AuthContext'
-
 import Container from './../ui/Container'
 import Row from './../ui/Row'
+import Alert from './../ui/Alert'
+import Query from './../ui/Query'
+import Avatar from './../ui/Avatar'
 import Button from './../ui/Button'
 import List from './../ui/List'
+import Checkbox from './../ui/Checkbox'
 import Input from './../ui/Input'
 import TextArea from './../ui/TextArea'
 import Divider from './../ui/Divider'
-
 import { setUser } from '../../utils/actions'
-
 import EnglishFlagIcon from '../../assets/icons/united-kingdom.svg'
 import RussianFlagIcon from '../../assets/icons/russia.svg'
 import BelarusFlagIcon from '../../assets/icons/belarus.svg'
+import { EDIT_USER, GET_ALL_HUBS, GET_ALL_AVATARS } from '../../utils/queries'
+
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 export const SettingsEditProfileContent = ({ jump }) => {
+    const [action, { loading }] = useMutation(EDIT_USER)
     const state = useSelector(state => state)
-    const [disabled, setDisabled] = useState(true)
 
-    const user = state.user
+    const [disabled, setDisabled] = useState(true)
+    const [avatar, setAvatar] = useState('')
+    const [hubs, setHubs] = useState(state.user.preferences)
+
+    const { handleSubmit, register, errors } = useForm()
+    const onSubmit = async (form) => {
+        const variables = {
+            name: state.user.name,
+            phone: form.phone
+        }
+
+        if (avatar) variables.avatar = avatar.id
+
+        await action({ variables })
+
+        jump('/')
+    }
 
     return (
-        <Container>
+        <form className="fat" onSubmit={handleSubmit(onSubmit)}>
+            {(errors.avatar || errors.name) && <Alert type="error" message={
+                (errors.avatar.message) || (errors.name.message)
+            } />}
+
+            <p className="ui-title">General</p>
             <Input options={{
                 type: 'text',
                 name: 'name',
-                value: user.name,
-                onChange: () => {
-                    setDisabled(false)
-                }
+                defaultValue: state.user.name || '',
+                disabled: true,
+                placeholder: 'Enter name'
             }} />
+
+            <Input options={{
+                ref: register(),
+                type: 'number',
+                name: 'phone',
+                defaultValue: state.user.phone || '',
+                disabled: loading,
+                placeholder: 'Enter phone'
+            }} />
+
+            <p className="ui-title">Avatar</p>
+            <Query query={GET_ALL_AVATARS} pseudo={{ count: 1, height: 45 }}>
+                {({ data }) => (
+                    <List options={{
+                        type: 'grid',
+                        state: avatar || state.user.avatar,
+                        list: data.allAvatars,
+                        handlerItem: setAvatar
+                    }}>
+                        {({ item }) => (
+                            <img
+                                className="image"
+                                src={(item.path).replace('./', `${api}/`)}
+                                alt="Hub"
+                            />
+                        )}
+                    </List>
+                )}
+            </Query>
+
+            <p className="ui-title">Preferences</p>
+            <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
+                {({ data }) => (
+                    <Checkbox options={{
+                        type: 'grid',
+                        state: hubs,
+                        list: data.allHubs,
+                        handler: (items) => {
+                            setHubs(items)
+                            if (items.length > 2)
+                                setDisabled(false)
+                        }
+                    }} />
+                )}
+            </Query>
+
             <Button options={{
+                type: 'submit',
                 state: 'inactive',
                 classNames: 'grow',
-                disabled, handler: () => {
-                    jump('/privacy-and-security')
-                }
+                disabled: (disabled) || (loading)
             }}>
-                <p>Save Changes</p>
+                <p>Save</p>
             </Button>
-        </Container>
+        </form>
     )
 }
 
@@ -169,9 +242,7 @@ export const SettingsLanguageContent = ({ back }) => {
             }}>
                 {({ item }) => (
                     <React.Fragment>
-                        <p className="avatar">
-                            <img src={item.icon} alt="User" />
-                        </p>
+                        <Avatar avatar={{ path: item.icon }} />
                         <p className="name">{item.label}</p>
                     </React.Fragment>
                 )}

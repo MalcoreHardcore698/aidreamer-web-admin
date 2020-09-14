@@ -14,7 +14,7 @@
     align-items: center;
 
     position: relative;
-    z-index: var(--z-ninetynine);
+    z-index: var(--z-primary);
 
     font-weight: 600;
     font-size: 14px;

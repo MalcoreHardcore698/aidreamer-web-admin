@@ -18,14 +18,15 @@
     opacity: .75;
 }
 
-.ui-unit .avatar,
+.ui-unit .ui-avatar,
 .ui-unit .content,
 .ui-unit .ui-counter-badge {
     align-self: center;
+    line-height: 1.25;
 }
 
 
-.ui-unit .image {
+.ui-unit .ui-avatar {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -33,13 +34,13 @@
     box-shadow: var(--bx-main);
     border-radius: var(--br-main);
     border: var(--border-main);
+    width: 100%;
+    height: 100%;
 }
 
-.ui-unit .image img {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    object-fit: cover;
+.ui-unit .content {
+    position: relative;
+    top: -3px;
 }
 
 .ui-unit .content .name {

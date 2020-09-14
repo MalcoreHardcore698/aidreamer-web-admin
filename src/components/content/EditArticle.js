@@ -1,24 +1,19 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useForm } from 'react-hook-form'
-import Row from '../ui/Row'
-import Query from '../ui/Query'
 import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
 import Dropzone from '../ui/Dropzone'
-import Toggler from '../ui/Toggler'
-import { GET_ALL_HUBS, EDIT_ARTICLE } from '../../utils/queries'
-import { config } from '../../utils/config'
-
-const api = config.get('api')
+import HubToggler from '../ui/HubToggler'
+import { EDIT_ARTICLE } from '../../utils/queries'
 
 export default ({ status=false, article, close }) => {
     const [action, { loading }] = useMutation(EDIT_ARTICLE)
 
-    const[hub, setHub] = useState(article.hub.id)
+    const[hub, setHub] = useState(article.hub)
     const[image, setImage] = useState(null)
 
     const { handleSubmit, register, errors } = useForm()
@@ -29,7 +24,8 @@ export default ({ status=false, article, close }) => {
             id: article.id,
             title: form.title,
             description: form.description,
-            body: form.body, hub
+            body: form.body,
+            hub: hub.id
         }
 
         if (image) variables.image = image
@@ -73,27 +69,10 @@ export default ({ status=false, article, close }) => {
                 placeholder: 'Enter body'
             }} />
 
-            <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
-                {({ data }) => (
-                    <Toggler options={{
-                        type: 'auto',
-                        state: hub || article.hub.id,
-                        handler: setHub,
-                        targets: (data && data.allHubs).map((hub, key) => ({
-                            type: hub.id,
-                            value: (
-                                <Row key={key}>
-                                    {(hub.icon && hub.icon.path) &&
-                                    <div className="icon">
-                                        <img src={(hub.icon.path).replace('./', `${api}/`)} alt={hub.title} />
-                                    </div>}
-                                    <p>{hub.title}</p>
-                                </Row>
-                            )}))
-                        }}
-                    />
-                )}
-            </Query>
+            <HubToggler override={{
+                state: hub,
+                handler: setHub
+            }} />
 
             {(status) && <Select options={{
                 value: article.status,

@@ -59,7 +59,7 @@
     grid-gap: 15px;
 }
 
-.ui-modal .wrapper .content > p {
+.ui-modal .wrapper .content > p:not(.tag) {
     margin-block-start: 10px;
 }
 

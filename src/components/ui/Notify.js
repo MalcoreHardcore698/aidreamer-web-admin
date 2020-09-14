@@ -13,6 +13,9 @@ import {
     faTimes
 } from '@fortawesome/free-solid-svg-icons'
 import '../styles/Notify.css'
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 export default ({ options }) => {
     const {
@@ -44,7 +47,7 @@ export default ({ options }) => {
             case 'admin':
                 return <FontAwesomeIcon icon={getIcon()} />
             default:
-                return <img src={avatar} alt="Avatar" />
+                return <img src={(avatar).replace('./', `${api}/`)} alt="Avatar" />
         }
     }
 

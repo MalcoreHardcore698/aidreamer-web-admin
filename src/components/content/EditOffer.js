@@ -2,24 +2,20 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
-import Row from '../ui/Row'
 import Query from '../ui/Query'
 import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
 import Select from '../ui/Select'
-import Toggler from '../ui/Toggler'
-import { GET_ALL_HUBS, GET_ALL_USERS, EDIT_OFFER } from '../../utils/queries'
-import { config } from '../../utils/config'
-
-const api = config.get('api')
+import HubToggler from '../ui/HubToggler'
+import { GET_ALL_USERS, EDIT_OFFER } from '../../utils/queries'
 
 export default ({ user=false, status=false, offer, close }) => {
     const state = useSelector(state => state)
     const [action, { loading }] = useMutation(EDIT_OFFER)
 
-    const[hub, setHub] = useState(offer.hub.id)
+    const[hub, setHub] = useState(offer.hub)
     const [_user, _setUser] = useState(offer.user.id)
     const [_status, _setStatus] = useState(offer.status)
 
@@ -31,7 +27,8 @@ export default ({ user=false, status=false, offer, close }) => {
             id: offer.id,
             title: form.title,
             message: form.message,
-            hub, user: state.user.id,
+            hub: hub.id,
+            user: state.user.id,
             status: 'PUBLISHED'
         }
 
@@ -67,27 +64,10 @@ export default ({ user=false, status=false, offer, close }) => {
                 placeholder: 'Enter message'
             }} />
 
-            <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
-                {({ data }) => (
-                    <Toggler options={{
-                        type: 'auto',
-                        state: hub,
-                        handler: setHub,
-                        targets: (data && data.allHubs).map((hub, key) => ({
-                            type: hub.id,
-                            value: (
-                                <Row key={key}>
-                                    {(hub.icon && hub.icon.path) &&
-                                    <div className="icon">
-                                        <img src={(hub.icon.path).replace('./', `${api}/`)} alt={hub.title} />
-                                    </div>}
-                                    <p>{hub.title}</p>
-                                </Row>
-                            )}))
-                        }}
-                    />
-                )}
-            </Query>
+            <HubToggler override={{
+                state: hub,
+                handler: setHub
+            }} />
 
             {(user) && <Query query={GET_ALL_USERS}>
                 {({ data }) => (

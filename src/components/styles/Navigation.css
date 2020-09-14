@@ -193,6 +193,17 @@
     grid-template-columns: 25px 1fr;
 }
 
+.ui-navigation .block a .undefined {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 50%;
+    transform: scale(1.45) translateX(10px);
+}
+
 @media only screen and (max-width: 545px) {
     .ui-navigation .block {
         grid-gap: 10px;

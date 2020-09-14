@@ -4,6 +4,11 @@
     grid-gap: 10px;
 }
 
+.ui-checkbox.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+}
+
 .ui-checkbox li {
     display: flex;
     align-items: center;

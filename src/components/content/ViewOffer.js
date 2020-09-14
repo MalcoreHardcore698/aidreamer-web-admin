@@ -22,6 +22,7 @@ export default ({ offer }) => {
                     ]
                 }
             }}>
+                <p className="tag" style={{ background: offer.hub.color }}>{offer.hub.title}</p>
                 <h2 className="title">{offer.title}</h2>
                 <p>{offer.message}</p>
                 <p>Hub: {offer.hub.title}</p>

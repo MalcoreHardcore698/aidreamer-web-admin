@@ -65,7 +65,7 @@ const Table = ({
 }) => {
     return (
         <div className={`data ${name}`}>
-            <Descriptors
+            {/*<Descriptors
                 table={table}
                 setTable={setTable}
 
@@ -74,7 +74,7 @@ const Table = ({
 
                 headers={headers}
                 setHeaders={setHeaders}
-            />
+            />*/}
 
             <Pagination
                 max={max}
@@ -99,6 +99,7 @@ const Table = ({
     )
 }
 
+// eslint-disable-next-line
 const Descriptor = (props) => {
     const {
         size,
@@ -129,6 +130,7 @@ const Descriptor = (props) => {
     )
 }
 
+// eslint-disable-next-line
 const Descriptors = ({
     table,
     setTable,
@@ -181,6 +183,7 @@ const Descriptors = ({
                 icon={faEye}
             >
                 <Checkbox options={{
+                    state: headers,
                     list: headers,
                     handler: handlerVisible
                 }} />
@@ -398,7 +401,7 @@ export default ({ options }) => {
         if (table) {
             setHeaders(table[0]?.data.map((tr, i) => ({
                 id: i,
-                value: tr.header,
+                title: tr.header,
                 checked: tr.visible
             })))
         }

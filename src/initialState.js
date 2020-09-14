@@ -1,6 +1,10 @@
 export default {
     user: null,
+    chat: null,
     document: null,
     documents: [],
-    table: []
+    table: [],
+    filters: {
+        currentHub: 'all'
+    }
 }

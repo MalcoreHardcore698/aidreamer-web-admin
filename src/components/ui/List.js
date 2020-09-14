@@ -33,7 +33,7 @@ export default (props) => {
                 <div
                     key={key}
                     className={`ui-item${(state.id === item.id) ? ' checked' : ''}`}
-                    onClick={() => (handlerItem) && handlerItem(item)}
+                    onClick={() => (handlerItem) ? handlerItem(item) : null}
                 >
                     <Children item={item} />
                 </div>

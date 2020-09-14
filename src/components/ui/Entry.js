@@ -12,6 +12,9 @@ import Message from './Message'
 import Button from './Button'
 import Row from './Row'
 import '../styles/Entry.css'
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 const Manage = ({ manageOffset, handlerView, handlerEdit, handlerDelete }) => {
     return (
@@ -59,7 +62,11 @@ export default (props) => {
 
         return (
             <div className="user-bar">
-                <img className="avatar" src={userBar.avatar} alt="Avatar" />
+                <img
+                    className="avatar"
+                    src={(userBar.avatar || '').replace('./', `${api}/`)}
+                    alt="Avatar"
+                />
                 <p className={`content${(userBar.rightButton) ? ' top-offset' : ''}`}>
                     <span className="name">{userBar.name}</span>
                     <span className="status">{userBar.status}</span>
