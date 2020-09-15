@@ -2,12 +2,13 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useForm } from 'react-hook-form'
 import Query from '../ui/Query'
+import Row from '../ui/Row'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import List from '../ui/List'
 import TextArea from '../ui/TextArea'
-import Select from '../ui/Select'
-import { GET_ALL_ICONS, EDIT_HUB } from '../../utils/queries'
+import Toggler from '../ui/Toggler'
+import { GET_ALL_STATUS, GET_ALL_ICONS, EDIT_HUB } from '../../utils/queries'
 import { config } from '../../utils/config'
 
 const api = config.get('api')
@@ -75,17 +76,23 @@ export default ({ status=false, hub, close }) => {
                 placeholder: 'Enter color'
             }} />
 
-            {(status) && <Select options={{
-                defaultValue: { value: _status, label: _status },
-                placeholder: 'Choose status',
-                options: [
-                    { value: 'MODERATION', label: 'MODERATION' },
-                    { value: 'PUBLISHED', label: 'PUBLISHED' }
-                ],
-                onChange: (e) => {
-                    _setStatus(e.value)
-                }
-            }} />}
+            {(status) && <Query query={GET_ALL_STATUS}>
+                {({ data }) => (
+                    <Toggler options={{
+                        state: _status,
+                        handler: _setStatus,
+                        targets: [
+                            ...data.allStatus.map((item, key) => ({
+                                type: item,
+                                value: (
+                                    <Row key={key}>
+                                        <p>{item}</p>
+                                    </Row>
+                                )}))
+                        ]}}
+                    />
+                )}
+            </Query>}
 
             <Query query={GET_ALL_ICONS} pseudo={{ count: 1, height: 45 }}>
                 {({ data }) => (

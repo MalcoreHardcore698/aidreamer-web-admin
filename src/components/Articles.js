@@ -70,12 +70,12 @@ export default ({ showModal }) => {
                                                                         variables: {
                                                                             articles: (entry)
                                                                                 ? [{
-                                                                                    id: entry.id,
-                                                                                    author: entry.author.id
+                                                                                    id: entry._id,
+                                                                                    author: entry.author.name
                                                                                 }]
                                                                                 : docs.map(doc => ({
-                                                                                    id: doc.id,
-                                                                                    author: doc.author.id
+                                                                                    id: doc._id,
+                                                                                    author: doc.author.name
                                                                                 }))
                                                                         }
                                                                     })

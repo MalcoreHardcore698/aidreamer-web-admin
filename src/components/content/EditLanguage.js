@@ -1,18 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useForm } from 'react-hook-form'
+import Query from '../ui/Query'
 import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
-import { ADD_LANGUAGE } from '../../utils/queries'
+import List from '../ui/List'
+import { GET_ALL_FLAGS, EDIT_LANGUAGE } from '../../utils/queries'
+import { config } from '../../utils/config'
+
+const api = config.get('api')
 
 export default ({ language, close }) => {
-    const [action, { loading }] = useMutation(ADD_LANGUAGE)
+    const [action, { loading }] = useMutation(EDIT_LANGUAGE)
+
+    const [flag, setFlag] = useState(language.flag)
 
     const { handleSubmit, register, errors } = useForm()
     const onSubmit = async (form) => {
         const variables = {
-            code: form.code
+            id: language._id,
+            code: form.code,
+            title: form.title,
+            flag: flag.id
         }
 
         await action({ variables })
@@ -34,6 +44,34 @@ export default ({ language, close }) => {
                 disabled: loading,
                 placeholder: 'Enter code'
             }} />
+
+            <Input options={{
+                ref: register({ required: true }),
+                type: 'text',
+                name: 'title',
+                value: language.title,
+                disabled: loading,
+                placeholder: 'Enter title'
+            }} />
+
+            <Query query={GET_ALL_FLAGS} pseudo={{ count: 1, height: 45 }}>
+                {({ data }) => (
+                    <List options={{
+                        type: 'grid',
+                        state: flag,
+                        list: data.allFlags,
+                        handlerItem: setFlag
+                    }}>
+                        {({ item }) => (
+                            <img
+                                className="image"
+                                src={(item.path).replace('./', `${api}/`)}
+                                alt="Flag"
+                            />
+                        )}
+                    </List>
+                )}
+            </Query>
 
             <Button options={{
                 type: 'submit',

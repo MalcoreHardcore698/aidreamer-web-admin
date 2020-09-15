@@ -22,10 +22,7 @@ import Input from './../ui/Input'
 import TextArea from './../ui/TextArea'
 import Divider from './../ui/Divider'
 import { setUser } from '../../utils/actions'
-import EnglishFlagIcon from '../../assets/icons/united-kingdom.svg'
-import RussianFlagIcon from '../../assets/icons/russia.svg'
-import BelarusFlagIcon from '../../assets/icons/belarus.svg'
-import { EDIT_USER, GET_ALL_HUBS, GET_ALL_AVATARS } from '../../utils/queries'
+import { EDIT_USER, GET_ALL_HUBS, GET_ALL_LANGUAGES } from '../../utils/queries'
 
 import { config } from '../../utils/config'
 
@@ -78,24 +75,20 @@ export const SettingsEditProfileContent = ({ jump }) => {
             }} />
 
             <p className="ui-title">Avatar</p>
-            <Query query={GET_ALL_AVATARS} pseudo={{ count: 1, height: 45 }}>
-                {({ data }) => (
-                    <List options={{
-                        type: 'grid',
-                        state: avatar || state.user.avatar,
-                        list: data.allAvatars,
-                        handlerItem: setAvatar
-                    }}>
-                        {({ item }) => (
-                            <img
-                                className="image"
-                                src={(item.path).replace('./', `${api}/`)}
-                                alt="Hub"
-                            />
-                        )}
-                    </List>
+            <List options={{
+                type: 'grid',
+                state: avatar || state.user.avatar,
+                list: state.user.availableAvatars,
+                handlerItem: setAvatar
+            }}>
+                {({ item }) => (
+                    <img
+                        className="image"
+                        src={(item.path).replace('./', `${api}/`)}
+                        alt="Hub"
+                    />
                 )}
-            </Query>
+            </List>
 
             <p className="ui-title">Preferences</p>
             <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
@@ -220,33 +213,32 @@ export const SettingsQuestionContent = ({ back }) => {
 }
 
 export const SettingsLanguageContent = ({ back }) => {
-    const langs = [
-        { id: 0, icon: EnglishFlagIcon, label: 'English' },
-        { id: 1, icon: RussianFlagIcon, label: 'Русский' },
-        { id: 2, icon: BelarusFlagIcon, label: 'Белоруская' }
-    ]
-    const [checked, setChecked] = useState(langs[0])
+    const [checked, setChecked] = useState({})
     const [disabled, setDisabled] = useState(true)
 
     return (
         <Container>
             <Divider />
 
-            <List options={{
-                list: langs,
-                state: checked,
-                handlerItem: (item) => {
-                    setChecked(item)
-                    setDisabled(false)
-                }
-            }}>
-                {({ item }) => (
-                    <React.Fragment>
-                        <Avatar avatar={{ path: item.icon }} />
-                        <p className="name">{item.label}</p>
-                    </React.Fragment>
+            <Query query={GET_ALL_LANGUAGES}>
+                {({ data }) => (
+                    <List options={{
+                        list: data.allLanguages,
+                        state: checked,
+                        handlerItem: (item) => {
+                            setChecked(item)
+                            setDisabled(false)
+                        }
+                    }}>
+                        {({ item }) => (
+                            <React.Fragment>
+                                <Avatar avatar={{ path: item.flag.path }} />
+                                <p className="name">{item.title}</p>
+                            </React.Fragment>
+                        )}
+                    </List>
                 )}
-            </List>
+            </Query>
 
             <Button options={{
                 state: 'inactive',

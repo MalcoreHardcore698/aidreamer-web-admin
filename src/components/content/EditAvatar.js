@@ -33,11 +33,16 @@ export default ({ avatar, close }) => {
     return (
         <form className="fat" onSubmit={handleSubmit(onSubmit)}>
             {(errors.order || errors.complexity) && <Alert type="error" message={
-                (errors.order.message || errors.order.complexity)
+                (errors.order.message || errors.order.message)
             } />}
 
             <Input options={{
-                ref: register({ required: true }),
+                ref: register({
+                    required: true,
+                    pattern: {
+                        message: 'Order is required'
+                    }
+                }),
                 type: 'number',
                 name: 'order',
                 defaultValue: avatar.order || '',
@@ -46,7 +51,12 @@ export default ({ avatar, close }) => {
             }} />
             
             <Input options={{
-                ref: register({ required: true }),
+                ref: register({
+                    required: true,
+                    pattern: {
+                        message: 'Complexity is required'
+                    }
+                }),
                 type: 'number',
                 name: 'complexity',
                 defaultValue: avatar.complexity || '',

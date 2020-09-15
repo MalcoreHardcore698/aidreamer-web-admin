@@ -6,13 +6,13 @@ import Query from '../ui/Query'
 import Button from '../ui/Button'
 import Toggler from '../ui/Toggler'
 import Dropzone from '../ui/Dropzone'
-import { GET_ALL_HUBS, ADD_ICON } from '../../utils/queries'
+import { GET_ALL_HUBS, EDIT_ICON } from '../../utils/queries'
 import { config } from '../../utils/config'
 
 const api = config.get('api')
 
 export default ({ icon, close }) => {
-    const [action] = useMutation(ADD_ICON)
+    const [action] = useMutation(EDIT_ICON)
 
     const[hub, setHub] = useState(null)
     const[image, setImage] = useState(null)

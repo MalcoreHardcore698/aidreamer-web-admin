@@ -3,6 +3,8 @@
     overflow: hidden;
     width: var(--height-main);
     height: var(--height-main);
+    min-width: var(--height-main);
+    min-height: var(--height-main);
     justify-self: center;
 }
 

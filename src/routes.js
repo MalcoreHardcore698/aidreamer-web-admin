@@ -2,15 +2,15 @@ import React from 'react'
 import Home from './components/Home'
 import Users from './components/Users'
 import Articles from './components/Articles'
+import Acts from './components/Acts'
 import Offers from './components/Offers'
 import Hubs from './components/Hubs'
-// eslint-disable-next-line
 import Tours from './components/Tours'
 import Chats from './components/Chats'
 import Images from './components/Images'
 import Avatars from './components/Avatars'
 import Icons from './components/Icons'
-// eslint-disable-next-line
+import Flags from './components/Flags'
 import Pets from './components/Pets'
 import Roles from './components/Roles'
 import Languages from './components/Languages'
@@ -46,7 +46,6 @@ export default [
         path: '/chats',
         component: ({ showModal, hideModal }) => <Chats showModal={showModal} hideModal={hideModal} />
     },
-    /*
     {
         exact: true,
         path: '/tours',
@@ -54,10 +53,14 @@ export default [
     },
     {
         exact: true,
+        path: '/acts',
+        component: ({ showModal, hideModal }) => <Acts showModal={showModal} hideModal={hideModal} />
+    },
+    {
+        exact: true,
         path: '/pets',
         component: ({ showModal, hideModal }) => <Pets showModal={showModal} hideModal={hideModal} />
     },
-    */
     {
         exact: true,
         path: '/roles',
@@ -77,6 +80,11 @@ export default [
         exact: true,
         path: '/icons',
         component: ({ showModal, hideModal }) => <Icons showModal={showModal} hideModal={hideModal} />
+    },
+    {
+        exact: true,
+        path: '/flags',
+        component: ({ showModal, hideModal }) => <Flags showModal={showModal} hideModal={hideModal} />
     },
     {
         exact: true,

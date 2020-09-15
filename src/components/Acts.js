@@ -10,11 +10,11 @@ export default () => {
             <aside>
                 <Row type="flex sb">
                     <Headline>
-                        <span>Pets</span>
+                        <span>Acts</span>
                         <span>Manage</span>
                     </Headline>
                 </Row>
-                
+
                 <Message text="In Development" padding />
             </aside>
         </main>

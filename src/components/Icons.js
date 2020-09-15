@@ -58,7 +58,7 @@ export default ({ showModal }) => {
                                                     showModal([
                                                         {
                                                             path: '/',
-                                                            title: 'Delete Offer',
+                                                            title: 'Delete Icon',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_ICONS}
                                                                 entries={table.filter(t => t.checked)}

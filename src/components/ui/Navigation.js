@@ -22,18 +22,22 @@ export default ({ options }) => {
     ]
 
     const renderLinks = () => {
-        return links.map((link, key) => (
+        return links.map((group, key) => (
             <React.Fragment key={key}>
-                {(link.groupTitle) && <p className="title">{link.groupTitle}</p>}
-                <NavLink
-                    exact
-                    key={key}
-                    to={link.path}
-                    className={link.type}
-                    onClick={link.handler}
-                >
-                    {link.component}
-                </NavLink>
+                <p className="title">{group.title}</p>
+                <div className="links">
+                    {group.links.map((link, index) =>
+                        <NavLink
+                            exact
+                            key={index}
+                            to={link.path}
+                            className={link.type}
+                            onClick={link.handler}
+                        >
+                            {link.component}
+                        </NavLink>
+                    )}
+                </div>
             </React.Fragment>
         ))
     }

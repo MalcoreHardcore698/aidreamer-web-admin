@@ -7,17 +7,17 @@ import {
     faNewspaper,
     faAddressBook,
     faGamepad,
-    // eslint-disable-next-line
     faPaw,
     faEye,
     faImage,
     faGlobeAsia,
     faPaperPlane,
-    // eslint-disable-next-line
     faTrophy,
     faBell,
+    faRocket,
     faTheaterMasks,
     faIcons,
+    faFlag,
     faCog
 } from '@fortawesome/free-solid-svg-icons'
 import { AuthContext } from './AuthContext'
@@ -45,7 +45,7 @@ import '../assets/styles/App.css'
 function getButton(name, handler, routes, icon) {
     return ({
         options: {
-            type: 'large-round',
+            state: 'inactive',
             handler: () => handler(routes, true)
         },
         component: (
@@ -96,152 +96,184 @@ const Content = () => {
                 dashboard: true,
                 links: [
                     {
-                        path: '/',
-                        type: 'wide',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    {SVGLogo}
-                                </p>
-                                <p>Dashboard</p>
-                            </Row>
-                        )
+                        links: [
+                            {
+                                path: '/',
+                                type: 'wide',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            {SVGLogo}
+                                        </p>
+                                        <p>Dashboard</p>
+                                    </Row>
+                                )
+                            }
+                        ]
                     },
                     {
-                        path: '/users',
-                        groupTitle: 'Content',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faUsers} />
-                                </p>
-                                <p>Users</p>
-                            </Row>
-                        )
+                        title: 'Content',
+                        links: [
+                            {
+                                path: '/users',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faUsers} />
+                                        </p>
+                                        <p>Users</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/articles',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faNewspaper} />
+                                        </p>
+                                        <p>Articles</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/offers',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faAddressBook} />
+                                        </p>
+                                        <p>Offers</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/hubs',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faGamepad} />
+                                        </p>
+                                        <p>Hubs</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/chats',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faPaperPlane} />
+                                        </p>
+                                        <p>Chats</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/tours',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faTrophy} />
+                                        </p>
+                                        <p>Tours</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/pets',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faPaw} />
+                                        </p>
+                                        <p>Pets</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/acts',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faRocket} />
+                                        </p>
+                                        <p>Acts</p>
+                                    </Row>
+                                )
+                            }
+                        ]
                     },
                     {
-                        path: '/articles',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faNewspaper} />
-                                </p>
-                                <p>Articles</p>
-                            </Row>
-                        )
-                    },
-                    {
-                        path: '/offers',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faAddressBook} />
-                                </p>
-                                <p>Offers</p>
-                            </Row>
-                        )
-                    },
-                    {
-                        path: '/hubs',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faGamepad} />
-                                </p>
-                                <p>Hubs</p>
-                            </Row>
-                        )
-                    },
-                    {
-                        path: '/chats',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faPaperPlane} />
-                                </p>
-                                <p>Chats</p>
-                            </Row>
-                        )
-                    },
-                    /*
-                    {
-                        path: '/tours',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faTrophy} />
-                                </p>
-                                <p>Tours</p>
-                            </Row>
-                        )
-                    },
-                    {
-                        path: '/pets',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faPaw} />
-                                </p>
-                                <p>Pets</p>
-                            </Row>
-                        )
-                    },
-                    */
-                    {
-                        path: '/roles',
-                        groupTitle: 'Settings',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faEye} />
-                                </p>
-                                <p>Roles</p>
-                            </Row>
-                        )
-                    },
-                    {
-                        path: '/images',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faImage} />
-                                </p>
-                                <p>Images</p>
-                            </Row>
-                        )
-                    },
-                    {
-                        path: '/avatars',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faTheaterMasks} />
-                                </p>
-                                <p>Avatars</p>
-                            </Row>
-                        )
-                    },
-                    {
-                        path: '/icons',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faIcons} />
-                                </p>
-                                <p>Icons</p>
-                            </Row>
-                        )
-                    },
-                    {
-                        path: '/languages',
-                        component: (
-                            <Row>
-                                <p className="icon">
-                                    <FontAwesomeIcon icon={faGlobeAsia} />
-                                </p>
-                                <p>Languages</p>
-                            </Row>
-                        )
+                        title: 'Settings',
+                        links: [
+                            {
+                                path: '/roles',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faEye} />
+                                        </p>
+                                        <p>Roles</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/images',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faImage} />
+                                        </p>
+                                        <p>Images</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/avatars',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faTheaterMasks} />
+                                        </p>
+                                        <p>Avatars</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/icons',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faIcons} />
+                                        </p>
+                                        <p>Icons</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/flags',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faFlag} />
+                                        </p>
+                                        <p>Flags</p>
+                                    </Row>
+                                )
+                            },
+                            {
+                                path: '/languages',
+                                component: (
+                                    <Row>
+                                        <p className="icon">
+                                            <FontAwesomeIcon icon={faGlobeAsia} />
+                                        </p>
+                                        <p>Languages</p>
+                                    </Row>
+                                )
+                            }
+                        ]
                     }
                 ],
                 buttons: [

@@ -27,6 +27,11 @@ export const LOGIN = gql`
                 name
                 path
             }
+            availableAvatars {
+                id
+                name
+                path
+            }
             preferences {
                 id
                 title
@@ -79,6 +84,11 @@ export const REGISTER = gql`
                 name
                 path
             }
+            availableAvatars {
+                id
+                name
+                path
+            }
             preferences {
                 id
                 title
@@ -109,6 +119,11 @@ export const GET_ALL_USERS = gql`
             level
             experience
             avatar {
+                id
+                name
+                path
+            }
+            availableAvatars {
                 id
                 name
                 path
@@ -146,6 +161,11 @@ export const SUB_ALL_USERS = gql`
                 name
                 path
             }
+            availableAvatars {
+                id
+                name
+                path
+            }
             preferences {
                 id
                 title
@@ -176,6 +196,11 @@ export const GET_USER = gql`
             level
             experience
             avatar {
+                id
+                name
+                path
+            }
+            availableAvatars {
                 id
                 name
                 path
@@ -230,11 +255,29 @@ export const EDIT_USER = gql`
 
 export const DELETE_USERS = gql`
     mutation deleteUsers(
-        $id: [ID]
+        $names: [String]
     ) {
-        deleteUsers(id: $id)
+        deleteUsers(names: $names)
     }
 `
+
+// BEGIN STATS
+export const GET_STATS = gql`
+    query allStats {
+        countUsers
+        countOffers
+        countArticles
+        countComments
+        countHubs
+    }
+`
+
+export const GET_ALL_STATUS = gql`
+    query allStatus {
+        allStatus
+    }
+`
+// END STATS
 
 // BEGIN CHAT
 export const GET_ALL_CHAT_TYPES = gql`
@@ -307,6 +350,8 @@ export const GET_ALL_CHATS = gql`
                 updatedAt
                 createdAt
             }
+            updatedAt
+            createdAt
         }
     }
 `
@@ -335,6 +380,8 @@ export const SUB_ALL_CHATS = gql`
                 updatedAt
                 createdAt
             }
+            updatedAt
+            createdAt
         }
     }
 `
@@ -649,7 +696,7 @@ export const EDIT_HUB = gql`
 
 export const DELETE_HUBS = gql`
     mutation deleteHubs(
-        $id: [ID]
+        $id: [ID!]!
     ) {
         deleteHubs(id: $id)
     }
@@ -1382,12 +1429,91 @@ export const DELETE_ICONS = gql`
 `
 // END ICONS
 
+// BEGIN ICONS
+export const GET_ALL_FLAGS = gql`
+    query allFlags {
+        allFlags {
+            id
+            path
+            name
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const SUB_ALL_FLAGS = gql`
+    subscription flags {
+        flags {
+            id
+            path
+            name
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const ADD_FLAG = gql`
+    mutation addFlag(
+        $file: Upload!
+    ) {
+        addFlag(
+            file: $file
+        )
+    }
+`
+
+export const EDIT_FLAG = gql`
+    mutation editFlag(
+        $id: ID!
+        $file: Upload
+    ) {
+        editFlag(
+            id: $id
+            file: $file
+        )
+    }
+`
+
+export const DELETE_FLAGS = gql`
+    mutation deleteFlags(
+        $id: [ID]!
+    ) {
+        deleteFlags(
+            id: $id
+        )
+    }
+`
+// END FLAGS
+
 // BEGIN LANGUAGE
 export const GET_ALL_LANGUAGES = gql`
     query allLanguages {
         allLanguages {
             id
             code
+            title
+            flag {
+                id
+                path
+            }
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const SUB_ALL_LANGUAGES = gql`
+    subscription languages {
+        languages {
+            id
+            code
+            title
+            flag {
+                id
+                path
+            }
             updatedAt
             createdAt
         }
@@ -1397,9 +1523,13 @@ export const GET_ALL_LANGUAGES = gql`
 export const ADD_LANGUAGE = gql`
     mutation addLanguage(
         $code: String!
+        $title: String!
+        $flag: ID!
     ) {
         addLanguage(
             code: $code
+            title: $title
+            flag: $flag
         )
     }
 `
@@ -1408,10 +1538,14 @@ export const EDIT_LANGUAGE = gql`
     mutation editLanguage(
         $id: ID!
         $code: String
+        $title: String
+        $flag: ID
     ) {
         editLanguage(
             id: $id
             code: $code
+            title: $title
+            flag: $flag
         )
     }
 `

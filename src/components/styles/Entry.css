@@ -52,10 +52,6 @@
     line-height: 1;
 }
 
-.ui-entry .user-bar .content.top-offset {
-    top: -8px;
-}
-
 .ui-entry .user-bar .content .name {
     color: var(--color-text);
 }

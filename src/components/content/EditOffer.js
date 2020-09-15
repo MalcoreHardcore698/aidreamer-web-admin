@@ -3,20 +3,22 @@ import { useMutation } from '@apollo/react-hooks'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import Query from '../ui/Query'
+import Row from '../ui/Row'
 import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
+import Toggler from '../ui/Toggler'
 import Select from '../ui/Select'
 import HubToggler from '../ui/HubToggler'
-import { GET_ALL_USERS, EDIT_OFFER } from '../../utils/queries'
+import { GET_ALL_USERS, GET_ALL_STATUS, EDIT_OFFER } from '../../utils/queries'
 
 export default ({ user=false, status=false, offer, close }) => {
     const state = useSelector(state => state)
     const [action, { loading }] = useMutation(EDIT_OFFER)
 
     const[hub, setHub] = useState(offer.hub)
-    const [_user, _setUser] = useState(offer.user.id)
+    const [_user, _setUser] = useState({ value: offer.user.id, label: offer.user.name })
     const [_status, _setStatus] = useState(offer.status)
 
     const { handleSubmit, register, errors } = useForm()
@@ -24,7 +26,7 @@ export default ({ user=false, status=false, offer, close }) => {
         if (!hub) return
 
         const variables = {
-            id: offer.id,
+            id: offer._id,
             title: form.title,
             message: form.message,
             hub: hub.id,
@@ -69,6 +71,24 @@ export default ({ user=false, status=false, offer, close }) => {
                 handler: setHub
             }} />
 
+            {(status) && <Query query={GET_ALL_STATUS}>
+                {({ data }) => (
+                    <Toggler options={{
+                        state: _status,
+                        handler: _setStatus,
+                        targets: [
+                            ...data.allStatus.map((item, key) => ({
+                                type: item,
+                                value: (
+                                    <Row key={key}>
+                                        <p>{item}</p>
+                                    </Row>
+                                )}))
+                        ]}}
+                    />
+                )}
+            </Query>}
+
             {(user) && <Query query={GET_ALL_USERS}>
                 {({ data }) => (
                     <Select options={{
@@ -85,19 +105,6 @@ export default ({ user=false, status=false, offer, close }) => {
                     }} />
                 )}
             </Query>}
-
-            {(status) && <Select options={{
-                name: 'status',
-                value: _status,
-                placeholder: 'Choose status',
-                options: [
-                    { value: 'MODERATION', label: 'MODERATION' },
-                    { value: 'PUBLISHED', label: 'PUBLISHED' }
-                ],
-                onChange: (e) => {
-                    _setStatus(e)
-                }
-            }} />}
 
             <Button options={{
                 type: 'submit',

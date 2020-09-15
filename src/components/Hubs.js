@@ -69,8 +69,8 @@ export default ({ showModal }) => {
                                                                     await action({
                                                                         variables: {
                                                                             id: (entry)
-                                                                                ? [entry.id]
-                                                                                : docs.map(doc => doc.id)
+                                                                                ? [entry._id]
+                                                                                : docs.map(doc => doc._id)
                                                                         }
                                                                     })
                                                                 }}

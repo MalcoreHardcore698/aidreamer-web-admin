@@ -64,9 +64,9 @@ export default ({ showModal }) => {
                                                                 handler={async (action, entry, docs) => {
                                                                     await action({
                                                                         variables: {
-                                                                            id: (entry)
-                                                                                ? [entry.id]
-                                                                                : docs.map(doc => doc.id)
+                                                                            names: (entry)
+                                                                                ? [entry.name]
+                                                                                : docs.map(doc => doc.name)
                                                                         }
                                                                     })
                                                                 }}

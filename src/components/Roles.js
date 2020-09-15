@@ -67,7 +67,7 @@ export default ({ showModal }) => {
                                                                         variables: {
                                                                             id: (entry)
                                                                                 ? [entry.id]
-                                                                                : docs.map(doc => doc.id)
+                                                                                : docs.map(doc => doc._id)
                                                                         }
                                                                     })
                                                                 }}

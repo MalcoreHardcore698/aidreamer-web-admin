@@ -7,16 +7,18 @@ import List from '../ui/List'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import Select from '../ui/Select'
-import { EDIT_USER, GET_ALL_ROLES, GET_ALL_AVATARS } from '../../utils/queries'
+import Checkbox from '../ui/Checkbox'
+import Message from '../ui/Message'
+import { EDIT_USER, GET_ALL_HUBS, GET_ALL_ROLES } from '../../utils/queries'
 import { config } from '../../utils/config'
 
-// eslint-disable-next-line
 const api = config.get('api')
 
 export default ({ user, close }) => {
     const [action, { loading }] = useMutation(EDIT_USER)
 
-    const [avatar, setAvatar] = useState('')
+    const [preferences, setPreferences] = useState([])
+    const [avatar, setAvatar] = useState(user.avatar)
     const [role, setRole] = useState({
         value: user.role.id, label: user.role.name
     })
@@ -31,6 +33,7 @@ export default ({ user, close }) => {
 
         if (role) variables.role = role.value
         if (avatar) variables.avatar = avatar.id
+        if (preferences) variables.preferences = preferences
 
         await action({ variables })
 
@@ -43,6 +46,7 @@ export default ({ user, close }) => {
                 (errors.email.message) || (errors.username.message)
             } />}
 
+            <p className="ui-title">General</p>
             <Input options={{
                 ref: register(),
                 type: 'text',
@@ -85,22 +89,33 @@ export default ({ user, close }) => {
                 )}
             </Query>
 
-            <Query query={GET_ALL_AVATARS} pseudo={{ count: 1, height: 45 }}>
+            <p className="ui-title">Avatar</p>
+            {(user.availableAvatars && (user.availableAvatars.length > 0)) ? <List options={{
+                type: 'grid',
+                state: avatar,
+                list: user.availableAvatars,
+                handlerItem: setAvatar
+            }}>
+                {({ item }) => (
+                    <img
+                        className="image"
+                        src={(item.path).replace('./', `${api}/`)}
+                        alt="Hub"
+                    />
+                )}
+            </List> : <Message text="No Available Avatars" padding />}
+
+            <p className="ui-title">Preferences</p>
+            <Query query={GET_ALL_HUBS} pseudo={{ count: 1, height: 45 }}>
                 {({ data }) => (
-                    <List options={{
+                    <Checkbox options={{
                         type: 'grid',
-                        state: avatar,
-                        list: data.allAvatars,
-                        handlerItem: setAvatar
-                    }}>
-                        {({ item }) => (
-                            <img
-                                className="image"
-                                src={(item.path).replace('./', `${api}/`)}
-                                alt="Hub"
-                            />
-                        )}
-                    </List>
+                        state: preferences,
+                        list: data.allHubs,
+                        handler: (items) => {
+                            setPreferences(items)
+                        }
+                    }} />
                 )}
             </Query>
 

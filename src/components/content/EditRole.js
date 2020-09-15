@@ -17,7 +17,7 @@ export default ({ role, close }) => {
     const { handleSubmit, register, errors } = useForm()
     const onSubmit = async (form) => {
         const variables = {
-            id: role.id,
+            id: role._id,
             name: form.name
         }
 

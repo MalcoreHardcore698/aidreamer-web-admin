@@ -47,6 +47,7 @@
     --z-one-hundred: 100;
     --z-ninetynine: 99;
     --z-twenty: 20;
+    --z-eleven: 11;
     --z-ten: 10;
     --z-nine: 9;
     --z-primary: 1;
@@ -101,6 +102,12 @@ a, a:link, a:visited, a:hover, a:active, a:focus {
     text-decoration: none;
 }
 
+.ui-title {
+    font-weight: 500;
+    font-size: 16px;
+    color: var(--color-graylite);
+}
+
 main,
 .ui-navigation {
     width: 90%;
@@ -143,8 +150,7 @@ main aside > .ui-toggler {
 }
 
 main.skeleton aside .ui-container:last-child,
-main.skeleton aside .ui-row:last-child,
-main aside > .ui-toggler > .toggle {
+main.skeleton aside .ui-row:last-child {
     flex-grow: 1;
 }
 
@@ -234,8 +240,70 @@ main.alert {
 }
 
 main.dashboard {
-    width: calc(100% - 270px);
-    padding: 25px 0 25px calc(240px);
+    width: calc(100% - 230px);
+    padding: 25px 0 25px calc(200px);
+}
+
+main.dashboard .statblocks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+    grid-gap: 15px;
+}
+
+main.dashboard .statblocks .statblock {
+    background: var(--color-entry);
+    box-shadow: var(--bs-entry);
+    border-radius: var(--br-main);
+    overflow: hidden;
+
+    width: auto;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+main.dashboard .statblocks .statblock:hover {
+    opacity: .75;
+}
+
+main.dashboard .statblocks .statblock .ui-column {
+    width: 100%;
+}
+
+main.dashboard .statblocks .statblock .value {
+    font-size: 38px;
+    font-weight: 500;
+    color: var(--color-text);
+    padding: var(--padding-content);
+}
+
+main.dashboard .statblocks .statblock .legend {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    color: white;
+    padding: 5px 10px;
+    width: 100%;
+}
+
+main.dashboard .statblocks .statblock.blue .legend {
+    background: var(--color-background-blue)
+}
+
+main.dashboard .statblocks .statblock.red .legend {
+    background: var(--color-background-red)
+}
+
+main.dashboard .statblocks .statblock.orange .legend {
+    background: var(--color-background-orange)
+}
+
+main.dashboard .graphic-line {
+    height: 325px;
+    
+    background: var(--color-entry);
+    box-shadow: var(--bs-entry);
+    border-radius: var(--br-main);
+    overflow: hidden;
 }
 
 .ui-section.my-tours > .content > .ui-entry,
@@ -354,10 +422,6 @@ main.chats aside:first-child .loader {
 .ui-section.my-articles .content .grid,
 .ui-section.articles .content .grid {
     grid-template-columns: repeat(auto-fill, minmax(425px, 1fr));
-}
-
-.ui-section .content .react-ripples {
-    margin-block-end: 15px;
 }
 
 .tsparticles-canvas-el {

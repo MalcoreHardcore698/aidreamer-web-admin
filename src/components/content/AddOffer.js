@@ -2,20 +2,22 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import Query from '../ui/Query'
+import Row from '../ui/Row'
 import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
-import Select from '../ui/Select'
+import Toggler from '../ui/Toggler'
 import HubToggler from '../ui/HubToggler'
-import { ADD_OFFER } from '../../utils/queries'
+import { GET_ALL_STATUS, ADD_OFFER } from '../../utils/queries'
 
 export default ({ status=false, close }) => {
     const state = useSelector(state => state)
     const [action, { loading }] = useMutation(ADD_OFFER)
 
     const[hub, setHub] = useState({})
-    const [_status, _setStatus] = useState('')
+    const [_status, _setStatus] = useState(null)
 
     const { handleSubmit, register, errors } = useForm()
     const onSubmit = async (form) => {
@@ -29,7 +31,7 @@ export default ({ status=false, close }) => {
             status: 'PUBLISHED'
         }
 
-        if (_status) variables.status = _status.value
+        if (_status) variables.status = _status
 
         await action({ variables })
 
@@ -63,18 +65,23 @@ export default ({ status=false, close }) => {
                 handler: setHub
             }} />
 
-            {(status) && <Select options={{
-                name: 'status',
-                value: _status,
-                placeholder: 'Choose status',
-                options: [
-                    { value: 'MODERATION', label: 'MODERATION' },
-                    { value: 'PUBLISHED', label: 'PUBLISHED' }
-                ],
-                onChange: (e) => {
-                    _setStatus(e)
-                }
-            }} />}
+            {(status) && <Query query={GET_ALL_STATUS}>
+                {({ data }) => (
+                    <Toggler options={{
+                        state: _status,
+                        handler: _setStatus,
+                        targets: [
+                            ...data.allStatus.map((item, key) => ({
+                                type: item,
+                                value: (
+                                    <Row key={key}>
+                                        <p>{item}</p>
+                                    </Row>
+                                )}))
+                        ]}}
+                    />
+                )}
+            </Query>}
 
             <Button options={{
                 type: 'submit',

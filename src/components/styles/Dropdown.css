@@ -7,6 +7,7 @@
     box-shadow: var(--bs-main);
     background: white;
     width: max-content;
+    min-width: 180px;
 }
 
 .ui-dropdown.zoomIn {

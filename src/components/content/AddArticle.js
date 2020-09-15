@@ -2,14 +2,16 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
+import Query from '../ui/Query'
+import Row from '../ui/Row'
 import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
-import Select from '../ui/Select'
+import Toggler from '../ui/Toggler'
 import Dropzone from '../ui/Dropzone'
 import HubToggler from '../ui/HubToggler'
-import { ADD_ARTICLE } from '../../utils/queries'
+import { GET_ALL_STATUS, ADD_ARTICLE } from '../../utils/queries'
 
 export default ({ status=false, close }) => {
     const state = useSelector(state => state)
@@ -74,18 +76,23 @@ export default ({ status=false, close }) => {
                 handler: setHub
             }} />
 
-            {(status) && <Select options={{
-                name: 'status',
-                value: _status,
-                placeholder: 'Choose status',
-                options: [
-                    { value: 'MODERATION', label: 'MODERATION' },
-                    { value: 'PUBLISHED', label: 'PUBLISHED' }
-                ],
-                onChange: (e) => {
-                    _setStatus(e)
-                }
-            }} />}
+            {(status) && <Query query={GET_ALL_STATUS}>
+                {({ data }) => (
+                    <Toggler options={{
+                        state: _status,
+                        handler: _setStatus,
+                        targets: [
+                            ...data.allStatus.map((item, key) => ({
+                                type: item,
+                                value: (
+                                    <Row key={key}>
+                                        <p>{item}</p>
+                                    </Row>
+                                )}))
+                        ]}}
+                    />
+                )}
+            </Query>}
 
             <Dropzone options={{
                 ref: register,

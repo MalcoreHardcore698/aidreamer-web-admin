@@ -41,6 +41,8 @@
 }
 
 .ui-toggler .toggle.dropdown {
+    position: relative;
+    z-index: var(--z-one-hundred);
     flex-grow: 1;
     padding: 0;
 }

@@ -61,6 +61,7 @@
 .ui-section > .content {
     display: flex;
     flex-direction: column;
+    grid-gap: var(--padding-content);
 }
 
 .ui-section > .content > .ui-skeleton,

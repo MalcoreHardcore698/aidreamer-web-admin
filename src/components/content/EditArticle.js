@@ -1,35 +1,39 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useForm } from 'react-hook-form'
+import Query from '../ui/Query'
+import Row from '../ui/Row'
 import Alert from '../ui/Alert'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
 import TextArea from '../ui/TextArea'
-import Select from '../ui/Select'
+import Toggler from '../ui/Toggler'
 import Dropzone from '../ui/Dropzone'
 import HubToggler from '../ui/HubToggler'
-import { EDIT_ARTICLE } from '../../utils/queries'
+import { GET_ALL_STATUS, EDIT_ARTICLE } from '../../utils/queries'
 
 export default ({ status=false, article, close }) => {
     const [action, { loading }] = useMutation(EDIT_ARTICLE)
 
     const[hub, setHub] = useState(article.hub)
     const[image, setImage] = useState(null)
+    const [_status, _setStatus] = useState(article.status)
 
     const { handleSubmit, register, errors } = useForm()
     const onSubmit = async (form) => {
         if (!hub) return
 
         const variables = {
-            id: article.id,
+            id: article._id,
             title: form.title,
             description: form.description,
             body: form.body,
-            hub: hub.id
+            hub: hub.id,
+            status: 'PUBLISHED'
         }
 
         if (image) variables.image = image
-        if (form.status) variables.status = form.status
+        if (_status) variables.status = _status
 
         await action({ variables })
 
@@ -74,14 +78,23 @@ export default ({ status=false, article, close }) => {
                 handler: setHub
             }} />
 
-            {(status) && <Select options={{
-                value: article.status,
-                placeholder: 'Choose status',
-                options: [
-                    { value: 'MODERATION', label: 'MODERATION' },
-                    { value: 'PUBLISHED', label: 'PUBLISHED' }
-                ]
-            }} />}
+            {(status) && <Query query={GET_ALL_STATUS}>
+                {({ data }) => (
+                    <Toggler options={{
+                        state: _status,
+                        handler: _setStatus,
+                        targets: [
+                            ...data.allStatus.map((item, key) => ({
+                                type: item,
+                                value: (
+                                    <Row key={key}>
+                                        <p>{item}</p>
+                                    </Row>
+                                )}))
+                        ]}}
+                    />
+                )}
+            </Query>}
 
             <Dropzone options={{
                 ref: register,
