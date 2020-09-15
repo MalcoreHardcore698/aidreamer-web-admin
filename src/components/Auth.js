@@ -19,9 +19,7 @@ const Login = ({ setLoading, setError }) => {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
 
-    const [settings, setSettings] = useState([
-        { id: 0, value: 'Remember Me', checked: false }
-    ])
+    const [settings, setSettings] = useState([])
 
     useEffect(() => {
         setLoading(loading)
@@ -48,7 +46,10 @@ const Login = ({ setLoading, setError }) => {
             }} />
 
             <Checkbox options={{
-                list: settings,
+                state: settings,
+                list: [
+                    { id: 0, title: 'Remember Me' }
+                ],
                 handler: setSettings
             }} />
             

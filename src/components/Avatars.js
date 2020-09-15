@@ -38,14 +38,13 @@ export default ({ showModal }) => {
                         <Subscription query={SUB_ALL_AVATARS} refetch={refetch}>
                             {({ subData }) => (
                                 <Table options={{
-                                    data: ((subData && subData.avatars) || data.allAvatars),
-                                    dataTable: ((subData && subData.avatars) || data.allAvatars).map(avatar => ([
+                                    data: ((subData && subData.avatars) || (data && data.allAvatars) || []),
+                                    dataTable: ((subData && subData.avatars) || (data && data.allAvatars) || []).map(avatar => ([
                                         { header: 'ID', value: avatar.id, type: 'text', visible: false },
                                         { header: 'Изображение', value: avatar.path, type: 'icon' },
-                                        { header: 'Порядок', value: avatar.order, type: 'text' },
                                         { header: 'Название', value: avatar.name, type: 'text', visible: false },
                                         { header: 'Путь', value: avatar.path, type: 'text', visible: false },
-                                        { header: 'Редкость', value: avatar.complexity, type: 'text' },
+                                        { header: 'Редкость', value: avatar.rarity, type: 'text' },
                                         { header: 'Сообщество', value: avatar.hub.title, type: 'text' },
                                         { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(avatar.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },
                                         { header: 'Дата создания', value: <Moment date={new Date(new Date().setTime(avatar.createdAt))} format="DD.MM.YYYY" />, type: 'text' }
@@ -60,7 +59,7 @@ export default ({ showModal }) => {
                                                     showModal([
                                                         {
                                                             path: '/',
-                                                            title: 'Delete Avatar',
+                                                            title: 'Avatar',
                                                             component: ({ close }) => <DeleteEntries
                                                                 query={DELETE_AVATARS}
                                                                 entries={table.filter(t => t.checked)}
@@ -95,7 +94,7 @@ export default ({ showModal }) => {
                                                     classNames: 'stretch',
                                                     handler: () => (avatar) && showModal([{
                                                         path: '/',
-                                                        title: 'Edit Avatar',
+                                                        title: 'Avatar',
                                                         component: ({ close }) => <EditAvatar
                                                             avatar={avatar}
                                                             close={close}
@@ -113,7 +112,7 @@ export default ({ showModal }) => {
                                                 handler: () => showModal([
                                                     {
                                                         path: '/',
-                                                        title: 'Add Avatar',
+                                                        title: 'Avatar',
                                                         component: ({ close }) => <AddAvatar
                                                             close={close}
                                                         />

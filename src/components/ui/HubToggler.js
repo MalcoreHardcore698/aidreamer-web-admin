@@ -47,7 +47,20 @@ export default ({ override, all }) => {
                 <Subscription query={SUB_ALL_HUBS} variables={{ status: 'PUBLISHED' }} refetch={refetch}>
                     {({ subData }) => {
                         const hubs = ((subData && subData.hubs) || (data && data.allHubs))
-                        
+
+                        /*
+                        const sorted = (override) ? 
+                            (hubs.slice(0, slicedIndex)
+                                .find(h => h.id === override.state.id))
+                            ? hubs : [
+                                override.state,
+                                ...hubs.filter(h => h.id !== override.state.id)
+                            ] : hubs
+                        */
+
+                        const slicedStarts = hubs.slice(0, slicedIndex)
+                        const slicedEnds = hubs.slice(slicedIndex)
+
                         return (
                             <Toggler options={{
                                 state: (override) ? override.state : state.filters.currentHub,
@@ -63,7 +76,7 @@ export default ({ override, all }) => {
                                         type: 'all',
                                         value: <Row><p>All</p></Row>
                                     }),
-                                    ...hubs.slice(0, slicedIndex).map((hub, key) => ({
+                                    ...slicedStarts.map((hub, key) => ({
                                         type: hub,
                                         value: (
                                             <Row key={key}>
@@ -84,7 +97,7 @@ export default ({ override, all }) => {
 
                                                 <Dropdown options={{ dropdown: hubDropdown, styles: { right: 0 } }}>
                                                     <List options={{
-                                                        list: hubs.slice(slicedIndex).map(h => ({ id: h.id, label: h.title})),
+                                                        list: slicedEnds.map(h => ({ id: h.id, label: h.title})),
                                                         state: (override) ? override.state : state.filters.currentHub,
                                                         handlerItem: (item) => {
                                                             if (override) {

@@ -41,7 +41,7 @@ export default ({ showModal }) => {
                                     data: ((subData && subData.languages) || data.allLanguages),
                                     dataTable: ((subData && subData.languages) || data.allLanguages).map(language => ([
                                         { header: 'ID', value: language.id, type: 'text', visible: false },
-                                        { header: 'Иконка', value: language?.flag?.path, type: 'icon' },
+                                        { header: 'Иконка', value: language?.flag?.path || null, type: 'icon' },
                                         { header: 'Код', value: language.code, type: 'text' },
                                         { header: 'Название', value: language.title, type: 'text' },
                                         { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(language.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },

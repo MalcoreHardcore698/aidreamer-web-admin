@@ -33,7 +33,7 @@ export default ({ user, close }) => {
 
         if (role) variables.role = role.value
         if (avatar) variables.avatar = avatar.id
-        if (preferences) variables.preferences = preferences
+        if (preferences) variables.preferences = preferences.map(p => p.id)
 
         await action({ variables })
 

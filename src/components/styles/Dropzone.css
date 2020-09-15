@@ -85,3 +85,21 @@
     height: 100%;
     object-fit: cover;
 }
+
+.ui-dropzone.icon,
+.ui-dropzone.icon .dzu-previewContainer,
+.ui-dropzone.icon .preview {
+    height: 128px;
+}
+
+.ui-dropzone.icon .dzu-previewContainer, .ui-dropzone .preview {
+    justify-content: center;
+    align-items: center;
+}
+
+.ui-dropzone.icon .dzu-previewContainer img, .ui-dropzone .preview img {
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+    border-radius: var(--br-main);
+}

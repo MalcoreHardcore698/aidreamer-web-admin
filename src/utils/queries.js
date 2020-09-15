@@ -133,10 +133,6 @@ export const GET_ALL_USERS = gql`
                 title
                 color
                 slogan
-                icon {
-                    name
-                    path
-                }
             }
             updatedAt
             createdAt
@@ -255,9 +251,9 @@ export const EDIT_USER = gql`
 
 export const DELETE_USERS = gql`
     mutation deleteUsers(
-        $id: [ID]
+        $names: [String]
     ) {
-        deleteUsers(id: $id)
+        deleteUsers(names: $names)
     }
 `
 
@@ -269,6 +265,18 @@ export const GET_STATS = gql`
         countArticles
         countComments
         countHubs
+    }
+`
+
+export const GET_ALL_RARITIES = gql`
+    query allRarities {
+        allRarities
+    }
+`
+
+export const GET_ALL_STATUS = gql`
+    query allStatus {
+        allStatus
     }
 `
 // END STATS
@@ -1272,10 +1280,9 @@ export const GET_ALL_AVATARS = gql`
     query allAvatars {
         allAvatars {
             id
-            order
             path
             name
-            complexity
+            rarity
             hub {
                 id
                 title
@@ -1290,10 +1297,9 @@ export const SUB_ALL_AVATARS = gql`
     subscription avatars {
         avatars {
             id
-            order
             path
             name
-            complexity
+            rarity
             hub {
                 id
                 title
@@ -1307,14 +1313,12 @@ export const SUB_ALL_AVATARS = gql`
 export const ADD_AVATAR = gql`
     mutation addAvatar(
         $file: Upload!
-        $order: Int!
-        $complexity: Int!
+        $rarity: Rarity!
         $hub: ID!
     ) {
         addAvatar(
             file: $file
-            order: $order
-            complexity: $complexity
+            rarity: $rarity
             hub: $hub
         )
     }
@@ -1324,15 +1328,13 @@ export const EDIT_AVATAR = gql`
     mutation editAvatar(
         $id: ID!
         $file: Upload
-        $order: Int
-        $complexity: Int
+        $rarity: Rarity
         $hub: ID
     ) {
         editAvatar(
             id: $id
             file: $file
-            order: $order
-            complexity: $complexity
+            rarity: $rarity
             hub: $hub
         )
     }

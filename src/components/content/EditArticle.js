@@ -24,7 +24,7 @@ export default ({ status=false, article, close }) => {
         if (!hub) return
 
         const variables = {
-            id: article._id,
+            id: article._id || article.id,
             title: form.title,
             description: form.description,
             body: form.body,

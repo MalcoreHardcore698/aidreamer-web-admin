@@ -24,6 +24,10 @@
     transition: all .15s ease;
 }
 
+.ui-toggler .toggle:hover {
+    color: var(--color-accent);
+}
+
 .ui-toggler .toggle.active::before {
     content: '';
     position: absolute;

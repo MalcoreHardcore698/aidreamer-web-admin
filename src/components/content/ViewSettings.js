@@ -21,6 +21,7 @@ import Checkbox from './../ui/Checkbox'
 import Input from './../ui/Input'
 import TextArea from './../ui/TextArea'
 import Divider from './../ui/Divider'
+import Message from './../ui/Message'
 import { setUser } from '../../utils/actions'
 import { EDIT_USER, GET_ALL_HUBS, GET_ALL_LANGUAGES } from '../../utils/queries'
 
@@ -79,7 +80,10 @@ export const SettingsEditProfileContent = ({ jump }) => {
                 type: 'grid',
                 state: avatar || state.user.avatar,
                 list: state.user.availableAvatars,
-                handlerItem: setAvatar
+                handlerItem: (item) => {
+                    setAvatar(item)
+                    setDisabled(false)
+                }
             }}>
                 {({ item }) => (
                     <img
@@ -222,7 +226,7 @@ export const SettingsLanguageContent = ({ back }) => {
 
             <Query query={GET_ALL_LANGUAGES}>
                 {({ data }) => (
-                    <List options={{
+                    (data.allLanguages.length > 0) ? <List options={{
                         list: data.allLanguages,
                         state: checked,
                         handlerItem: (item) => {
@@ -237,6 +241,7 @@ export const SettingsLanguageContent = ({ back }) => {
                             </React.Fragment>
                         )}
                     </List>
+                    : <Message text="No Content" padding />
                 )}
             </Query>
 

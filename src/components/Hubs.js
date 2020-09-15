@@ -41,7 +41,7 @@ export default ({ showModal }) => {
                                     data: ((subData && subData.hubs) || data.allHubs),
                                     dataTable: ((subData && subData.hubs) || data.allHubs).map(hub => ([
                                         { header: 'ID', value: hub.id, type: 'text', visible: false },
-                                        { header: 'Иконка', value: hub.icon.path, type: 'icon' },
+                                        { header: 'Иконка', value: hub.icon.path, type: 'icon', visible: false },
                                         { header: 'Заголовок', value: hub.title, type: 'text' },
                                         { header: 'Описание', value: hub.description, type: 'text' },
                                         { header: 'Слоган', value: hub.slogan, type: 'text', visible: false },

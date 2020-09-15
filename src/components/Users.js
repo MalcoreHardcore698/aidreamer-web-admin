@@ -38,8 +38,8 @@ export default ({ showModal }) => {
                         <Subscription query={SUB_ALL_USERS} refetch={refetch}>
                             {({ subData }) => (
                                 <Table options={{
-                                    data: ((subData && subData.users) || data.allUsers),
-                                    dataTable: ((subData && subData.users) || data.allUsers).map(user => ([
+                                    data: ((subData && subData.users) || (data && data.allUsers) || []),
+                                    dataTable: ((subData && subData.users) || (data && data.allUsers) || []).map(user => ([
                                         { header: 'Аватар', value: user.avatar.path, type: 'icon' },
                                         { header: 'Имя', value: user.name, type: 'text' },
                                         { header: 'Email', value: user.email, type: 'text' },

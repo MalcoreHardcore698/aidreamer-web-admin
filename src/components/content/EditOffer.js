@@ -26,7 +26,7 @@ export default ({ user=false, status=false, offer, close }) => {
         if (!hub) return
 
         const variables = {
-            id: offer._id,
+            id: offer._id || offer.id,
             title: form.title,
             message: form.message,
             hub: hub.id,

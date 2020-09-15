@@ -12,11 +12,17 @@ export default ({ options }) => {
 
     const {
         ref,
+        type,
         name,
         value,
         styles={},
         setImage
     } = options || {}
+
+    const classes = [
+        'ui-dropzone', type,
+        (preview || value) ? ' with-preview' : ''
+    ]
 
     const handleChangeStatus = ({ meta, file }, status) => {
         if (status === 'done') {
@@ -26,7 +32,7 @@ export default ({ options }) => {
     }
 
     return (
-        <div className={`ui-dropzone${(preview || value) ? ' with-preview' : ''}`} styles={styles}>
+        <div className={classes.join(' ')} styles={styles}>
             {(preview || value) && <div className="preview">
                 {(preview) ?
                     <img src={preview} alt="Preview" />
