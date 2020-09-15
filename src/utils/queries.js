@@ -255,9 +255,9 @@ export const EDIT_USER = gql`
 
 export const DELETE_USERS = gql`
     mutation deleteUsers(
-        $names: [String]
+        $id: [ID]
     ) {
-        deleteUsers(names: $names)
+        deleteUsers(id: $id)
     }
 `
 
@@ -269,12 +269,6 @@ export const GET_STATS = gql`
         countArticles
         countComments
         countHubs
-    }
-`
-
-export const GET_ALL_STATUS = gql`
-    query allStatus {
-        allStatus
     }
 `
 // END STATS
@@ -350,8 +344,6 @@ export const GET_ALL_CHATS = gql`
                 updatedAt
                 createdAt
             }
-            updatedAt
-            createdAt
         }
     }
 `
@@ -380,8 +372,6 @@ export const SUB_ALL_CHATS = gql`
                 updatedAt
                 createdAt
             }
-            updatedAt
-            createdAt
         }
     }
 `
@@ -696,7 +686,7 @@ export const EDIT_HUB = gql`
 
 export const DELETE_HUBS = gql`
     mutation deleteHubs(
-        $id: [ID!]!
+        $id: [ID]
     ) {
         deleteHubs(id: $id)
     }
