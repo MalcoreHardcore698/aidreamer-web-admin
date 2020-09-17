@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import { useSelector } from 'react-redux'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faReply } from '@fortawesome/free-solid-svg-icons'
+import Subscription from '../ui/Subscription'
 import Moment from 'react-moment'
 import Mutation from '../ui/Mutation'
 import Container from '../ui/Container'
@@ -11,7 +12,7 @@ import Avatar from '../ui/Avatar'
 import Input from '../ui/Input'
 import Entry from '../ui/Entry'
 import { config } from '../../utils/config'
-import { ADD_COMMENT } from '../../utils/queries'
+import { ADD_COMMENT, SUB_COMMENTS } from '../../utils/queries'
 
 const api = config.get('api')
 
@@ -65,36 +66,46 @@ export default ({ article }) => {
                         </React.Fragment>
                     ),
                     body: (
-                        (article.comments.length > 0) ?
-                        <List options={{ list: article.comments }}>
-                            {({ item }) => (
-                                <React.Fragment>
-                                    <Avatar avatar={{ path: item.user.avatar.path }} properties={['circle']} />
-                                    <div className="content">
-                                        <div className="top">
-                                            <p className="name">{item.user.name}</p>
-                                            <p className="date">
-                                                <Moment date={new Date(new Date().setTime(item.createdAt))} format="h:m" />
-                                            </p>
-                                        </div>
+                        <Subscription query={SUB_COMMENTS} variables={{ id: article.id }}>
+                            {({ subData }) => {
+                                const comments = (subData && subData.comments) || (article.comments) || []
 
-                                        <p className="text">{item.text}</p>
-                                    </div>
-                                    {(item.user.name !== state.user.name) && (
-                                        <div className="reply">
-                                            <Button options={{
-                                                state: 'icon inactive',
-                                                handler: () => {
-                                                    inputRef.current.value = `@${item.user.name} `
-                                                }
-                                            }}>
-                                                <FontAwesomeIcon icon={faReply} />
-                                            </Button>
-                                        </div>
-                                    )}
-                                </React.Fragment>
-                            )}
-                        </List> : null
+                                if (comments.length === 0)
+                                    return null
+
+                                return (
+                                    <List options={{ list: comments }}>
+                                        {({ item }) => (
+                                            <React.Fragment>
+                                                <Avatar avatar={{ path: item.user.avatar.path }} properties={['circle']} />
+                                                <div className="content">
+                                                    <div className="top">
+                                                        <p className="name">{item.user.name}</p>
+                                                        <p className="date">
+                                                            <Moment date={new Date(new Date().setTime(item.createdAt))} format="h:m" />
+                                                        </p>
+                                                    </div>
+
+                                                    <p className="text">{item.text}</p>
+                                                </div>
+                                                {(item.user.name !== state.user.name) && (
+                                                    <div className="reply">
+                                                        <Button options={{
+                                                            state: 'icon inactive',
+                                                            handler: () => {
+                                                                inputRef.current.value = `@${item.user.name} `
+                                                            }
+                                                        }}>
+                                                            <FontAwesomeIcon icon={faReply} />
+                                                        </Button>
+                                                    </div>
+                                                )}
+                                            </React.Fragment>
+                                        )}
+                                    </List>
+                                )
+                            }}
+                        </Subscription>
                     )
                 }
             }}>
@@ -107,7 +118,6 @@ export default ({ article }) => {
                 <p className="tag" style={{ background: article.hub.color }}>{article.hub.title}</p>
                 <p className="title">{article.title}</p>
                 <p className="body">{article.body}</p>
-                <p className="hub">Hub: {article.hub.title}</p>
             </Entry>
         </Container>
     )

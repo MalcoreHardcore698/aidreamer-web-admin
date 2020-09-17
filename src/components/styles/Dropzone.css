@@ -92,12 +92,12 @@
     height: 128px;
 }
 
-.ui-dropzone.icon .dzu-previewContainer, .ui-dropzone .preview {
+.ui-dropzone.icon .dzu-previewContainer, .ui-dropzone.icon .preview {
     justify-content: center;
     align-items: center;
 }
 
-.ui-dropzone.icon .dzu-previewContainer img, .ui-dropzone .preview img {
+.ui-dropzone.icon .dzu-previewContainer img, .ui-dropzone.icon .preview img {
     width: 128px;
     height: 128px;
     object-fit: cover;

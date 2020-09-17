@@ -424,12 +424,123 @@ main.chats aside:first-child .loader {
     grid-template-columns: repeat(auto-fill, minmax(425px, 1fr));
 }
 
-.tsparticles-canvas-el {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
+.ui-tasks,
+.ui-tasks .content,
+.ui-tasks .manage,
+.ui-tasks .ui-task,
+.ui-tasks .ui-task .condition,
+.ui-tasks .ui-task .awards {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+}
+
+.ui-tasks,
+.ui-tasks .ui-task .condition .list .item,
+.ui-tasks .ui-task .awards .list .item {
+    position: relative;
+}
+
+.ui-tasks .manage {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    z-index: var(--z-nine);
+}
+
+.ui-tasks .manage .ui-button {
+    width: 25px;
+    height: 25px;
+    font-size: .645rem;
+}
+
+.ui-tasks .ui-task .condition > .react-ripples > .ui-button,
+.ui-tasks .ui-task .awards > .react-ripples > .ui-button {
+    height: 25px;
+    font-size: .645rem;
+}
+
+.ui-tasks > .manage {
+    top: -38px;
+    right: 0;
+}
+
+.ui-tasks > .manage .ui-button {
+    width: auto;
+}
+
+.ui-tasks .content > .ui-title {
+    margin-block-start: 0 !important;
+}
+
+.ui-tasks .ui-task {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
+}
+
+.ui-tasks .ui-message {
+    margin-block-start: 0 !important;
+}
+
+.ui-tasks .ui-task .header {
+    grid-column: 1 / 3;
+}
+
+.ui-tasks .ui-task .condition .list .ui-message,
+.ui-tasks .ui-task .awards .list .ui-message {
+    grid-column: 1 / 4;
+}
+
+.ui-tasks .ui-task .ui-container .ui-button {
+    width: 40px;
+}
+
+.ui-tasks .ui-task .ui-container .ui-button .image {
+    width: 25px;
+}
+
+.ui-tasks .ui-task .ui-input,
+.ui-tasks .manage .ui-input,
+.ui-tasks .ui-task .awards .list .item .content .ui-select,
+.ui-tasks .ui-task .awards .list .item .content .ui-input {
+    flex-grow: 1;
+}
+
+.ui-tasks .ui-task .header .react-ripples {
+    flex-grow: inherit !important;
+}
+
+.ui-tasks .ui-task .header .react-ripples .ui-button {
+    width: 40px;
+    max-width: 40px;
+}
+
+.ui-tasks .ui-task .awards .list,
+.ui-tasks .ui-task .condition .list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
+    grid-gap: 10px;
+}
+
+.ui-tasks .ui-task .condition .list .item,
+.ui-tasks .ui-task .awards .list .item {
+    background: #f9f9f9;
+    border-radius: var(--br-main);
+    border: 1px solid var(--color-body-background);
+    padding: 10px;
+}
+
+.ui-tasks .ui-task .awards .list .item,
+.ui-tasks .ui-task .condition .list .item,
+.ui-tasks .ui-task .awards .list .item .content,
+.ui-tasks .ui-task .condition .list .item .content {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+}
+
+[class$="-control"]:hover {
+    border-color: var(--color-accent) !important;
 }
 
 .fadeIn {

@@ -10,12 +10,11 @@
 **/
 
 import React, { useState } from 'react'
-import PreventOutsideScroll from 'react-prevent-outside-scroll'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
-import '../styles/Modal.css'
 import Transition from './Transition'
 import Button from './Button'
+import '../styles/Modal.css'
 
 const DURATION = 100
 
@@ -128,36 +127,34 @@ export default ({ options }) => {
 
     return (
         <Transition {...transitions.fade}>
-            <PreventOutsideScroll>
-                <div className={classes.join(' ')}>
-                    <div
-                        className={`background${(!closeByBackground) ? ' clear' : ''}`}
-                        onClick={(closeByBackground) ? handlerClose : () => {}}
-                    ></div>
+            <div className={classes.join(' ')}>
+                <div
+                    className={`background${(!closeByBackground) ? ' clear' : ''}`}
+                    onClick={(closeByBackground) ? handlerClose : () => {}}
+                ></div>
 
-                    <Transition {...transitions.swing}>
-                        <div id='scroller' className={`wrapper animate${(animation) ? ` ${animation}` : ''}`}>
-                            <div className="headline">
-                                {(navigator.length > 1) && <Button options={{
-                                    state: 'icon',
-                                    lockdown: true,
-                                    handler: () => handlerBack()
-                                }}>
-                                    <FontAwesomeIcon icon={faArrowLeft} />
-                                </Button>}
-                                <h1>{(title && !routes) ? title : getTitle()}</h1>
-                            </div>
-
-                            {(home && !routes) ? home
-                            : <Switch path={getPath(navigator)}>
-                                {routes?.map((props, key) =>
-                                    <Route key={key} {...props} close={handlerClose} back={handlerBack} jump={handlerJump} />
-                                )}
-                            </Switch>}
+                <Transition {...transitions.swing}>
+                    <div id='scroller' className={`wrapper animate${(animation) ? ` ${animation}` : ''}`}>
+                        <div className="headline">
+                            {(navigator.length > 1) && <Button options={{
+                                state: 'icon',
+                                lockdown: true,
+                                handler: () => handlerBack()
+                            }}>
+                                <FontAwesomeIcon icon={faArrowLeft} />
+                            </Button>}
+                            <h1>{(title && !routes) ? title : getTitle()}</h1>
                         </div>
-                    </Transition>
-                </div>
-            </PreventOutsideScroll>
+
+                        {(home && !routes) ? home
+                        : <Switch path={getPath(navigator)}>
+                            {routes?.map((props, key) =>
+                                <Route key={key} {...props} close={handlerClose} back={handlerBack} jump={handlerJump} />
+                            )}
+                        </Switch>}
+                    </div>
+                </Transition>
+            </div>
         </Transition>
     )
 }

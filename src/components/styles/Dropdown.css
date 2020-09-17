@@ -4,7 +4,7 @@
     right: 0;
     z-index: var(--z-twenty);
     border-radius: var(--br-main);
-    box-shadow: var(--bs-main);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, .095);
     background: white;
     width: max-content;
     min-width: 180px;

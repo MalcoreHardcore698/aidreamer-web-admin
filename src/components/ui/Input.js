@@ -11,6 +11,7 @@ import '../styles/Input.css'
 export default ({ options }) => {
     const {
         type='text',
+        state,
         value, ref, name,
         defaultValue,
         placeholder='Write a message...',
@@ -20,7 +21,8 @@ export default ({ options }) => {
     } = options
 
     const classes = [
-        'ui-input'
+        'ui-input',
+        state
     ]
 
     return (

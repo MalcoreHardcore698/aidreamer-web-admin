@@ -606,6 +606,150 @@ export const GET_USER_NOTIFICATIONS = gql`
 // END USER
 
 // BEGIN HUB
+export const GET_ALL_ACTS = gql`
+    query allActs {
+        allActs {
+            id
+            title
+            description
+            tasks {
+                id
+                title
+                icon {
+                    id
+                    path
+                }
+                condition {
+                    id
+                    action
+                    goals
+                    multiply
+                    specific
+                    union
+                    link {
+                        id
+                        action
+                    }
+                }
+                awards {
+                    id
+                    award
+                    quantity
+                }
+                createdAt
+            }
+            awards {
+                id
+                award
+                quantity
+            }
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const SUB_ALL_ACTS = gql`
+    subscription acts {
+        acts {
+            id
+            title
+            description
+            tasks {
+                id
+                title
+                icon {
+                    id
+                    path
+                }
+                condition {
+                    action
+                    goals
+                    multiply
+                    specific
+                    union
+                    link {
+                        id
+                        action
+                    }
+                }
+                awards {
+                    id
+                    award
+                    quantity
+                }
+                createdAt
+            }
+            awards {
+                id
+                award
+                quantity
+            }
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const ADD_ACT = gql`
+    mutation addHub(
+        $title: String!
+        $description: String!
+        $tasks: [ID]!
+        $awards: [InputAward]!
+    ) {
+        addAct(
+            title: $title
+            description: $description
+            tasks: $tasks
+            awards: $awards
+        )
+    }
+`
+
+export const EDIT_ACT = gql`
+    mutation editAct(
+        $id: ID!
+        $title: String
+        $description: String
+        $tasks: [ID]
+        $awards: [InputAward]
+    ) {
+        editAct(
+            title: $title
+            description: $description
+            tasks: $tasks
+            awards: $awards
+        )
+    }
+`
+
+export const DELETE_ACTS = gql`
+    mutation deleteActs(
+        $id: [ID]
+    ) {
+        deleteActs(id: $id)
+    }
+`
+
+export const GET_ALL_AWARDS = gql`
+    query allAwardTypes {
+        allAwardTypes
+    }
+`
+
+export const GET_ALL_CONDITION_ENUMS = gql`
+    query allEnums {
+        allAwardTypes
+        allActions
+        allGoals
+        allUnions
+        allAreas
+    }
+`
+// END ACT
+
+// BEGIN HUB
 export const GET_ALL_HUBS = gql`
     query allHubs($status: Status) {
         allHubs(status: $status) {

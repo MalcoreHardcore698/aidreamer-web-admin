@@ -5,8 +5,8 @@
     margin: 0;
     padding: 0 25px;
     border-radius: var(--br-main);
-    border: 1px solid var(--color-graylite);
-    background: transparent;
-    color: var(--color-graylite);
+    border: none;
+    background: #f9f9f9;
+    color: #cfd4d6;
     font-weight: 600;
 }

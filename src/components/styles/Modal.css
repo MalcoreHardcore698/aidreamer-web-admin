@@ -12,7 +12,7 @@
 }
 
 .ui-modal.center {
-    align-items: center;
+    padding-block-start: 75px;
 }
 
 .ui-modal .background {
@@ -39,7 +39,7 @@
     min-width: 480px;
     max-width: 80%;
     width: min-content;
-    margin-block-end: 75px;
+    margin-block-end: 150px;
     background: white;
     border: var(--border-main);
     border-radius: var(--br-main);
