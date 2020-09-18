@@ -10,7 +10,7 @@
     font-weight: 600;
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
-    color: var(--color-text);
+    color: var(--color-accent);
 
     cursor: text;
     transition: var(--transition);

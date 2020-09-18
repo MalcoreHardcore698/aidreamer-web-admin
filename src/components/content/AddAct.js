@@ -30,6 +30,7 @@ import {
     GET_ALL_HUBS
 } from '../../utils/queries'
 import { config } from '../../utils/config'
+import { v4 } from 'uuid'
 
 const api = config.get('api')
 
@@ -83,19 +84,21 @@ const SpecificSelect = ({ i, j, task, condition, setTasks }) => {
 export default ({ close }) => {
     const [action, { loading }] = useMutation(ADD_ACT)
     const [tasks, setTasks] = useState([])
+    const [actAwards, setActAwards] = useState([])
 
     const { handleSubmit, register, errors } = useForm()
     const onSubmit = async (form) => {
+        console.log(tasks)
         const variables = {
             title: form.title,
-            description: form.description
+            description: form.description,
+            tasks, awards: actAwards,
         }
 
         await action({ variables })
 
         close()
     }
-
 
     return (
         <form className="fat" onSubmit={handleSubmit(onSubmit)}>
@@ -131,12 +134,12 @@ export default ({ close }) => {
                                 setTasks(prev => ([
                                     ...prev,
                                     {
+                                        id: v4(),
                                         title: null,
-                                        description: null,
-                                        icon: {},
-                                        dropdownIcons: false,
+                                        icon: null,
                                         condition: [],
-                                        awards: []
+                                        awards: [],
+                                        isDropdownIcons: false
                                     }
                                 ]))
                             }
@@ -150,8 +153,8 @@ export default ({ close }) => {
                 </div>
                 
                 <ul className="content">
-                    {(tasks.length > 0) ? tasks.map((task, i) => (
-                        <li key={(task.id) || (i)} className="ui-task">
+                    {(tasks.length > 0) ? tasks.map((task) => (
+                        <li key={task.id} className="ui-task">
                             <Row type="flex" className="header">
                                 <Container clear sticky>
                                     <Query query={GET_ALL_ICONS} pseudo={{ count: 1, height: 45 }}>
@@ -160,8 +163,8 @@ export default ({ close }) => {
                                                 <Button options={{
                                                     state: 'inactive',
                                                     handler: () => {
-                                                        setTasks(prev => prev.map((_task, _i) =>
-                                                            ((_task.id || _i) === (task.id || i)) ? ({
+                                                        setTasks(prev => prev.map((_task) =>
+                                                            (_task.id === task.id) ? ({
                                                                 ..._task,
                                                                 dropdownIcons: !_task.dropdownIcons
                                                             }) : ({
@@ -170,12 +173,13 @@ export default ({ close }) => {
                                                         ))
                                                     }
                                                 }}>
-                                                    {(task.icon.path) ? (
+                                                    {(task.icon) ? (
                                                         <img
-                                                        className="image"
-                                                        src={(task.icon.path).replace('./', `${api}/`)}
-                                                        alt="Hub"
-                                                    />)
+                                                            className="image"
+                                                            src={(task.icon.path).replace('./', `${api}/`)}
+                                                            alt="Hub"
+                                                        />
+                                                    )
                                                     : <FontAwesomeIcon icon={faImage} />}
                                                 </Button>
 
@@ -185,8 +189,8 @@ export default ({ close }) => {
                                                         state: task.icon,
                                                         list: data.allIcons,
                                                         handlerItem: (item) => {
-                                                            setTasks(prev => prev.map((_task, _i) =>
-                                                                ((_task.id || _i) === (task.id || i)) ? ({
+                                                            setTasks(prev => prev.map((_task) =>
+                                                                (_task.id === task.id) ? ({
                                                                     ..._task,
                                                                     dropdownIcons: false,
                                                                     icon: item
@@ -221,8 +225,8 @@ export default ({ close }) => {
                                 <Button options={{
                                     state: 'inactive icon',
                                     handler: () => {
-                                        setTasks(prev => prev.filter((_task, _j) =>
-                                            ((task.id || i) !== (_task.id || _j))
+                                        setTasks(prev => prev.filter((_task) =>
+                                            (task.id !== _task.id)
                                         ))
                                     }
                                 }}>
@@ -234,13 +238,18 @@ export default ({ close }) => {
                                 <Button options={{
                                     state: 'inactive',
                                     handler: () => {
-                                        setTasks(prev => prev.map((_task, _i) =>
-                                            ((_task.id || _i) === (task.id || i)) ? ({
+                                        setTasks(prev => prev.map((_task) =>
+                                            (_task.id === task.id) ? ({
                                                 ..._task,
-                                                condition: (_task.condition || []).concat({
+                                                condition: _task.condition.concat({
+                                                    id: v4(),
                                                     action: null,
+                                                    target: null,
                                                     goals: [],
-                                                    specific: { area: null },
+                                                    multiply: null,
+                                                    specific: null,
+                                                    union: null,
+                                                    link: null,
                                                     isComplexCondition: []
                                                 })
                                             }) : ({
@@ -256,20 +265,20 @@ export default ({ close }) => {
                                 </Button>
 
                                 <ul className="list">
-                                    <Query query={GET_ALL_CONDITION_ENUMS} pseudo={{ count: 1, height: 325 }}>
+                                    <Query query={GET_ALL_CONDITION_ENUMS} pseudo={{ count: 1, height: 90 }}>
                                         {({ data }) => (
                                             (task.condition?.length > 0) ? task.condition.map((condition, j) => (
-                                                <li key={condition.id || j} className="item">
+                                                <li key={condition.id} className="item">
                                                     
                                                     <div className="manage">
                                                         <Button options={{
                                                             state: 'inactive icon',
                                                             handler: () => {
-                                                                setTasks(prev => prev.map((_task, _i) =>
-                                                                    ((_task.id || _i) === (task.id || i)) ? ({
+                                                                setTasks(prev => prev.map((_task) =>
+                                                                    (_task.id === task.id) ? ({
                                                                         ..._task,
-                                                                        condition: _task.condition.filter((_condition, _j) =>
-                                                                            ((_condition.id || _j) !== (condition.id || j))    
+                                                                        condition: _task.condition.filter((_condition) =>
+                                                                            (_condition.id !== condition.id)    
                                                                         )
                                                                     }) : ({
                                                                         ..._task
@@ -284,7 +293,7 @@ export default ({ close }) => {
                                                     <div className="content">
                                                         <p className="ui-title">Condition {j + 1}</p>
                                                         <Select options={{
-                                                            name: `[task_${task.id || i}][condition_${condition.id || j}][action]`,
+                                                            name: `[task_${task.id}][condition_${condition.id}][action]`,
                                                             value: condition.action,
                                                             placeholder: 'Choose action',
                                                             options: data.allActions.map(a => ({
@@ -292,11 +301,11 @@ export default ({ close }) => {
                                                                 label: a
                                                             })),
                                                             onChange: (e) => {
-                                                                setTasks(prev => prev.map((_task, _i) =>
-                                                                    ((_task.id || _i) === (task.id || i)) ? ({
+                                                                setTasks(prev => prev.map((_task) =>
+                                                                    (_task.id === task.id) ? ({
                                                                         ..._task,
-                                                                        condition: _task.condition.map((_condition, _j) =>
-                                                                            ((_condition.id || _j) === (condition.id || j)) ? ({
+                                                                        condition: _task.condition.map((_condition) =>
+                                                                            (_condition.id === condition.id) ? ({
                                                                                 ..._condition,
                                                                                 action: e
                                                                             }) : ({
@@ -310,7 +319,33 @@ export default ({ close }) => {
                                                             }
                                                         }} />
                                                         <Select options={{
-                                                            name: `[task_${task.id || i}][condition_${condition.id || j}][goals]`,
+                                                            name: `[task_${task.id}][condition_${condition.id}][target]`,
+                                                            value: condition.target,
+                                                            placeholder: 'Choose target',
+                                                            options: data.allAreas.map(a => ({
+                                                                value: a,
+                                                                label: a
+                                                            })),
+                                                            onChange: (e) => {
+                                                                setTasks(prev => prev.map((_task) =>
+                                                                    (_task.id === task.id) ? ({
+                                                                        ..._task,
+                                                                        condition: _task.condition.map((_condition) =>
+                                                                            (_condition.id === condition.id) ? ({
+                                                                                ..._condition,
+                                                                                target: e
+                                                                            }) : ({
+                                                                                ..._condition
+                                                                            })
+                                                                        )
+                                                                    }) : ({
+                                                                        ..._task
+                                                                    })    
+                                                                ))
+                                                            }
+                                                        }} />
+                                                        <Select options={{
+                                                            name: `[task_${task.id}][condition_${condition.id}][goals]`,
                                                             value: condition.goals,
                                                             placeholder: 'Choose goals',
                                                             options: data.allGoals.map(a => ({
@@ -320,11 +355,11 @@ export default ({ close }) => {
                                                             closeMenuOnSelect: false,
                                                             isMulti: true,
                                                             onChange: (e) => {
-                                                                setTasks(prev => prev.map((_task, _i) =>
-                                                                    ((_task.id || _i) === (task.id || i)) ? ({
+                                                                setTasks(prev => prev.map((_task) =>
+                                                                    (_task.id === task.id) ? ({
                                                                         ..._task,
-                                                                        condition: _task.condition.map((_condition, _j) =>
-                                                                            ((_condition.id || _j) === (condition.id || j)) ? ({
+                                                                        condition: _task.condition.map((_condition) =>
+                                                                            (_condition.id === condition.id) ? ({
                                                                                 ..._condition,
                                                                                 goals: e
                                                                             }) : ({
@@ -341,14 +376,14 @@ export default ({ close }) => {
                                                             <Input options={{
                                                                 ref: register({ required: 'Multiply is required' }),
                                                                 type: 'number',
-                                                                name: `[task_${task.id || i}][condition_${condition.id || j}][multiply]`,
+                                                                name: `[task_${task.id}][condition_${condition.id}][multiply]`,
                                                                 placeholder: 'Enter multiply'
                                                             }} />
                                                         ))}
                                                         {((condition.goals?.length > 0) && condition.goals.find(g => g.value.includes('SPECIFIC')) && (
                                                             <React.Fragment>
                                                                 <Select options={{
-                                                                    name: `[task_${task.id || i}][condition_${condition.id || j}][area]`,
+                                                                    name: `[task_${task.id}][condition_${condition.id}][area]`,
                                                                     value: condition.specific.area,
                                                                     placeholder: 'Choose area',
                                                                     options: data.allAreas.map(a => ({
@@ -356,11 +391,11 @@ export default ({ close }) => {
                                                                         label: a
                                                                     })),
                                                                     onChange: (e) => {
-                                                                        setTasks(prev => prev.map((_task, _i) =>
-                                                                            ((_task.id || _i) === (task.id || i)) ? ({
+                                                                        setTasks(prev => prev.map((_task) =>
+                                                                            (_task.id === task.id) ? ({
                                                                                 ..._task,
-                                                                                condition: _task.condition.map((_condition, _j) =>
-                                                                                    ((_condition.id || _j) === (condition.id || j)) ? ({
+                                                                                condition: _task.condition.map((_condition) =>
+                                                                                    (_condition.id === condition.id) ? ({
                                                                                         ..._condition,
                                                                                         specific: {
                                                                                             area: e
@@ -377,8 +412,6 @@ export default ({ close }) => {
                                                                 }} />
                                                                 {(condition.specific.area) && (
                                                                     <SpecificSelect
-                                                                        i={i}
-                                                                        j={j}
                                                                         task={task}
                                                                         condition={condition}
                                                                         setTasks={setTasks}
@@ -392,11 +425,11 @@ export default ({ close }) => {
                                                                 { id: 0, title: 'Complex condition' }
                                                             ],
                                                             handler: (item) => {
-                                                                setTasks(prev => prev.map((_task, _i) =>
-                                                                    ((_task.id || _i) === (task.id || i)) ? ({
+                                                                setTasks(prev => prev.map((_task) =>
+                                                                    (_task.id === task.id) ? ({
                                                                         ..._task,
-                                                                        condition: _task.condition.map((_condition, _j) =>
-                                                                            ((_condition.id || _j) === (condition.id || j)) ? ({
+                                                                        condition: _task.condition.map((_condition) =>
+                                                                            (_condition.id === condition.id) ? ({
                                                                                 ..._condition,
                                                                                 isComplexCondition: item
                                                                             }) : ({
@@ -411,7 +444,7 @@ export default ({ close }) => {
                                                         }} />
                                                         {(condition.isComplexCondition.length > 0) && (
                                                             <Select options={{
-                                                                name: `[task_${task.id || i}][condition_${condition.id || j}][union]`,
+                                                                name: `[task_${task.id}][condition_${condition.id}][union]`,
                                                                 value: condition.union,
                                                                 placeholder: 'Choose union',
                                                                 options: data.allUnions.map(u => ({
@@ -419,11 +452,11 @@ export default ({ close }) => {
                                                                     label: u
                                                                 })),
                                                                 onChange: (e) => {
-                                                                    setTasks(prev => prev.map((_task, _i) =>
-                                                                        ((_task.id || _i) === (task.id || i)) ? ({
+                                                                    setTasks(prev => prev.map((_task) =>
+                                                                        (_task.id === task.id) ? ({
                                                                             ..._task,
-                                                                            condition: _task.condition.map((_condition, _j) =>
-                                                                                ((_condition.id || _j) === (condition.id || j)) ? ({
+                                                                            condition: _task.condition.map((_condition) =>
+                                                                                (_condition.id === condition.id) ? ({
                                                                                     ..._condition,
                                                                                     union: e
                                                                                 }) : ({
@@ -439,21 +472,21 @@ export default ({ close }) => {
                                                         )}
                                                         {((condition.isComplexCondition.length > 0) && condition.union) && (
                                                             (task.condition.length > 1) ? <Select options={{
-                                                                name: `[task_${task.id || i}][condition_${condition.id || j}][link]`,
+                                                                name: `[task_${task.id}][condition_${condition.id}][link]`,
                                                                 value: condition.link,
                                                                 placeholder: 'Choose link',
                                                                 options: task.condition
-                                                                    .map((c, k) => ((c.id || k) !== (condition.id || j)) ? ({
+                                                                    .map((c, k) => (c.id !== condition.id) ? ({
                                                                         value: c,
                                                                         label: `Condition ${k + 1}`
                                                                     }) : null)
                                                                     .filter(c => c),
                                                                 onChange: (e) => {
-                                                                    setTasks(prev => prev.map((_task, _i) =>
-                                                                        ((_task.id || _i) === (task.id || i)) ? ({
+                                                                    setTasks(prev => prev.map((_task) =>
+                                                                        (_task.id === task.id) ? ({
                                                                             ..._task,
-                                                                            condition: _task.condition.map((_condition, _j) =>
-                                                                                ((_condition.id || _j) === (condition.id || j)) ? ({
+                                                                            condition: _task.condition.map((_condition) =>
+                                                                                (_condition.id === condition.id) ? ({
                                                                                     ..._condition,
                                                                                     link: e
                                                                                 }) : ({
@@ -479,12 +512,16 @@ export default ({ close }) => {
                                 <Button options={{
                                     state: 'inactive',
                                     handler: () => {
-                                        setTasks(prev => prev.map((_task, _i) =>
-                                            ((_task.id || _i) === (task.id || i)) ? ({
+                                        setTasks(prev => prev.map((_task) =>
+                                            (_task.id === task.id) ? ({
                                                 ..._task,
                                                 awards: [
                                                     ..._task.awards,
-                                                    { award: null, quantity: null }
+                                                    {
+                                                        id: v4(),
+                                                        award: null,
+                                                        quantity: null
+                                                    }
                                                 ]
                                             }) : ({
                                                 ..._task
@@ -503,16 +540,16 @@ export default ({ close }) => {
                                         <Query query={GET_ALL_AWARDS} pseudo={{ count: 1, height: 45 }}>
                                             {({ data }) => (
                                                 task.awards.map((award, j) => (
-                                                    <li key={award.id || j} className="item">
+                                                    <li key={award.id} className="item">
                                                         <div className="manage">
                                                             <Button options={{
                                                                 state: 'inactive icon',
                                                                 handler: () => {
-                                                                    setTasks(prev => prev.map((_task, _i) =>
-                                                                        ((_task.id || _i) === (task.id || i)) ? ({
+                                                                    setTasks(prev => prev.map((_task) =>
+                                                                        (_task.id === task.id) ? ({
                                                                             ..._task,
-                                                                            awards: _task.awards.filter((_award, _j) =>
-                                                                                ((_award.id || _j) !== (award.id || j))    
+                                                                            awards: _task.awards.filter((_award) =>
+                                                                                (_award.id !== award.id)    
                                                                             )
                                                                         }) : ({
                                                                             ..._task
@@ -528,20 +565,25 @@ export default ({ close }) => {
                                                             <p className="ui-title">Award {j + 1}</p>
 
                                                             <Select options={{
-                                                                name: `[task_${task.id || i}][condition_${award.id || j}][award]`,
-                                                                value: award,
+                                                                name: `[task_${task.id}][condition_${award.id}][award]`,
+                                                                value: award.award,
                                                                 placeholder: 'Choose award',
                                                                 options: data.allAwardTypes.map(p => ({
                                                                     value: p,
                                                                     label: p
                                                                 })),
                                                                 onChange: (e) => {
-                                                                    setTasks(prev => prev.map((_task, _i) =>
-                                                                        ((_task.id || _i) === (task.id || i)) ? ({
+                                                                    setTasks(prev => prev.map((_task) =>
+                                                                        (_task.id === task.id) ? ({
                                                                             ..._task,
-                                                                            awards: _task.awards.map((_award, _j) =>
-                                                                                ((_award.id || _j) === (award.id || j))
-                                                                                    ? e : _award   
+                                                                            awards: _task.awards.map((_award) =>
+                                                                                (_award.id === award.id)
+                                                                                    ? ({
+                                                                                        ..._award,
+                                                                                        award: e
+                                                                                    }) : ({
+                                                                                        ..._award
+                                                                                    })
                                                                             )
                                                                         }) : ({
                                                                             ..._task
@@ -550,9 +592,9 @@ export default ({ close }) => {
                                                                 }
                                                             }} />
                                                             <Input options={{
+                                                                ref: register({ required: 'Value is required' }),
                                                                 type: 'number',
-                                                                value: award.value,
-                                                                name: `[task_${task.id || i}][award_${award.id || j}][value]`,
+                                                                name: `[task_${task.id}][award_${award.id}][value]`,
                                                                 placeholder: 'Value'
                                                             }} />
                                                         </div>
@@ -565,6 +607,86 @@ export default ({ close }) => {
                             </div>
                         </li>
                     )) : <Message text="No Tasks" padding />}
+                </ul>
+            </div>
+
+            <p className="ui-title">Awards</p>
+            <div className="ui-awards">
+                <div className="manage">
+                    <Button options={{
+                        state: 'inactive',
+                        handler: () => {
+                            setActAwards(prev => ([
+                                ...prev,
+                                {
+                                    id: v4(),
+                                    award: null,
+                                    quantity: null
+                                }
+                            ]))
+                        }
+                    }}>
+                        <Row type="flex center">
+                            <FontAwesomeIcon icon={faPlus} />
+                            <p>Add Act Award</p>
+                        </Row>
+                    </Button>
+                </div>
+
+                <ul className="list">
+                    {(actAwards.length > 0) ? 
+                        <Query query={GET_ALL_AWARDS} pseudo={{ count: 1, height: 45 }}>
+                            {({ data }) => (
+                                actAwards.map((actAward, j) => (
+                                    <li key={actAward.id} className="item">
+                                        <div className="manage">
+                                            <Button options={{
+                                                state: 'inactive icon',
+                                                handler: () => {
+                                                    setActAwards(prev => prev.filter((_actAward) =>
+                                                        (_actAward.id !== actAward.id)
+                                                    ))
+                                                }
+                                            }}>
+                                                <FontAwesomeIcon icon={faTrash} />
+                                            </Button>
+                                        </div>
+
+                                        <div className="content">
+                                            <p className="ui-title">Award {j + 1}</p>
+
+                                            <Select options={{
+                                                name: `[act][award_${actAward.id}][award]`,
+                                                value: actAward.award,
+                                                placeholder: 'Choose award',
+                                                options: data.allAwardTypes.map(p => ({
+                                                    value: p,
+                                                    label: p
+                                                })),
+                                                onChange: (e) => {
+                                                    setActAwards(prev => prev.map((_actAward) =>
+                                                        (_actAward.id === actAward.id) ? ({
+                                                                ..._actAward,
+                                                                award: e
+                                                            }) : ({
+                                                                ..._actAward
+                                                            })
+                                                        )
+                                                    )
+                                                }
+                                            }} />
+                                            <Input options={{
+                                                ref: register({ required: 'Value is required' }),
+                                                type: 'number',
+                                                name: `[act][award_${actAward.id}][value]`,
+                                                placeholder: 'Value'
+                                            }} />
+                                        </div>
+                                    </li>
+                                ))
+                            )}
+                        </Query>
+                    : <Message text="No Act Awards" padding />}
                 </ul>
             </div>
 

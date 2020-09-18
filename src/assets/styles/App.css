@@ -436,18 +436,23 @@ main.chats aside:first-child .loader {
 }
 
 .ui-tasks,
+.ui-awards,
+.ui-awards .list,
+.ui-awards .list .item,
 .ui-tasks .ui-task .condition .list .item,
 .ui-tasks .ui-task .awards .list .item {
     position: relative;
 }
 
-.ui-tasks .manage {
+.ui-tasks .manage,
+.ui-awards .manage {
     position: absolute;
     top: 8px;
     right: 10px;
     z-index: var(--z-nine);
 }
 
+.ui-awards .manage .ui-button,
 .ui-tasks .manage .ui-button {
     width: 25px;
     height: 25px;
@@ -455,20 +460,24 @@ main.chats aside:first-child .loader {
 }
 
 .ui-tasks .ui-task .condition > .react-ripples > .ui-button,
-.ui-tasks .ui-task .awards > .react-ripples > .ui-button {
+.ui-tasks .ui-task .awards > .react-ripples > .ui-button,
+.ui-awards .react-ripples > .ui-button {
     height: 25px;
     font-size: .645rem;
 }
 
-.ui-tasks > .manage {
+.ui-tasks > .manage,
+.ui-awards > .manage {
     top: -38px;
     right: 0;
 }
 
+.ui-awards > .manage .ui-button,
 .ui-tasks > .manage .ui-button {
     width: auto;
 }
 
+.ui-awards .content > .ui-title,
 .ui-tasks .content > .ui-title {
     margin-block-start: 0 !important;
 }
@@ -478,14 +487,21 @@ main.chats aside:first-child .loader {
     grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
 }
 
+.ui-awards .ui-message,
 .ui-tasks .ui-message {
     margin-block-start: 0 !important;
+}
+
+.ui-tasks > .content > .ui-message,
+.ui-awards > .list > .ui-message {
+    height: 106px;
 }
 
 .ui-tasks .ui-task .header {
     grid-column: 1 / 3;
 }
 
+.ui-awards .list .ui-message,
 .ui-tasks .ui-task .condition .list .ui-message,
 .ui-tasks .ui-task .awards .list .ui-message {
     grid-column: 1 / 4;
@@ -499,8 +515,8 @@ main.chats aside:first-child .loader {
     width: 25px;
 }
 
-.ui-tasks .ui-task .ui-input,
 .ui-tasks .manage .ui-input,
+.ui-tasks .ui-task .ui-input,
 .ui-tasks .ui-task .awards .list .item .content .ui-select,
 .ui-tasks .ui-task .awards .list .item .content .ui-input {
     flex-grow: 1;
@@ -515,6 +531,7 @@ main.chats aside:first-child .loader {
     max-width: 40px;
 }
 
+.ui-awards .list,
 .ui-tasks .ui-task .awards .list,
 .ui-tasks .ui-task .condition .list {
     display: grid;
@@ -522,6 +539,7 @@ main.chats aside:first-child .loader {
     grid-gap: 10px;
 }
 
+.ui-awards .list .item,
 .ui-tasks .ui-task .condition .list .item,
 .ui-tasks .ui-task .awards .list .item {
     background: #f9f9f9;
@@ -530,6 +548,8 @@ main.chats aside:first-child .loader {
     padding: 10px;
 }
 
+.ui-awards .list .item,
+.ui-awards .list .item .content,
 .ui-tasks .ui-task .awards .list .item,
 .ui-tasks .ui-task .condition .list .item,
 .ui-tasks .ui-task .awards .list .item .content,

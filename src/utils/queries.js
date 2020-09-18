@@ -622,6 +622,7 @@ export const GET_ALL_ACTS = gql`
                 condition {
                     id
                     action
+                    target
                     goals
                     multiply
                     specific
@@ -664,6 +665,7 @@ export const SUB_ALL_ACTS = gql`
                 }
                 condition {
                     action
+                    target
                     goals
                     multiply
                     specific

@@ -25,9 +25,9 @@ const styles = {
         ...provided,
         padding: '5px'
     }),
-    singleValue: (provided, state) => ({
+    singleValue: (provided) => ({
         ...provided,
-        color: (state.isFocused) ? 'var(--color-accent)' : '#afbdc4',
+        color: 'var(--color-accent)',
         fontWeight: '600',
         fontSize: '14px',
         fontFamily: '"Roboto", sans-serif',
