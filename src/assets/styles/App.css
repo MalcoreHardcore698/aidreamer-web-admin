@@ -535,7 +535,7 @@ main.chats aside:first-child .loader {
 .ui-tasks .ui-task .awards .list,
 .ui-tasks .ui-task .condition .list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(164px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
     grid-gap: 10px;
 }
 

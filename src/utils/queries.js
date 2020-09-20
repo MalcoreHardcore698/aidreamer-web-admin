@@ -501,13 +501,17 @@ export const SUB_USER_CHATS = gql`
 
 export const SUB_MESSAGES = gql`
     subscription messages(
-        $id: ID
+        $id: ID!
     ) {
         messages(
             id: $id
         ) {
             user {
                 name
+                avatar {
+                    id
+                    path
+                }
             }
             text
             type
@@ -520,10 +524,11 @@ export const SUB_MESSAGES = gql`
 export const OPEN_USER_CHAT = gql`
     mutation openUserChat(
         $name: String!
-        $type: ChatType!
+        $type: ChatType
     ) {
         openUserChat(
             name: $name
+            type: $type
         ) {
             id
             chat {
@@ -575,8 +580,12 @@ export const ADD_USER_CHAT_MESSAGE = gql`
 // END CHAT
 
 export const SUB_NOTIFICATIONS = gql`
-    subscription notifications {
-        notifications {
+    subscription userNotifications(
+        $name: String!
+    ) {
+        userNotifications(
+            name: $name
+        )  {
             id
             text
             user {
@@ -606,6 +615,131 @@ export const GET_USER_NOTIFICATIONS = gql`
 // END USER
 
 // BEGIN HUB
+export const GET_USER_ACTS = gql`
+    query allUserActs {
+        allUserActs {
+            id
+            act {
+                id
+                title
+                description
+                tasks {
+                    id
+                    title
+                    icon {
+                        id
+                        path
+                    }
+                    condition {
+                        id
+                        action
+                        target
+                        goals
+                        multiply
+                        specific {
+                            id
+                            area
+                        }
+                        union
+                        link {
+                            id
+                            action
+                        }
+                    }
+                    awards {
+                        id
+                        award
+                        quantity
+                    }
+                    createdAt
+                }
+                awards {
+                    id
+                    award
+                    quantity
+                }
+                successor {
+                    id
+                    title
+                }
+                status
+                updatedAt
+                createdAt
+            }
+            tasks {
+                task {
+                    id
+                    title
+                }
+                status
+            }
+            status
+        }
+    }
+`
+
+export const SUB_USER_ACTS = gql`
+    subscription userActs {
+        userActs {
+            act {
+                id
+                title
+                description
+                tasks {
+                    id
+                    title
+                    icon {
+                        id
+                        path
+                    }
+                    condition {
+                        id
+                        action
+                        target
+                        goals
+                        multiply
+                        specific {
+                            id
+                            area
+                        }
+                        union
+                        link {
+                            id
+                            action
+                        }
+                    }
+                    awards {
+                        id
+                        award
+                        quantity
+                    }
+                    createdAt
+                }
+                awards {
+                    id
+                    award
+                    quantity
+                }
+                successor {
+                    id
+                    title
+                }
+                status
+                updatedAt
+                createdAt
+            }
+            tasks {
+                task {
+                    id
+                    title
+                }
+                status
+            }
+            status
+        }
+    }
+`
+
 export const GET_ALL_ACTS = gql`
     query allActs {
         allActs {
@@ -625,7 +759,10 @@ export const GET_ALL_ACTS = gql`
                     target
                     goals
                     multiply
-                    specific
+                    specific {
+                        id
+                        area
+                    }
                     union
                     link {
                         id
@@ -644,6 +781,12 @@ export const GET_ALL_ACTS = gql`
                 award
                 quantity
             }
+            successor {
+                id
+                title
+            }
+            isSource
+            status
             updatedAt
             createdAt
         }
@@ -668,7 +811,10 @@ export const SUB_ALL_ACTS = gql`
                     target
                     goals
                     multiply
-                    specific
+                    specific {
+                        id
+                        area
+                    }
                     union
                     link {
                         id
@@ -687,6 +833,12 @@ export const SUB_ALL_ACTS = gql`
                 award
                 quantity
             }
+            successor {
+                id
+                title
+            }
+            isSource
+            status
             updatedAt
             createdAt
         }
@@ -694,17 +846,23 @@ export const SUB_ALL_ACTS = gql`
 `
 
 export const ADD_ACT = gql`
-    mutation addHub(
+    mutation addAct(
         $title: String!
         $description: String!
-        $tasks: [ID]!
-        $awards: [InputAward]!
+        $tasks: [InputActTask]!
+        $awards: [InputAward]
+        $successor: ID
+        $isSource: Boolean
+        $status: Status!
     ) {
         addAct(
             title: $title
             description: $description
             tasks: $tasks
             awards: $awards
+            successor: $successor
+            isSource: $isSource
+            status: $status
         )
     }
 `
@@ -714,21 +872,28 @@ export const EDIT_ACT = gql`
         $id: ID!
         $title: String
         $description: String
-        $tasks: [ID]
+        $tasks: [InputActTask]
         $awards: [InputAward]
+        $successor: ID
+        $isSource: Boolean
+        $status: Status
     ) {
         editAct(
+            id: $id
             title: $title
             description: $description
             tasks: $tasks
             awards: $awards
+            successor: $successor
+            isSource: $isSource
+            status: $status
         )
     }
 `
 
 export const DELETE_ACTS = gql`
     mutation deleteActs(
-        $id: [ID]
+        $id: [ID]!
     ) {
         deleteActs(id: $id)
     }
@@ -1101,6 +1266,27 @@ export const DELETE_ARTICLES = gql`
         $articles: [InputArticle]
     ) {
         deleteArticles(articles: $articles)
+    }
+`
+
+export const SUB_COMMENTS = gql`
+    subscription comments(
+        $id: ID!
+    ) {
+        comments(
+            id: $id
+        ) {
+            id
+            user {
+                name
+                avatar {
+                    path
+                }
+            }
+            text
+            updatedAt
+            createdAt
+        }
     }
 `
 

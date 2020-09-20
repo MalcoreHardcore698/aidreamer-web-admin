@@ -46,7 +46,7 @@ export default ({ showModal }) => {
                                     dataTable: ((subData && subData.acts) || data.allActs).map(act => ([
                                         { header: 'ID', value: act.id, type: 'text', visible: false },
                                         { header: 'Название', value: act.title, type: 'text' },
-                                        { header: 'Опсиание', value: act.description, type: 'text' },
+                                        { header: 'Описание', value: act.description, type: 'text' },
                                         { header: 'Дата создания', value: <Moment date={new Date(new Date().setTime(act.createdAt))} format="DD.MM.YYYY" />, type: 'text' }
                                     ])),
                                     actions: [
@@ -83,18 +83,19 @@ export default ({ showModal }) => {
                                         ),
                                         ({ table, dishands }) => {
                                             const docs = table.filter(t => t.checked)
-                                            const role = (docs.length === 1) ? docs[0] : false
+                                            const act = (docs.length === 1) ? docs[0] : false
                                             return (
                                                 <Button options={{
-                                                    state: (dishands || (!role)) ? 'disable icon inactive' : 'active icon',
-                                                    disabled: dishands || (!role),
+                                                    state: (dishands || (!act)) ? 'disable icon inactive' : 'active icon',
+                                                    disabled: dishands || (!act),
                                                     classNames: 'stretch',
-                                                    handler: () => (role) && showModal([{
+                                                    handler: () => (act) && showModal([{
                                                         path: '/',
                                                         title: 'Edit',
                                                         component: ({ close }) => <EditAct
-                                                            role={role}
+                                                            act={act}
                                                             close={close}
+                                                            status
                                                         />
                                                     }], true)
                                                 }}>
@@ -112,6 +113,7 @@ export default ({ showModal }) => {
                                                         title: 'Add',
                                                         component: ({ close }) => <AddAct
                                                             close={close}
+                                                            status
                                                         />
                                                     }
                                                 ], true)

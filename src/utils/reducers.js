@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import C from './types'
+import { v4 } from 'uuid'
 
 export function userReducer(state = {}, action) {
     switch (action.type) {
@@ -37,6 +38,22 @@ export function documentReducer(state={}, { type, payload }) {
     switch (type) {
         case C.SET_DOCUMENT:
             return payload.document
+        
+        case C._act_ADD_TASK:
+            return {
+                ...state,
+                tasks: [
+                    ...(state?.tasks || []),
+                    {
+                        id: v4(),
+                        title: null,
+                        icon: {},
+                        condition: [],
+                        awards: [],
+                        isDropdownIcons: false
+                    }
+                ]
+            }
         default:
             return state
     }
