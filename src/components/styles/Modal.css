@@ -7,7 +7,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: var(--z-ninetynine);
+    z-index: var(--z-override);
     overflow: auto;
 }
 
@@ -63,8 +63,8 @@
     margin-block-start: 10px;
 }
 
-.ui-modal .wrapper .fat {
-    width: 70vh;
+.ui-modal .wrapper .wide {
+    width: 768px;
 }
 
 .ui-modal .wrapper.slideOutLeft {
@@ -127,6 +127,15 @@
     width: auto;
 }
 
+.ui-modal .wrapper .ui-toggler {
+    height: var(--height-main);
+    flex-wrap: initial;
+}
+
+.ui-modal .wrapper .ui-toggler .toggle.active .ui-row .ui-avatar {
+    filter: brightness(5);
+}
+
 @keyframes slideOutLeft {
     from {
         left: 0;
@@ -179,7 +188,7 @@
         width: 80%;
     }
 
-    .ui-modal .wrapper .fat {
+    .ui-modal .wrapper .wide {
         width: auto;
     }
 }

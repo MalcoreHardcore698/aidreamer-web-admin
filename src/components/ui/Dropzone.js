@@ -1,59 +1,72 @@
-import React, { useState } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage } from '@fortawesome/free-solid-svg-icons'
-import Dropzone from 'react-dropzone-uploader'
-import { config } from '../../utils/config'
+import React, { useEffect, useCallback } from 'react'
+import { useDropzone } from 'react-dropzone'
 import '../styles/Dropzone.css'
-
-const api = config.get('api')
+import { useFormContext } from 'react-hook-form'
 
 export default ({ options }) => {
-    const [preview, setPreview] = useState('')
-
     const {
-        ref,
         type,
         name,
-        value,
-        styles={},
-        setImage
-    } = options || {}
+        accept
+    } = options
+
+    const {
+        register,
+        unregister,
+        setValue,
+        watch
+    } = useFormContext()
+
+    const file = watch(name)
+
+    const onDrop = useCallback(
+        (droppedFile) => {
+            const file = droppedFile[0]
+            setValue(name, file)
+        },
+        [setValue, name],
+    )
+
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        onDrop,
+        multiple: false,
+        maxFiles: 1,
+        accept
+    })
 
     const classes = [
-        'ui-dropzone', type,
-        (preview || value) ? ' with-preview' : ''
+    'ui-dropzone', type
     ]
 
-    const handleChangeStatus = ({ meta, file }, status) => {
-        if (status === 'done') {
-            setPreview(meta.previewUrl)
-            setImage(file)
+    useEffect(() => {
+        register(name)
+        return () => {
+            unregister(name)
         }
-    }
+    }, [register, unregister, name])
 
-    return (
-        <div className={classes.join(' ')} styles={styles}>
-            {(preview || value) && <div className="preview">
-                {(preview) ?
-                    <img src={preview} alt="Preview" />
-                : (value) ?
-                   <img
-                        className="image"
-                        src={(value).replace('./', `${api}/`)}
-                        alt="Article"
-                    />
-                : <FontAwesomeIcon icon={faImage} />}
-            </div>}
-
-            <Dropzone
-                ref={ref}
+  return (
+    <div className={classes.join(' ')}>
+        <div className="dropzone-container" {...getRootProps()}>
+            <input
+                id={name}
                 name={name}
-                maxFiles={1}
-                multiple={false}
-                onChangeStatus={handleChangeStatus}
-                inputContent="Drag & Drop Image"
-                accept="image/*"
+                accept={accept}
+                {...getInputProps()}
             />
+            <div className={`dropzone-area${(isDragActive ? ' active' : '')}`}>
+                <p>Drop Image</p>
+
+                {!!file && (
+                    <div className="preview">
+                        <img
+                            src={URL.createObjectURL(file)}
+                            alt={file.name}
+                        />
+                    </div>
+                )}
+            </div>
         </div>
-    )
+    </div>
+  )
 }

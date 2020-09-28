@@ -1,0 +1,54 @@
+.ui-act {
+    display: flex;
+    flex-direction: column;
+    grid-gap: var(--grid-gap);
+}
+
+.ui-act .ui-list .ui-item {
+    position: relative;
+    opacity: .45;
+}
+
+.ui-act .ui-list .ui-item.checked {
+    opacity: 1;
+}
+
+.ui-act .ui-list .ui-item.checked::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    background: #3F8FA1;
+    border-radius: 8px;
+    z-index: var(--z-primary);
+    opacity: 7%;
+}
+.ui-act .ui-list .ui-item .text .name {
+    display: flex;
+    align-items: center;
+    grid-gap: 10px;
+    font-weight: 700;
+    color: var(--color-graydark);
+}
+
+.ui-act .ui-list .ui-item .text .name span.award {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--color-graylite);
+}
+
+.ui-act .ui-list .ui-item .text .name span.award img {
+    width: 10px;
+    height: 10px;
+}
+
+.ui-act .ui-list .ui-item .condition {
+    color: var(--color-graylite);
+    font-weight: 500;
+}

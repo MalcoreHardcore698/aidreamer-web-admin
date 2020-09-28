@@ -13,16 +13,12 @@ const styles = {
     control: (provided, state) => ({
         ...provided,
         minHeight: '40px',
-        border: (state.isDisabled)
-            ? 'var(--color-button-border-disabled)'
-            : (state.isFocused || state.isSelected)
-            ? '1px solid var(--color-accent)'
-            : '1px solid #afbdc4',
+        border: (state.isFocused || state.isSelected) ? '1px solid var(--color-accent)' : '1px solid #afbdc4',
         borderRadius: '8px',
         boxShadow: 'none',
-        background: (state.isDisabled) ? 'var(--color-button-background-disabled)' : 'transparent',
+        background: 'transparent',
         color: '#afbdc4',
-        cursor: (state.isDisabled) ? 'default' : 'pointer',
+        cursor: 'pointer',
         transition: 'var(--transition)'
     }),
     valueContainer: (provided) => ({

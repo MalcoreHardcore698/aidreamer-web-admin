@@ -6,20 +6,15 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import AddUser from './content/AddUser'
-import EditUser from './content/EditUser'
-import DeleteEntries from './content/DeleteEntries'
-
+import FormUser from './forms/User'
+import DeleteEntries from './forms/Delete'
 import { GET_ALL_USERS, SUB_ALL_USERS, DELETE_USERS } from '../utils/queries'
-
 import './styles/Table.css'
 
 export default ({ showModal }) => {
@@ -90,8 +85,9 @@ export default ({ showModal }) => {
                                                     handler: () => (user) && showModal([{
                                                         path: '/',
                                                         title: 'Edit User',
-                                                        component: ({ close }) => <EditUser
-                                                            user={user}
+                                                        component: ({ close }) => <FormUser
+                                                            edit
+                                                            document={user}
                                                             close={close}
                                                         />
                                                     }])
@@ -108,8 +104,8 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Add User',
-                                                        component: ({ close }) => <AddUser
-                                                            user
+                                                        component: ({ close }) => <FormUser
+                                                            add
                                                             close={close}
                                                         />
                                                     }

@@ -59,6 +59,18 @@ export function documentReducer(state={}, { type, payload }) {
     }
 }
 
+export function controlReducer(state={}, { type, payload }) {
+    switch (type) {
+        case C.REGISTER_FIELD:
+            return {
+                ...state,
+                [payload.name]: payload.state
+            }
+        default:
+            return state
+    }
+}
+
 export function documentsReducer(state={}, { type, payload }) {
     switch (type) {
         case C.SET_DOCUMENTS:
@@ -92,6 +104,7 @@ export function filtersReducer(state={}, { type, payload }) {
 export const reducers = combineReducers({
     user: userReducer,
     chat: chatReducer,
+    control: controlReducer,
     document: documentReducer,
     documents: documentsReducer,
     table: tableReducer,

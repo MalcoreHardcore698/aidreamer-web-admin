@@ -10,10 +10,10 @@ import '../styles/TextArea.css'
 
 export default ({ options }) => {
     const {
-        ref,
         type,
         value,
         name,
+        inputRef,
         defaultValue,
         placeholder='Write a message...',
         onChange=() => {}, resize=false
@@ -26,9 +26,9 @@ export default ({ options }) => {
 
     return (
         <textarea
-            ref={ref}
             name={name}
             value={value}
+            ref={inputRef}
             defaultValue={defaultValue}
             className={classes.join(' ')}
             placeholder={placeholder}

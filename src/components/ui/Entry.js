@@ -18,7 +18,7 @@ const api = config.get('api')
 
 const Manage = ({ manageOffset, handlerView, handlerEdit, handlerDelete }) => {
     return (
-        <Row className="manage small" style={{ top: (manageOffset) ? 154 : 15 }}>
+        <Row className="manage small" style={{ top: (manageOffset) ? 280 : 15 }}>
             <Button options={{ state: 'icon inactive small', handler: handlerView }}>
                 <FontAwesomeIcon icon={faEye} />
             </Button>
@@ -36,6 +36,7 @@ export default (props) => {
     const Children = props.children
 
     const {
+        type,
         capacious=true,
         editable,
         manageOffset=false,
@@ -101,8 +102,8 @@ export default (props) => {
             return
         
         return (
-            <div className="status-bar">
-                {statusBar.options.map((item, key) =>
+            <div className={`status-bar${(!statusBar.body && (type === 'ARTICLE')) ? ' no-body' : ''}`}>
+                {statusBar.options.map((item, key) => (item) &&
                     <p key={key}>
                         <span className="lite">{item.lite}</span>
                         <span className="dark">{item.dark}</span>

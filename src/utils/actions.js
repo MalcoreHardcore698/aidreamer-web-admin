@@ -88,6 +88,15 @@ export function setDataTable(table) {
     }
 }
 
+export function registerField(name, state) {
+    return {
+        type: C.REGISTER_FIELD,
+        payload: {
+            name, state
+        }
+    }
+}
+
 export function _act_AddTask() {
     return {
         type: C._act_ADD_TASK

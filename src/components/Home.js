@@ -71,15 +71,15 @@ export default () => {
 
                                 <Row type="flex statblock blue">
                                     <Column>
-                                        <p className="value">{data.countOffers}</p>
-                                        <p className="legend">offers</p>
+                                        <p className="value">{data.countPosts}</p>
+                                        <p className="legend">posts</p>
                                     </Column>
                                 </Row>
 
                                 <Row type="flex statblock orange">
                                     <Column>
-                                        <p className="value">{data.countArticles}</p>
-                                        <p className="legend">articles</p>
+                                        <p className="value">{data.countComments}</p>
+                                        <p className="legend">comments</p>
                                     </Column>
                                 </Row>
                             </Container>

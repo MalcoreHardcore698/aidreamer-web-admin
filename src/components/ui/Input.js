@@ -8,26 +8,28 @@
 import React from 'react'
 import '../styles/Input.css'
 
-export default ({ options }) => {
+export default ({ options, hidden=false }) => {
     const {
         type='text',
         state,
-        value, ref, name,
+        name,
+        value,
+        inputRef,
         defaultValue,
         placeholder='Write a message...',
-        autoComplete="Default text",
+        autoComplete="off",
         onChange=() => {},
         onKeyPress=() => {}
     } = options
 
     const classes = [
-        'ui-input',
-        state
+        'ui-input', state,
+        (hidden) ? 'hidden' : ''
     ]
 
     return (
         <input
-            ref={ref}
+            ref={inputRef}
             type={type}
             name={name}
             value={value}

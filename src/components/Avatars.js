@@ -6,18 +6,14 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import AddAvatar from './content/AddAvatar'
-import EditAvatar from './content/EditAvatar'
-import DeleteEntries from './content/DeleteEntries'
-
+import FormAvatar from './forms/Avatar'
+import DeleteEntries from './forms/Delete'
 import { GET_ALL_AVATARS, SUB_ALL_AVATARS, DELETE_AVATARS } from '../utils/queries'
 
 import './styles/Table.css'
@@ -95,9 +91,14 @@ export default ({ showModal }) => {
                                                     handler: () => (avatar) && showModal([{
                                                         path: '/',
                                                         title: 'Avatar',
-                                                        component: ({ close }) => <EditAvatar
-                                                            avatar={avatar}
+                                                        component: ({ close }) => <FormAvatar
+                                                            edit
+                                                            document={avatar}
                                                             close={close}
+                                                            isIcon
+                                                            isRarity
+                                                            isHub
+                                                            isStatus
                                                         />
                                                     }], true)
                                                 }}>
@@ -113,8 +114,13 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Avatar',
-                                                        component: ({ close }) => <AddAvatar
+                                                        component: ({ close }) => <FormAvatar
+                                                            add
                                                             close={close}
+                                                            isIcon
+                                                            isRarity
+                                                            isHub
+                                                            isStatus
                                                         />
                                                     }
                                                 ], true)

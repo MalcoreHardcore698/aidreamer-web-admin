@@ -6,24 +6,19 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import EditRole from './content/EditRole'
-import AddRole from './content/AddRole'
-import DeleteEntries from './content/DeleteEntries'
-
+import FormRole from './forms/Role'
+import DeleteEntries from './forms/Delete'
 import {
     GET_ALL_ROLES,
     DELETE_ROLES,
     SUB_ALL_ROLES
 } from '../utils/queries'
-
 import './styles/Table.css'
 
 export default ({ showModal }) => {
@@ -91,8 +86,9 @@ export default ({ showModal }) => {
                                                     handler: () => (role) && showModal([{
                                                         path: '/',
                                                         title: 'Edit Role',
-                                                        component: ({ close }) => <EditRole
-                                                            role={role}
+                                                        component: ({ close }) => <FormRole
+                                                            edit
+                                                            document={role}
                                                             close={close}
                                                         />
                                                     }], true)
@@ -109,7 +105,8 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Add Role',
-                                                        component: ({ close }) => <AddRole
+                                                        component: ({ close }) => <FormRole
+                                                            add
                                                             close={close}
                                                         />
                                                     }

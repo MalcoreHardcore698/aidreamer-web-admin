@@ -6,20 +6,15 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Subscription from './ui/Subscription'
 import Query from './ui/Query'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import AddLanguage from './content/AddLanguage'
-import EditLanguage from './content/EditLanguage'
-import DeleteEntries from './content/DeleteEntries'
-
+import FormLanguage from './forms/Language'
+import DeleteEntries from './forms/Delete'
 import { GET_ALL_LANGUAGES, SUB_ALL_LANGUAGES, DELETE_LANGUAGES } from '../utils/queries'
-
 import './styles/Table.css'
 
 export default ({ showModal }) => {
@@ -90,8 +85,9 @@ export default ({ showModal }) => {
                                                     handler: () => (language) && showModal([{
                                                         path: '/',
                                                         title: 'Edit Language',
-                                                        component: ({ close }) => <EditLanguage
-                                                            language={language}
+                                                        component: ({ close }) => <FormLanguage
+                                                            edit
+                                                            document={language}
                                                             close={close}
                                                         />
                                                     }], true)
@@ -108,7 +104,8 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Add Language',
-                                                        component: ({ close }) => <AddLanguage
+                                                        component: ({ close }) => <FormLanguage
+                                                            add
                                                             close={close}
                                                         />
                                                     }

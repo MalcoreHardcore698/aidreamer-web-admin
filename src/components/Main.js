@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useSelector } from 'react-redux'
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route, Redirect, NavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faUsers,
     faNewspaper,
-    faAddressBook,
     faGamepad,
     faPaw,
     faEye,
@@ -17,45 +16,27 @@ import {
     faRocket,
     faTheaterMasks,
     faIcons,
-    faFlag,
-    faCog
+    faCog,
+    faBars
 } from '@fortawesome/free-solid-svg-icons'
-import { AuthContext } from './AuthContext'
-
+import { AuthContext } from './context/Auth'
 import Row from './ui/Row'
+import Button from './ui/Button'
 import Navigation from './ui/Navigation'
 import Modal from './ui/Modal'
-
-import ViewEmpty from './content/ViewEmpty'
-import ViewNotifications from './content/ViewNotifications'
+import ViewEmpty from './views/Empty'
+import ViewNotifications from './views/Notifications'
+import ViewMenu from './views/Menu'
 import {
     SettingsEditProfileContent,
     SettingsHomeContent,
     SettingsQuestionContent,
     SettingsLanguageContent
-} from './content/ViewSettings'
-
+} from './views/Settings'
 import Auth from './Auth'
-
 import SVGLogo from '../assets/images/logo'
-
 import routes from '../routes'
 import '../assets/styles/App.css'
-
-function getButton(name, handler, routes, icon) {
-    return ({
-        options: {
-            state: 'inactive',
-            handler: () => handler(routes, true)
-        },
-        component: (
-            <Row>
-                <FontAwesomeIcon icon={icon} />
-                <p>{name}</p>
-            </Row>
-        )
-    })
-}
 
 const Content = () => {
     const state = useSelector(state => state)
@@ -76,6 +57,11 @@ const Content = () => {
         setCenterModal(false)
         document.body.style.overflow = 'initial'
     }
+    
+    const getOptions = (routes, isCenter=true) => ({
+        type: 'large-round',
+        handler: () => showModal(routes, isCenter)
+    })
 
     useEffect(() => {
         if ((state.user) && !state.user.avatar) {
@@ -94,197 +80,168 @@ const Content = () => {
         <React.Fragment>
             <Navigation options={{
                 dashboard: true,
-                links: [
-                    {
-                        links: [
-                            {
-                                path: '/',
-                                type: 'wide',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            {SVGLogo}
-                                        </p>
-                                        <p>Dashboard</p>
-                                    </Row>
-                                )
-                            }
-                        ]
-                    },
-                    {
-                        title: 'Content',
-                        links: [
-                            {
-                                path: '/users',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faUsers} />
-                                        </p>
-                                        <p>Users</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/articles',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faNewspaper} />
-                                        </p>
-                                        <p>Articles</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/offers',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faAddressBook} />
-                                        </p>
-                                        <p>Offers</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/hubs',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faGamepad} />
-                                        </p>
-                                        <p>Hubs</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/chats',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faPaperPlane} />
-                                        </p>
-                                        <p>Chats</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/tours',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faTrophy} />
-                                        </p>
-                                        <p>Tours</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/pets',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faPaw} />
-                                        </p>
-                                        <p>Pets</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/acts',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faRocket} />
-                                        </p>
-                                        <p>Acts</p>
-                                    </Row>
-                                )
-                            }
-                        ]
-                    },
-                    {
-                        title: 'Settings',
-                        links: [
-                            {
-                                path: '/roles',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faEye} />
-                                        </p>
-                                        <p>Roles</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/images',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faImage} />
-                                        </p>
-                                        <p>Images</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/avatars',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faTheaterMasks} />
-                                        </p>
-                                        <p>Avatars</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/icons',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faIcons} />
-                                        </p>
-                                        <p>Icons</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/flags',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faFlag} />
-                                        </p>
-                                        <p>Flags</p>
-                                    </Row>
-                                )
-                            },
-                            {
-                                path: '/languages',
-                                component: (
-                                    <Row>
-                                        <p className="icon">
-                                            <FontAwesomeIcon icon={faGlobeAsia} />
-                                        </p>
-                                        <p>Languages</p>
-                                    </Row>
-                                )
-                            }
-                        ]
-                    }
+                left: [
+                    <NavLink
+                        exact
+                        className="wide"
+                        to={'/'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                {SVGLogo}
+                            </p>
+                            <p>Dashboard</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/users'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faUsers} />
+                            </p>
+                            <p>Users</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/posts'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faNewspaper} />
+                            </p>
+                            <p>Posts</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/hubs'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faGamepad} />
+                            </p>
+                            <p>Hubs</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/chats'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faPaperPlane} />
+                            </p>
+                            <p>Chats</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/tours'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faTrophy} />
+                            </p>
+                            <p>Tours</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/pets'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faPaw} />
+                            </p>
+                            <p>Pets</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/acts'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faRocket} />
+                            </p>
+                            <p>Acts</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/roles'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faEye} />
+                            </p>
+                            <p>Roles</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/images'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faImage} />
+                            </p>
+                            <p>Images</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/avatars'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faTheaterMasks} />
+                            </p>
+                            <p>Avatars</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/icons'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faIcons} />
+                            </p>
+                            <p>Icons</p>
+                        </Row>
+                    </NavLink>,
+                    <NavLink
+                        exact
+                        to={'/languages'}
+                    >
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faGlobeAsia} />
+                            </p>
+                            <p>Languages</p>
+                        </Row>
+                    </NavLink>
                 ],
-                buttons: [
-                    getButton('Notifications', showModal, [
+                right: [
+                    <Button options={getOptions([
                         {
                             path: '/',
                             title: 'Notifications',
                             component: () => <ViewNotifications />
                         }
-                    ], faBell),
-                    getButton('Settings', showModal, [
+                    ])}>
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faBell} />
+                            </p>
+                            <p>Notifications</p>
+                        </Row>
+                    </Button>,
+                    <Button options={getOptions([
                         {
                             path: '/',
                             title: 'Settings',
@@ -310,7 +267,23 @@ const Content = () => {
                             title: 'Ask a Question',
                             component: ({ back }) => <SettingsQuestionContent back={back} />
                         }
-                    ], faCog)
+                    ])}>
+                        <Row>
+                            <p className="icon">
+                                <FontAwesomeIcon icon={faCog} />
+                            </p>
+                            <p>Settings</p>
+                        </Row>
+                    </Button>,
+                    <Button options={getOptions([
+                        {
+                            path: '/',
+                            title: 'Menu',
+                            component: ({ close }) => <ViewMenu close={close} />
+                        }
+                    ])}>
+                        <FontAwesomeIcon icon={faBars} />
+                    </Button>
                 ]
             }} />
 

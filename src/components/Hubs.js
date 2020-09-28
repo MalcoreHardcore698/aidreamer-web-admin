@@ -6,20 +6,15 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import AddHub from './content/AddHub'
-import EditHub from './content/EditHub'
-import DeleteEntries from './content/DeleteEntries'
-
+import FormHub from './forms/Hub'
+import DeleteEntries from './forms/Delete'
 import { GET_ALL_HUBS, SUB_ALL_HUBS, DELETE_HUBS } from '../utils/queries'
-
 import './styles/Table.css'
 
 export default ({ showModal }) => {
@@ -94,10 +89,16 @@ export default ({ showModal }) => {
                                                     handler: () => (hub) && showModal([{
                                                         path: '/',
                                                         title: 'Edit Hub',
-                                                        component: ({ close }) => <EditHub
-                                                            status
-                                                            hub={hub}
+                                                        component: ({ close }) => <FormHub
+                                                            edit
+                                                            document={hub}
                                                             close={close}
+                                                            isTitle
+                                                            isDescription
+                                                            isSlogan
+                                                            isColor
+                                                            isIcon
+                                                            isStatus
                                                         />
                                                     }], true)
                                                 }}>
@@ -113,9 +114,15 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Add Hub',
-                                                        component: ({ close }) => <AddHub
-                                                            status
+                                                        component: ({ close }) => <FormHub
+                                                            add
                                                             close={close}
+                                                            isTitle
+                                                            isDescription
+                                                            isSlogan
+                                                            isColor
+                                                            isIcon
+                                                            isStatus
                                                         />
                                                     }
                                                 ], true)

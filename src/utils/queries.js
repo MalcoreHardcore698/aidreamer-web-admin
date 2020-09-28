@@ -258,11 +258,16 @@ export const DELETE_USERS = gql`
 `
 
 // BEGIN STATS
+export const GET_USER_COUNT_POSTS = gql`
+    query countUserPosts {
+        countUserPosts
+    }
+`
+
 export const GET_STATS = gql`
     query allStats {
         countUsers
-        countOffers
-        countArticles
+        countPosts
         countComments
         countHubs
     }
@@ -614,7 +619,7 @@ export const GET_USER_NOTIFICATIONS = gql`
 `
 // END USER
 
-// BEGIN HUB
+// BEGIN ACT
 export const GET_USER_ACTS = gql`
     query allUserActs {
         allUserActs {
@@ -630,6 +635,7 @@ export const GET_USER_ACTS = gql`
                         id
                         path
                     }
+                    translation
                     condition {
                         id
                         action
@@ -692,6 +698,7 @@ export const SUB_USER_ACTS = gql`
                         id
                         path
                     }
+                    translation
                     condition {
                         id
                         action
@@ -753,6 +760,7 @@ export const GET_ALL_ACTS = gql`
                     id
                     path
                 }
+                translation
                 condition {
                     id
                     action
@@ -806,6 +814,7 @@ export const SUB_ALL_ACTS = gql`
                     id
                     path
                 }
+                translation
                 condition {
                     action
                     target
@@ -952,8 +961,6 @@ export const SUB_ALL_HUBS = gql`
                 path
             }
             color
-            countUsers
-            countOffers
             status
             updatedAt
             createdAt
@@ -1012,79 +1019,49 @@ export const DELETE_HUBS = gql`
 `
 // END HUB
 
-// BEGIN ARTICLE
-export const GET_USER_ARTICLES = gql`
-    query allUserArticles {
-        allUserArticles {
-            id
-            title
-            description
-            body
-            views
-            image {
-                path
-            }
-            comments {
-                id
-                user {
-                    name
-                    avatar {
-                        path
-                    }
-                }
-                text
-                updatedAt
-                createdAt
-            }
-            hub {
-                id
-                title
-                color
-            }
-            author {
-                id
-                name
-            }
-            updatedAt
-            createdAt
-        }
+// BEGIN POST
+export const GET_ALL_POST_TYPES = gql`
+    query allPostTypes {
+        allPostTypes
     }
 `
 
-export const GET_ALL_ARTICLES = gql`
-    query allArticles($status: Status) {
-        allArticles(status: $status) {
+export const GET_USER_POSTS = gql`
+    query allUserPosts {
+        allUserPosts {
             id
-            title
-            description
-            body
-            views
-            image {
-                path
-            }
-            comments {
-                id
-                user {
-                    name
-                    avatar {
-                        path
-                    }
-                }
-                text
-                updatedAt
-                createdAt
-            }
-            hub {
-                id
-                title
-                color
-            }
+            type
             author {
                 id
                 name
                 avatar {
                     path
                 }
+            }
+            title
+            subtitle
+            description
+            content
+            preview {
+                path
+            }
+            views
+            comments {
+                id
+                user {
+                    name
+                    avatar {
+                        path
+                    }
+                }
+                text
+                updatedAt
+                createdAt
+            }
+            hub {
+                id
+                title
+                color
             }
             status
             updatedAt
@@ -1093,38 +1070,11 @@ export const GET_ALL_ARTICLES = gql`
     }
 `
 
-export const SUB_USER_ARTICLES = gql`
-    subscription userArticles(
-        $name: String!
-    ) {
-        userArticles(
-            name: $name
-        ) {
+export const GET_ALL_POSTS = gql`
+    query allPosts($status: Status, $type: PostType) {
+        allPosts(status: $status, type: $type) {
             id
-            title
-            description
-            body
-            views
-            image {
-                path
-            }
-            comments {
-                id
-                user {
-                    name
-                    avatar {
-                        path
-                    }
-                }
-                text
-                updatedAt
-                createdAt
-            }
-            hub {
-                id
-                title
-                color
-            }
+            type
             author {
                 id
                 name
@@ -1132,27 +1082,14 @@ export const SUB_USER_ARTICLES = gql`
                     path
                 }
             }
-            updatedAt
-            createdAt
-        }
-    }
-`
-
-export const SUB_ARTICLES = gql`
-    subscription articles(
-        $status: Status
-    ) {
-        articles(
-            status: $status
-        ) {
-            id
             title
+            subtitle
             description
-            body
-            views
-            image {
+            content
+            preview {
                 path
             }
+            views
             comments {
                 id
                 user {
@@ -1170,28 +1107,39 @@ export const SUB_ARTICLES = gql`
                 title
                 color
             }
+            status
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const SUB_USER_POSTS = gql`
+    subscription userPosts(
+        $name: String!
+        $type: PostType
+    ) {
+        userPosts(
+            name: $name
+            type: $type
+        ) {
+            id
+            type
             author {
                 id
                 name
+                avatar {
+                    path
+                }
             }
-            updatedAt
-            createdAt
-        }
-    }
-`
-
-export const GET_ARTICLE = gql`
-    query getArticle($id: ID!) {
-        getArticle(id: $id) {
-            id
             title
+            subtitle
             description
-            body
-            image {
-                id
-                name
+            content
+            preview {
                 path
             }
+            views
             comments {
                 id
                 user {
@@ -1209,63 +1157,180 @@ export const GET_ARTICLE = gql`
                 title
                 color
             }
-            source
-            url
+            status
             updatedAt
             createdAt
         }
     }
 `
 
-export const ADD_ARTICLE = gql`
-    mutation addArticle(
-        $author: String!
+export const SUB_ALL_POSTS = gql`
+    subscription posts(
+        $status: Status
+        $type: PostType
+    ) {
+        posts(
+            status: $status
+            type: $type
+        ) {
+            
+            id
+            type
+            author {
+                id
+                name
+                avatar {
+                    path
+                }
+            }
+            title
+            subtitle
+            description
+            content
+            preview {
+                path
+            }
+            views
+            comments {
+                id
+                user {
+                    name
+                    avatar {
+                        path
+                    }
+                }
+                text
+                updatedAt
+                createdAt
+            }
+            hub {
+                id
+                title
+                color
+            }
+            status
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const GET_POST = gql`
+    query getPost(
+        $id: ID!
+        $type: PostType
+    ) {
+        getPost(
+            id: $id
+            type: $type
+        ) {
+            id
+            type
+            author {
+                id
+                name
+                avatar {
+                    path
+                }
+            }
+            title
+            subtitle
+            description
+            content
+            preview {
+                path
+            }
+            views
+            comments {
+                id
+                user {
+                    name
+                    avatar {
+                        path
+                    }
+                }
+                text
+                updatedAt
+                createdAt
+            }
+            hub {
+                id
+                title
+                color
+            }
+            status
+            updatedAt
+            createdAt
+        }
+    }
+`
+
+export const ADD_POST = gql`
+    mutation addPost(
+        $author: ID
+        $type: PostType!
         $title: String!
-        $description: String!
-        $body: String!
-        $hub: ID!
-        $image: Upload
+        $subtitle: String
+        $description: String
+        $content: String
+        $preview: Upload
+        $hub: ID
+        $views: Int
+        $comments: [InputComment]
         $status: Status!
     ) {
-        addArticle(
+        addPost(
             author: $author
+            type: $type
             title: $title
+            subtitle: $subtitle
             description: $description
-            body: $body
+            content: $content
+            preview: $preview
             hub: $hub
-            image: $image
+            views: $views
+            comments: $comments
             status: $status
         )
     }
 `
 
-export const EDIT_ARTICLE = gql`
-    mutation editArticle(
+export const EDIT_POST = gql`
+    mutation editPost(
         $id: ID!
+        $author: ID
+        $type: PostType
         $title: String
+        $subtitle: String
         $description: String
-        $body: String
+        $content: String
+        $preview: Upload
         $hub: ID
-        $image: Upload
+        $views: Int
+        $comments: [InputComment]
         $status: Status
     ) {
-        editArticle(
-            id: $id
+        editPost(
+            author: $author
+            type: $type
             title: $title
+            subtitle: $subtitle
             description: $description
-            body: $body
+            content: $content
+            preview: $preview
             hub: $hub
-            image: $image
+            views: $views
+            comments: $comments
             status: $status
         )
     }
 `
 
-export const DELETE_ARTICLES = gql`
-    mutation deleteArticles(
-        $articles: [InputArticle]
+export const DELETE_POSTS = gql`
+    mutation deletePosts(
+        $posts: [InputPost]
     ) {
-        deleteArticles(articles: $articles)
+        deletePosts(posts: $posts)
     }
 `
 
@@ -1292,11 +1357,11 @@ export const SUB_COMMENTS = gql`
 
 export const ADD_COMMENT = gql`
     mutation addComment(
-        $article: ID!
+        $post: ID!
         $text: String!
     ) {
         addComment(
-            article: $article
+            post: $post
             text: $text
         )
     }
@@ -1305,13 +1370,13 @@ export const ADD_COMMENT = gql`
 export const EDIT_COMMENT = gql`
     mutation editComment(
         $id: ID!
-        $article: ID
+        $post: ID
         $user: ID
         $text: String
     ) {
         editComment(
             id: $id
-            article: $article
+            post: $post
             user: $user
             text: $text
         )
@@ -1321,167 +1386,15 @@ export const EDIT_COMMENT = gql`
 export const DELTE_COMMENTS = gql`
     mutation deleteComments(
         $id: [ID]!
-        $article: ID!
+        $post: ID!
     ) {
         deleteComments(
             id: $id
-            article: $article
+            post: $post
         )
     }
 `
-// END ARTICLE
-
-// BEGIN OFFER
-export const GET_USER_OFFERS = gql`
-    query allUserOffers {
-        allUserOffers {
-            id
-            title
-            message
-            user {
-                id
-                name
-                avatar {
-                    path
-                }
-            }
-            hub {
-                id
-                title
-                color
-            }
-            status
-            updatedAt
-            createdAt
-        }
-    }
-`
-
-export const SUB_USER_OFFERS = gql`
-    subscription userOffers(
-        $name: String!
-    ) {
-        userOffers(
-            name: $name
-        ) {
-            id
-            title
-            message
-            user {
-                id
-                name
-                avatar {
-                    path
-                }
-            }
-            hub {
-                id
-                title
-                color
-            }
-            status
-            updatedAt
-            createdAt
-        }
-    }
-`
-
-export const GET_ALL_OFFERS = gql`
-    query allOffers($status: Status) {
-        allOffers(status: $status) {
-            id
-            title
-            message
-            user {
-                id
-                name
-                avatar {
-                    path
-                }
-            }
-            hub {
-                id
-                title
-                color
-            }
-            status
-            updatedAt
-            createdAt
-        }
-    }
-`
-
-export const SUB_ALL_OFFERS = gql`
-    subscription offers(
-        $status: Status
-    ) {
-        offers(
-            status: $status
-        ) {
-            id
-            title
-            message
-            user {
-                id
-                name
-                avatar {
-                    path
-                }
-            }
-            hub {
-                id
-                title
-                color
-            }
-            status
-            updatedAt
-            createdAt
-        }
-    }
-`
-
-export const ADD_OFFER = gql`
-    mutation addOffer(
-        $hub: ID!
-        $title: String!
-        $message: String!
-        $status: Status!
-    ) {
-        addOffer(
-            hub: $hub
-            title: $title
-            message: $message
-            status: $status
-        )
-    }
-`
-
-export const EDIT_OFFER = gql`
-    mutation editOffer(
-        $id: ID!
-        $hub: ID
-        $title: String
-        $message: String
-        $status: Status
-    ) {
-        editOffer(
-            id: $id
-            hub: $hub
-            title: $title
-            message: $message
-            status: $status
-        )
-    }
-`
-
-export const DELETE_OFFERS = gql`
-    mutation deleteOffers(
-        $offers: [InputOffer]
-    ) {
-        deleteOffers(offers: $offers)
-    }
-`
-// END HUB
+// END POST
 
 // BEGIN ROLE
 export const GET_ALL_ROLES = gql`
@@ -1684,16 +1597,19 @@ export const DELETE_AVATARS = gql`
 // END AVATARS
 
 // BEGIN ICONS
+export const GET_ALL_ICON_TYPES = gql`
+    query allIconTypes {
+        allIconTypes
+    }
+`
+
 export const GET_ALL_ICONS = gql`
     query allIcons {
         allIcons {
             id
             path
             name
-            hub {
-                id
-                title
-            }
+            type
             updatedAt
             createdAt
         }
@@ -1706,10 +1622,7 @@ export const SUB_ALL_ICONS = gql`
             id
             path
             name
-            hub {
-                id
-                title
-            }
+            type
             updatedAt
             createdAt
         }
@@ -1719,11 +1632,11 @@ export const SUB_ALL_ICONS = gql`
 export const ADD_ICON = gql`
     mutation addIcon(
         $file: Upload!
-        $hub: ID!
+        $type: IconType!
     ) {
         addIcon(
             file: $file
-            hub: $hub
+            type: $type
         )
     }
 `
@@ -1732,12 +1645,12 @@ export const EDIT_ICON = gql`
     mutation editIcon(
         $id: ID!
         $file: Upload
-        $hub: ID
+        $type: IconType
     ) {
         editIcon(
             id: $id
             file: $file
-            hub: $hub
+            type: $type
         )
     }
 `
@@ -1752,64 +1665,6 @@ export const DELETE_ICONS = gql`
     }
 `
 // END ICONS
-
-// BEGIN ICONS
-export const GET_ALL_FLAGS = gql`
-    query allFlags {
-        allFlags {
-            id
-            path
-            name
-            updatedAt
-            createdAt
-        }
-    }
-`
-
-export const SUB_ALL_FLAGS = gql`
-    subscription flags {
-        flags {
-            id
-            path
-            name
-            updatedAt
-            createdAt
-        }
-    }
-`
-
-export const ADD_FLAG = gql`
-    mutation addFlag(
-        $file: Upload!
-    ) {
-        addFlag(
-            file: $file
-        )
-    }
-`
-
-export const EDIT_FLAG = gql`
-    mutation editFlag(
-        $id: ID!
-        $file: Upload
-    ) {
-        editFlag(
-            id: $id
-            file: $file
-        )
-    }
-`
-
-export const DELETE_FLAGS = gql`
-    mutation deleteFlags(
-        $id: [ID]!
-    ) {
-        deleteFlags(
-            id: $id
-        )
-    }
-`
-// END FLAGS
 
 // BEGIN LANGUAGE
 export const GET_ALL_LANGUAGES = gql`

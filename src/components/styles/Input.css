@@ -16,6 +16,10 @@
     transition: var(--transition);
 }
 
+.ui-input.hidden {
+    display: none;
+}
+
 .ui-input.minimize {
     border: none;
     border-bottom: 1px solid var(--color-graylite);

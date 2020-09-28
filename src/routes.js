@@ -1,16 +1,14 @@
 import React from 'react'
 import Home from './components/Home'
 import Users from './components/Users'
-import Articles from './components/Articles'
+import Posts from './components/Posts'
 import Acts from './components/Acts'
-import Offers from './components/Offers'
 import Hubs from './components/Hubs'
 import Tours from './components/Tours'
 import Chats from './components/Chats'
 import Images from './components/Images'
 import Avatars from './components/Avatars'
 import Icons from './components/Icons'
-import Flags from './components/Flags'
 import Pets from './components/Pets'
 import Roles from './components/Roles'
 import Languages from './components/Languages'
@@ -28,13 +26,8 @@ export default [
     },
     {
         exact: true,
-        path: '/articles',
-        component: ({ showModal, hideModal }) => <Articles showModal={showModal} hideModal={hideModal} />
-    },
-    {
-        exact: true,
-        path: '/offers',
-        component: ({ showModal, hideModal }) => <Offers showModal={showModal} hideModal={hideModal} />
+        path: '/posts',
+        component: ({ showModal, hideModal }) => <Posts showModal={showModal} hideModal={hideModal} />
     },
     {
         exact: true,
@@ -80,11 +73,6 @@ export default [
         exact: true,
         path: '/icons',
         component: ({ showModal, hideModal }) => <Icons showModal={showModal} hideModal={hideModal} />
-    },
-    {
-        exact: true,
-        path: '/flags',
-        component: ({ showModal, hideModal }) => <Flags showModal={showModal} hideModal={hideModal} />
     },
     {
         exact: true,

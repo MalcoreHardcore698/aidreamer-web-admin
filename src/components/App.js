@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { AuthContext } from './AuthContext'
+import { AuthContext } from './context/Auth'
 import { useAuth } from '../hooks/auth.hook'
 import { useQuery } from '@apollo/react-hooks'
-
 import Row from './ui/Row'
 import Container from './ui/Container'
 import Alert from './ui/Alert'
 import Skeleton from './ui/Skeleton'
-
 import Main from './Main'
-
 import { setUser } from '../utils/actions'
 import { GET_USER } from '../utils/queries'
-
 import '../assets/styles/App.css'
 
 const SkeletonContent = () => (

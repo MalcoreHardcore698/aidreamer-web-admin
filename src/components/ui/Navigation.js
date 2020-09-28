@@ -1,7 +1,4 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import Button from './Button'
-import Divider from './Divider'
 import '../styles/Navigation.css'
 
 const Block = ({ children }) =>
@@ -9,8 +6,8 @@ const Block = ({ children }) =>
 
 export default ({ options }) => {
     const {
-        links,
-        buttons,
+        left,
+        right,
         dashboard,
         axis
     } = options
@@ -21,41 +18,18 @@ export default ({ options }) => {
         axis
     ]
 
-    const renderLinks = () => {
-        return links.map((group, key) => (
+    const render = list => {
+        return list.map((item, key) =>
             <React.Fragment key={key}>
-                <p className="title">{group.title}</p>
-                <div className="links">
-                    {group.links.map((link, index) =>
-                        <NavLink
-                            exact
-                            key={index}
-                            to={link.path}
-                            className={link.type}
-                            onClick={link.handler}
-                        >
-                            {link.component}
-                        </NavLink>
-                    )}
-                </div>
+                {item}
             </React.Fragment>
-        ))
-    }
-
-    const renderButtons = () => {
-        return buttons.map((button, key) =>
-            <Button key={key} options={button.options}>
-                {button.component}
-            </Button>)
+        )
     }
 
     return (
         <div className={classes.join(' ')}>
-            <Block>{renderLinks()}</Block>
-            <Block>
-                <Divider />
-                {renderButtons()}
-            </Block>
+            <Block>{render(left)}</Block>
+            <Block>{render(right)}</Block>
         </div>
     )
 }

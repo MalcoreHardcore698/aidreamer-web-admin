@@ -6,24 +6,19 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import EditAct from './content/EditAct'
-import AddAct from './content/AddAct'
-import DeleteEntries from './content/DeleteEntries'
-
+import FormAct from './forms/Act'
+import DeleteEntries from './forms/Delete'
 import {
     GET_ALL_ACTS,
     DELETE_ACTS,
     SUB_ALL_ACTS
 } from '../utils/queries'
-
 import './styles/Table.css'
 
 export default ({ showModal }) => {
@@ -92,10 +87,11 @@ export default ({ showModal }) => {
                                                     handler: () => (act) && showModal([{
                                                         path: '/',
                                                         title: 'Edit',
-                                                        component: ({ close }) => <EditAct
-                                                            act={act}
+                                                        component: ({ close }) => <FormAct
+                                                            add
+                                                            document={act}
                                                             close={close}
-                                                            status
+                                                            isStatus
                                                         />
                                                     }], true)
                                                 }}>
@@ -111,9 +107,10 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Add',
-                                                        component: ({ close }) => <AddAct
+                                                        component: ({ close }) => <FormAct
+                                                            add
                                                             close={close}
-                                                            status
+                                                            isStatus
                                                         />
                                                     }
                                                 ], true)

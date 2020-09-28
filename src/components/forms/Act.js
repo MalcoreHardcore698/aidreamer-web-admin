@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
-import { useMutation } from '@apollo/react-hooks'
-import { useForm } from 'react-hook-form'
+import React, { useState, useEffect } from 'react'
+// import { useForm } from 'react-hook-form'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faImage,
@@ -10,9 +9,9 @@ import {
 import Query from '../ui/Query'
 import Row from '../ui/Row'
 import Container from '../ui/Container'
+import Form from '../ui/Form'
 import List from '../ui/List'
 import Message from '../ui/Message'
-import Alert from '../ui/Alert'
 import Select from '../ui/Select'
 import Button from '../ui/Button'
 import Input from '../ui/Input'
@@ -21,16 +20,16 @@ import Checkbox from '../ui/Checkbox'
 import Toggler from '../ui/Toggler'
 import Divider from '../ui/Divider'
 import {
-    ADD_ACT,
     GET_ALL_ICONS,
     GET_ALL_AWARDS,
     GET_ALL_CONDITION_ENUMS,
     GET_ALL_USERS,
-    GET_ALL_ARTICLES,
-    GET_ALL_OFFERS,
+    GET_ALL_POSTS,
     GET_ALL_HUBS,
     GET_ALL_ACTS,
-    GET_ALL_STATUS
+    GET_ALL_STATUS,
+    ADD_ACT,
+    EDIT_ACT
 } from '../../utils/queries'
 import { config } from '../../utils/config'
 import { v4 } from 'uuid'
@@ -39,8 +38,7 @@ const api = config.get('api')
 
 const AREAS_QUERIES = {
     'USER': GET_ALL_USERS,
-    'ARTICLE': GET_ALL_ARTICLES,
-    'OFFER': GET_ALL_OFFERS,
+    'POST': GET_ALL_POSTS,
     'HUB': GET_ALL_HUBS
 }
 
@@ -295,15 +293,16 @@ const ActTasks = ({ register, tasks, setTasks }) => {
                                                             ))
                                                         }
                                                     }} />
-                                                    {((condition.goals?.length > 0) && condition.goals.find(g => g.value.includes('QUANTITY')) && (
+                                                    {((condition.goals?.length > 0) && condition.goals.find(g => g.value === 'QUANTITY') && (
                                                         <Input options={{
                                                             ref: register(),
                                                             type: 'number',
+                                                            defaultValue: condition?.multiply || '',
                                                             name: `[task_${task.id}][condition_${condition.id}][multiply]`,
                                                             placeholder: 'Enter multiply'
                                                         }} />
                                                     ))}
-                                                    {((condition.goals?.length > 0) && condition.goals.find(g => g.value.includes('SPECIFIC')) && (
+                                                    {((condition.goals?.length > 0) && condition.goals.find(g => g.value === 'SPECIFIC') && (
                                                         <React.Fragment>
                                                             <Select options={{
                                                                 name: `[task_${task.id}][condition_${condition.id}][area]`,
@@ -526,6 +525,7 @@ const ActTasks = ({ register, tasks, setTasks }) => {
                                                             <Input options={{
                                                                 ref: register(),
                                                                 type: 'number',
+                                                                defaultValue: award.quantity || '',
                                                                 name: `[task_${task.id}][award_${award.id}][value]`,
                                                                 placeholder: 'Value'
                                                             }} />
@@ -646,6 +646,7 @@ const ActSettings = ({ options }) => {
         isEnableSuccessor,
         successor,
         status,
+        isStatus,
         isSource,
         setSuccessor,
         setEnabledSuccessor,
@@ -700,7 +701,7 @@ const ActSettings = ({ options }) => {
                 }}
             </Query>
 
-            <Query query={GET_ALL_STATUS}>
+            {(isStatus) && <Query query={GET_ALL_STATUS}>
                 {({ data }) => (
                     <Toggler options={{
                         state: status,
@@ -716,7 +717,7 @@ const ActSettings = ({ options }) => {
                         ]}}
                     />
                 )}
-            </Query>
+            </Query>}
         </React.Fragment>
     )
 }
@@ -761,30 +762,71 @@ const SpecificSelect = ({ task, condition, setTasks }) => {
     )
 }
 
-export default ({ close }) => {
-    const [action, { loading }] = useMutation(ADD_ACT)
+export default ({
+    document,
+    close,
+    add=false,
+    edit=false,
+    editableStatus
+}) => {
+    const [variables, setVariables] = useState({})
 
-    const [tasks, setTasks] = useState([])
-    const [actAwards, setActAwards] = useState([])
-    const [successor, setSuccessor] = useState(null)
-    const [isEnableSuccessor, setEnabledSuccessor] = useState([])
-    const [isSource, setSource] = useState([])
-    const [status, setStatus] = useState(null)
+    const [tasks, setTasks] = useState((document?.tasks)
+        ? document.tasks.map(task => ({
+            ...task,
+            awards: task.awards.map(award => ({
+                ...award,
+                award: { value: award.award, label: award.award },
+                quantity: award.quantity
+            })),
+            condition: task.condition.map(condition => ({
+                ...condition,
+                action: { value: condition.action, label: condition.action },
+                goals: condition?.goals?.map(goal => ({ value: goal, label: goal })),
+                target: { value: condition?.target, label: condition?.target },
+                union: { value: condition?.union, label: condition?.union },
+                link: { value: condition?.link, label: condition?.link },
+                isComplexCondition: (condition.union)
+                    ? [{ id: 0, title: 'Complex condition' }]
+                    : []
+            })),
+            isDropdownIcons: false
+        }))
+        : []
+    )
+    const [actAwards, setActAwards] = useState((document?.awards)
+        ? document.awards.map(award => ({
+            ...award,
+            award: { value: award.award, label: award.award },
+            quantity: award.quantity
+        }))
+        : []
+    )
 
-    const { handleSubmit, register, errors } = useForm()
-    const onSubmit = async (form) => {
-        if (!status) return null
-        if (tasks.length === 0) return null
+    const [successor, setSuccessor] = useState(document?.successor)
+    const [isEnableSuccessor, setEnabledSuccessor] = useState((document?.successor) ? [{ id: 0, title: 'Enable successor' }] : [])
+    const [isSource, setSource] = useState((document?.isSource) ? [{ id: 0, title: 'Is Source' }] : [])
+    const [status, setStatus] = useState(document?.status)
 
-        // console.log(form)
-
-        const variables = {
+    const variablesCompose = (form, options) => {
+        let awards = []
+        if (actAwards) awards = actAwards
+            .map(actAward => ({
+                    award: actAward.award.value,
+                    quantity: +form.act[`award_${actAward.id}`]?.value
+                })
+            )
+        
+        return {
+            ...options,
             title: form.title,
             description: form.description,
             tasks: tasks.map(task => ({
+                id: task.id,
                 title: form[`task_${task.id}`]?.title,
                 icon: task.icon.id,
                 condition: task.condition.map(condition => ({
+                    id: condition.id,
                     action: condition.action?.value,
                     goals: condition.goals.map(goal => goal.value),
                     target: condition.target?.value,
@@ -797,75 +839,76 @@ export default ({ close }) => {
                     quantity: +form[`task_${task.id}`][`award_${award.id}`]?.value
                 })),
             })),
-            isSource: (isSource?.length > 0),
-            status: status 
+            awards
         }
-
-        if (actAwards) variables.awards = actAwards
-            .map(actAward => ({
-                    award: actAward.award.value,
-                    quantity: +form.act[`award_${actAward.id}`]?.value
-                })
-            )
-        if (successor) variables.successor = successor.value
-
-        await action({ variables })
-
-        close()
     }
 
+    useEffect(() => {
+        const options = {
+            isSource: (isSource?.length > 0),
+            status
+        }
+        if (successor) options.successor = successor.value
+        if (edit) options.id = document._id
+        setVariables((vars) => ({
+            ...vars,
+            ...options
+        }))
+    }, [status, successor, isSource, edit, document])
+
     return (
-        <form className="fat" onSubmit={handleSubmit(onSubmit)}>
-            <p className="ui-title">General</p>
-            {(errors.title || errors.description) && <Alert type="error" message={
-                errors.title?.message || errors.description?.message
-            } />}
+        <Form
+            add={add}
+            edit={edit}
+            query={(add) ? ADD_ACT : EDIT_ACT}
+            variables={variables}
+            beforeEffect={(form, options) => variablesCompose(form, options)}
+            afterEffect={close}
+        >
+            {({ register, loading }) => (
+                <React.Fragment>
+                    <p className="ui-title">General</p>
+                    <Input options={{
+                        ref: register({ required: 'Title is required' }),
+                        type: 'text',
+                        name: 'title',
+                        defaultValue: document?.title || '',
+                        placeholder: 'Enter title',
+                        disabled: loading
+                    }} />
 
-            <Input options={{
-                ref: register({ required: 'Title is required' }),
-                type: 'text',
-                name: 'title',
-                disabled: loading,
-                placeholder: 'Enter title'
-            }} />
+                    <Input options={{
+                        ref: register({ required: 'Description is required' }),
+                        type: 'text',
+                        name: 'description',
+                        defaultValue: document?.description || '',
+                        placeholder: 'Enter description',
+                        disabled: loading
+                    }} />
 
-            <Input options={{
-                ref: register({ required: 'Description is required' }),
-                type: 'text',
-                name: 'description',
-                disabled: loading,
-                placeholder: 'Enter description'
-            }} />
+                    <Divider />
+                    <p className="ui-title">Tasks</p>
+                    <ActTasks register={register} tasks={tasks} setTasks={setTasks} />
 
-            <Divider />
-            <p className="ui-title">Tasks</p>
-            <ActTasks register={register} tasks={tasks} setTasks={setTasks} />
+                    <Divider />
+                    <p className="ui-title">Awards</p>
+                    <ActAwards register={register} actAwards={actAwards} setActAwards={setActAwards}/>
 
-            <Divider />
-            <p className="ui-title">Awards</p>
-            <ActAwards register={register} actAwards={actAwards} setActAwards={setActAwards}/>
-
-            <Divider />
-            <p className="ui-title">Settings</p>
-            <ActSettings options={{
-                isEnableSuccessor,
-                successor,
-                status,
-                isSource,
-                setSuccessor,
-                setEnabledSuccessor,
-                setSource,
-                setStatus
-            }} />
-
-            <Divider />
-            <Button options={{
-                type: 'submit',
-                state: 'inactive',
-                classNames: 'grow'
-            }}>
-                <p>Add</p>
-            </Button>
-        </form>
+                    <Divider />
+                    <p className="ui-title">Settings</p>
+                    <ActSettings options={{
+                        isEnableSuccessor,
+                        successor,
+                        status: status,
+                        isSource,
+                        isStatus: editableStatus,
+                        setSuccessor,
+                        setEnabledSuccessor,
+                        setSource,
+                        setStatus: setStatus
+                    }} />
+                </React.Fragment>
+            )}
+        </Form>
     )
 }

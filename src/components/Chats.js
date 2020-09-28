@@ -6,20 +6,19 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import AddChat from './content/AddChat'
-import EditChat from './content/EditChat'
-import DeleteEntries from './content/DeleteEntries'
-
-import { GET_ALL_CHATS, SUB_ALL_CHATS, DELETE_CHATS } from '../utils/queries'
-
+import FormChat from './forms/Chat'
+import DeleteEntries from './forms/Delete'
+import {
+    GET_ALL_CHATS,
+    SUB_ALL_CHATS,
+    DELETE_CHATS
+} from '../utils/queries'
 import './styles/Table.css'
 
 export default ({ showModal }) => {
@@ -97,10 +96,11 @@ export default ({ showModal }) => {
                                                     handler: () => (chat) && showModal([{
                                                         path: '/',
                                                         title: 'Edit Chat',
-                                                        component: ({ close }) => <EditChat
-                                                            chat={chat}
-                                                            members={chat.members}
+                                                        component: ({ close }) => <FormChat
+                                                            edit
+                                                            document={chat}
                                                             close={close}
+                                                            isStatus
                                                         />
                                                     }], true)
                                                 }}>
@@ -116,8 +116,10 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Add Chat',
-                                                        component: ({ close }) => <AddChat
+                                                        component: ({ close }) => <FormChat
+                                                            add
                                                             close={close}
+                                                            isStatus
                                                         />
                                                     }
                                                 ], true)

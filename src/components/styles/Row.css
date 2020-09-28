@@ -33,6 +33,14 @@
     justify-content: center;
 }
 
+.ui-row.nowrap {
+    flex-wrap: nowrap
+}
+
 .ui-row.search .ui-search {
     flex-grow: 100;
+}
+
+.ui-row.auto {
+    width: auto;
 }

@@ -1,28 +1,22 @@
 .ui-navigation {
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     grid-gap: 15px;
-    padding: 25px 0;
+    padding: 5px 0;
+    z-index: var(--z-one-hundred-one);
 }
 
 .ui-navigation.dashboard {
     flex-direction: column;
-    top: 0;
+    top: 25px;
     left: 25px;
     width: 145px;
     padding: 0;
     background: transparent;
-}
-
-.ui-navigation {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-}
-
-.ui-navigation:not(.dashboard) {
-    background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(94, 63, 161, 0.47) 100%);
-    z-index: var(--z-ninetynine);
 }
 
 .ui-navigation a:hover .ui-row .icon,
@@ -30,9 +24,10 @@
     color: var(--color-accent) !important;
 }
 
-.ui-navigation:not(.dashboard) .block .links {
+.ui-navigation:not(.dashboard) .block {
     display: flex;
-    grid-gap: 15px;
+    flex-direction: column;
+    grid-gap: 35px;
     width: max-content;
 }
 
@@ -43,12 +38,12 @@
 
 .ui-navigation .block:last-child {
     display: flex;
-    grid-gap: 10px;
+    grid-gap: 30px;
 }
 
 .ui-navigation.dashboard .block:last-child {
     display: flex;
-    grid-gap: 10px;
+    grid-gap: 0;
     width: auto;
     margin-bottom: 25px;
 }
@@ -73,14 +68,8 @@
     display: none;
 }
 
-.ui-navigation:not(.dashboard) .block:first-child,
-.ui-navigation:not(.dashboard) .block:last-child button {
+.ui-navigation:not(.dashboard) {
     background: white;
-    border-radius: 25rem;
-}
-
-.ui-navigation:not(.dashboard) .block:first-child {
-    padding-right: 10px;
 }
 
 .ui-navigation.dashboard .block a .ui-row svg {
@@ -93,11 +82,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 64px;
-    width: 64px;
+    height: 35px;
+    width: 35px;
     outline: none;
     font-size: 1.25rem;
     color: var(--color-graylite);
+}
+
+.ui-navigation .block:first-child a:first-child {
+    font-size: 1.55rem;
 }
 
 .ui-navigation .block a svg path,
@@ -108,6 +101,7 @@
 
 .ui-navigation .block a.active,
 .ui-navigation.dashboard .block a:hover,
+.ui-navigation.dashboard .block .ui-button:hover,
 .ui-navigation.dashboard .block a.active {
     color: var(--color-accent) !important;
 }
@@ -136,7 +130,7 @@
     width: 100%;
 }
 
-.ui-navigation.dashboard .block .links {
+.ui-navigation.dashboard .block {
     background: var(--color-entry);
     box-shadow: var(--bs-entry);
     border-radius: var(--br-main);
@@ -201,30 +195,40 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-}
-
-.ui-navigation:not(.dashboard) .block a:nth-child(2) {
-    font-size: 2rem;
-}
-
-.ui-navigation:not(.dashboard) .block a:first-child {
-    padding-right: 20px;
-}
-
-.ui-navigation:not(.dashboard) .block a:first-child img {
     border-radius: 50%;
-    transform: scale(1.45) translateX(10px);
+}
+
+.ui-navigation.dashboard .block:first-child {
+    padding: 5px 0;
 }
 
 .ui-navigation.dashboard .block .ui-row {
     display: grid;
     grid-template-columns: 25px 1fr;
     padding: 0 10px;
+    align-content: center;
+}
+
+.ui-navigation.dashboard .block a:first-child {
+    margin-top: -5px;
+}
+
+.ui-navigation.dashboard .block .ui-row .icon:first-child:last-child {
+    font-size: 14px;
+    align-self: center;
+}
+
+.ui-navigation.dashboard .block .ui-row p {
+    font-size: 14px;
 }
 
 .ui-navigation.dashboard .block .ui-row svg {
     justify-self: center;
     align-self: center;
+}
+
+.ui-navigation .block:last-child .react-ripples:last-child {
+    display: none !important;
 }
 
 .ui-navigation .block a .undefined {
@@ -243,21 +247,37 @@
         grid-gap: 10px;
     }
     
-    .ui-navigation:not(.dashboard) .block a:first-child {
-        padding-right: 15px;
-    }
-    
-    .ui-navigation:not(.dashboard) .block a:first-child img {
-        transform: scale(1.45) translateX(5px);
-    }
-    
-    .ui-navigation:not(.dashboard) .block a:nth-child(2) {
-        font-size: 1.25rem;
-    }
-    
     .ui-navigation:not(.dashboard) .block a, .ui-navigation:not(.dashboard) .block button {
         font-size: 1rem;
         height: 36px;
         width: 36px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .ui-navigation {
+        top: initial;
+        bottom: 0;
+        height: auto !important;
+        flex-direction: row;
+        padding: 10px !important;
+        background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(94, 63, 161, 0.47) 100%) !important;
+        width: calc(100% - 20px);
+    }
+
+    .ui-navigation:not(.dashboard) .block {
+        flex-direction: row;
+        background: white;
+        border-radius: 25rem;
+        padding: 5px;
+    }
+
+    .ui-navigation:not(.dashboard) .block:first-child a:not(:nth-child(2)),
+    .ui-navigation:not(.dashboard) .block:last-child .react-ripples:not(:last-child) {
+        display: none !important;
+    }
+
+    .ui-navigation:not(.dashboard) .block:last-child .react-ripples:last-child {
+        display: flex !important;
     }
 }

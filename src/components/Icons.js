@@ -6,20 +6,15 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import AddIcon from './content/AddIcon'
-import EditIcon from './content/EditIcon'
-import DeleteEntries from './content/DeleteEntries'
-
+import FormIcon from './forms/Icon'
+import DeleteEntries from './forms/Delete'
 import { GET_ALL_ICONS, SUB_ALL_ICONS, DELETE_ICONS } from '../utils/queries'
-
 import './styles/Table.css'
 
 export default ({ showModal }) => {
@@ -42,9 +37,8 @@ export default ({ showModal }) => {
                                     dataTable: ((subData && subData.icons) || data.allIcons).map(icon => ([
                                         { header: 'ID', value: icon.id, type: 'text', visible: false },
                                         { header: 'Изображение', value: icon.path, type: 'icon' },
-                                        { header: 'Сообщество', value: icon.hub.title, type: 'text' },
+                                        { header: 'Тип', value: icon.type, type: 'text' },
                                         { header: 'Название', value: icon.name, type: 'text', visible: false },
-                                        { header: 'Путь', value: icon.path, type: 'text', visible: false },
                                         { header: 'Дата изменения', value: <Moment date={new Date(new Date().setTime(icon.updatedAt))} format="DD.MM.YYYY" />, type: 'text', visible: false },
                                         { header: 'Дата создания', value: <Moment date={new Date(new Date().setTime(icon.createdAt))} format="DD.MM.YYYY" />, type: 'text' }
                                     ])),
@@ -94,8 +88,9 @@ export default ({ showModal }) => {
                                                     handler: () => (icon) && showModal([{
                                                         path: '/',
                                                         title: 'Edit Icon',
-                                                        component: ({ close }) => <EditIcon
-                                                            icon={icon}
+                                                        component: ({ close }) => <FormIcon
+                                                            edit
+                                                            document={icon}
                                                             close={close}
                                                         />
                                                     }], true)
@@ -112,7 +107,8 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Add Icon',
-                                                        component: ({ close }) => <AddIcon
+                                                        component: ({ close }) => <FormIcon
+                                                            add
                                                             close={close}
                                                         />
                                                     }

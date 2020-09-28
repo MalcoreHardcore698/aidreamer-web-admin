@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import { useMutation } from '@apollo/react-hooks'
-import { AuthContext } from './AuthContext'
+import { AuthContext } from './context/Auth'
 import Input from './ui/Input'
 import Button from './ui/Button'
 import Checkbox from './ui/Checkbox'

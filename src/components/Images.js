@@ -6,20 +6,15 @@ import {
     faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import Moment from 'react-moment'
-
 import Query from './ui/Query'
 import Subscription from './ui/Subscription'
 import Table from './ui/Table'
 import Row from './ui/Row'
 import Button from './ui/Button'
 import Headline from './ui/Headline'
-
-import AddImage from './content/AddImage'
-import EditImage from './content/EditImage'
-import DeleteEntries from './content/DeleteEntries'
-
+import FormImage from './forms/Image'
+import DeleteEntries from './forms/Delete'
 import { GET_ALL_IMAGES, SUB_ALL_IMAGES, DELETE_IMAGES } from '../utils/queries'
-
 import './styles/Table.css'
 
 export default ({ showModal }) => {
@@ -93,8 +88,9 @@ export default ({ showModal }) => {
                                                     handler: () => (image) && showModal([{
                                                         path: '/',
                                                         title: 'Edit Image',
-                                                        component: ({ close }) => <EditImage
-                                                            image={image}
+                                                        component: ({ close }) => <FormImage
+                                                            edit
+                                                            document={image}
                                                             close={close}
                                                         />
                                                     }], true)
@@ -111,7 +107,8 @@ export default ({ showModal }) => {
                                                     {
                                                         path: '/',
                                                         title: 'Add Image',
-                                                        component: ({ close }) => <AddImage
+                                                        component: ({ close }) => <FormImage
+                                                            add
                                                             close={close}
                                                         />
                                                     }

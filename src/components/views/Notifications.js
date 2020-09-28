@@ -1,10 +1,10 @@
 import React from 'react'
 import Moment from 'react-moment'
-import Container from './../ui/Container'
-import Query from './../ui/Query'
-import Subscription from './../ui/Subscription'
-import Message from './../ui/Message'
-import List from './../ui/List'
+import Container from '../ui/Container'
+import Query from '../ui/Query'
+import Subscription from '../ui/Subscription'
+import Message from '../ui/Message'
+import List from '../ui/List'
 import Avatar from '../ui/Avatar'
 
 import {

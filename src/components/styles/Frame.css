@@ -1,0 +1,25 @@
+.ui-frame {
+    position: relative;
+    color: var(--color-graylite);
+    border: 1px solid var(--color-graylite);
+    border-radius: var(--br-main);
+    padding: var(--padding-content);
+}
+
+.ui-frame h2 {
+    margin: 0;
+    padding: 0 5px;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--color-graydark);
+}
+
+.ui-frame .legend {
+    position: absolute;
+    left: 12px;
+    bottom: -10px;
+    padding: 0 10px;
+    background: var(--color-body-background);
+    border-radius: var(--border-radius);
+    font-weight: 600;
+}

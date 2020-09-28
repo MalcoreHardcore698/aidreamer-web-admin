@@ -15,6 +15,10 @@
     grid-template-columns: repeat(auto-fill, minmax(64px, 64px));
 }
 
+.ui-list.grid.stretch {
+    grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+}
+
 .ui-list .ui-item {
     transition: var(--transition);
 }
@@ -71,6 +75,21 @@
     align-items: center;
     width: 32px;
     height: 32px;
+}
+
+.ui-list.grid.stretch .ui-item {
+    width: auto;
+    height: auto;
+}
+
+.ui-list.grid.center .ui-item > * {
+    align-items: center;
+    text-align: center;
+}
+
+.ui-list.grid.stretch .ui-item .icon.large {
+    font-size: 3.75rem;
+    padding: 1rem;
 }
 
 .ui-item .date {

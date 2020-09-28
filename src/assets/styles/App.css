@@ -43,6 +43,7 @@
     --fz-headline: 22px;
 
     /* Z Index */
+    --z-override: 99999;
     --z-one-hundred-one: 101;
     --z-one-hundred: 100;
     --z-ninetynine: 99;
@@ -108,29 +109,182 @@ a, a:link, a:visited, a:hover, a:active, a:focus {
     color: var(--color-graylite);
 }
 
-main,
+main {
+    padding: 10px 35px 10px 90px;
+}
+
 .ui-navigation {
-    width: 90%;
-    padding: 35px 5%;
+    height: calc(100vh - 50px);
+    padding: 25px 10px;
 }
 
 main {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     grid-gap: var(--grid-gap);
-    grid-template-columns: 1fr;
-    padding-bottom: 180px;
+    padding-block-start: 30px;
+    padding-block-end: 180px;
 }
 
-main.home {
-    grid-template-columns: var(--w-aside) 1fr;
+main.profile > aside.head {
+    margin-block-end: 15px;
 }
 
-main.skeleton,
-main.profile,
-main.navigator,
-main.tours,
 main.chats {
-    grid-template-columns: var(--w-aside) 1fr var(--w-aside);
+    display: grid;
+    padding-block-end: 30px;
+}
+
+main.chats,
+main.profile > aside.head > .ui-row {
+    grid-template-columns: 256px 1fr;
+    grid-gap: 25px;
+}
+
+main.profile > aside.body > .ui-row {
+    grid-template-columns: 1fr 3fr;
+    grid-gap: var(--grid-gap);
+}
+
+main.profile > aside.head .circle {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 256px;
+    height: 256px;
+}
+
+main.profile > aside.head .circle .ui-avatar {
+    position: relative;
+    z-index: var(--z-ten);
+    width: calc(100% - 50px);
+    height: calc(100% - 50px);
+    filter: drop-shadow(0 0 20px rgba(97, 63, 161, .35));
+}
+
+main.profile > aside.head .circle .exp {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+main.profile > aside.head .circle .exp div[data-test-id="CircularProgressbarWithChildren__children"] {
+    transform: scale(1.05);
+}
+
+main.profile > aside.head .circle .ui-counter-badge {
+    position: absolute;
+    bottom: -10px;
+    z-index: var(--z-eleven);
+    width: 64px;
+    height: 64px;
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--color-accent);
+}
+
+main.profile > aside.head .info {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 15px;
+}
+
+main.profile > aside.head .info > .ui-row {
+    grid-gap: 15px;
+}
+
+main.profile > aside.head .info .ui-frame {
+    margin-block-end: 10px;
+}
+
+main.profile > aside.head .info .user-experience,
+main.profile > aside.head .info .user-gem {
+    display: flex;
+    align-items: center;
+    grid-gap: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+main.profile > aside.head .info .user-experience .icon,
+main.profile > aside.head .info .user-gem .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+}
+
+main.profile > aside.head .info .user-experience .icon img,
+main.profile > aside.head .info .user-gem .icon img {
+    background: var(--color-text);
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    padding: 5px;
+}
+
+main.profile > aside.head .info .user-overview,
+main.profile > aside.head .info .user-preferences {
+    display: flex;
+    grid-gap: 10px;
+}
+
+main.profile > aside.head .info .user-overview .user-overview-stat,
+main.profile > aside.head .info .user-preferences .user-preference {
+    background: var(--color-entry);
+    box-shadow: var(--bs-entry);
+    border-radius: var(--br-main);
+}
+
+main.profile > aside.head .info .user-overview .user-overview-stat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    min-width: 94px;
+}
+
+main.profile > aside.head .info .user-overview .user-overview-stat .value {
+    padding: 10px;
+    font-weight: 700;
+    font-size: 22px;
+    color: var(--color-text);
+}
+
+main.profile > aside.head .info .user-overview .user-overview-stat .legend {
+    display: flex;
+    justify-content: center;
+    background: var(--color-statusbar-background);
+    border-block-start: var(--border-main);
+    padding: var(--padding-content);
+    width: 100%;
+    font-weight: 500;
+    color: var(--color-graydark);
+}
+
+main.profile > aside.head .info .user-preferences .user-preference {
+    width: 48px;
+    height: 48px;
+}
+
+main.profile > aside.head .info .user-preferences .user-preference .ui-avatar {
+    width: 100%;
+    height: 100%;
+}
+
+main.profile > aside.head .info .user-preferences .user-preference .ui-avatar img {
+    width: 28px;
+    height: 28px;
 }
 
 main.skeleton {
@@ -144,6 +298,7 @@ main aside {
     grid-gap: var(--grid-gap);
 }
 
+main aside > form > .ui-toggler,
 main aside > .ui-toggler {
     width: 100%;
     max-width: 100%;
@@ -329,7 +484,7 @@ main.chats aside:first-child .loader {
     border: var(--border-main);
 
     width: 100%;
-    height: calc(100vh - 280px);
+    height: 100%;
 
     overflow: hidden;
 }
@@ -415,8 +570,12 @@ main.chats aside:first-child .loader {
 
 .ui-section .content .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(425px, 1fr));
     grid-gap: var(--padding-content);
+}
+
+.ui-section.offers .content .grid {
+    grid-template-columns: repeat(auto-fill, minmax(325px, 1fr));
 }
 
 .ui-section.my-articles .content .grid,
@@ -424,143 +583,54 @@ main.chats aside:first-child .loader {
     grid-template-columns: repeat(auto-fill, minmax(425px, 1fr));
 }
 
-.ui-tasks,
-.ui-tasks .content,
-.ui-tasks .manage,
-.ui-tasks .ui-task,
-.ui-tasks .ui-task .condition,
-.ui-tasks .ui-task .awards {
-    display: flex;
-    flex-direction: column;
-    grid-gap: 10px;
+.tsparticles-canvas-el {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
 }
 
-.ui-tasks,
-.ui-awards,
-.ui-awards .list,
-.ui-awards .list .item,
-.ui-tasks .ui-task .condition .list .item,
-.ui-tasks .ui-task .awards .list .item {
+.ui-icon.dots {
     position: relative;
-}
-
-.ui-tasks .manage,
-.ui-awards .manage {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    z-index: var(--z-nine);
-}
-
-.ui-awards .manage .ui-button,
-.ui-tasks .manage .ui-button {
-    width: 25px;
-    height: 25px;
-    font-size: .645rem;
-}
-
-.ui-tasks .ui-task .condition > .react-ripples > .ui-button,
-.ui-tasks .ui-task .awards > .react-ripples > .ui-button,
-.ui-awards .react-ripples > .ui-button {
-    height: 25px;
-    font-size: .645rem;
-}
-
-.ui-tasks > .manage,
-.ui-awards > .manage {
-    top: -38px;
-    right: 0;
-}
-
-.ui-awards > .manage .ui-button,
-.ui-tasks > .manage .ui-button {
-    width: auto;
-}
-
-.ui-awards .content > .ui-title,
-.ui-tasks .content > .ui-title {
-    margin-block-start: 0 !important;
-}
-
-.ui-tasks .ui-task {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
-}
-
-.ui-awards .ui-message,
-.ui-tasks .ui-message {
-    margin-block-start: 0 !important;
-}
-
-.ui-tasks > .content > .ui-message,
-.ui-awards > .list > .ui-message {
-    height: 106px;
-}
-
-.ui-tasks .ui-task .header {
-    grid-column: 1 / 3;
-}
-
-.ui-awards .list .ui-message,
-.ui-tasks .ui-task .condition .list .ui-message,
-.ui-tasks .ui-task .awards .list .ui-message {
-    grid-column: 1 / 4;
-}
-
-.ui-tasks .ui-task .ui-container .ui-button {
-    width: 40px;
-}
-
-.ui-tasks .ui-task .ui-container .ui-button .image {
-    width: 25px;
-}
-
-.ui-tasks .manage .ui-input,
-.ui-tasks .ui-task .ui-input,
-.ui-tasks .ui-task .awards .list .item .content .ui-select,
-.ui-tasks .ui-task .awards .list .item .content .ui-input {
-    flex-grow: 1;
-}
-
-.ui-tasks .ui-task .header .react-ripples {
-    flex-grow: inherit !important;
-}
-
-.ui-tasks .ui-task .header .react-ripples .ui-button {
-    width: 40px;
-    max-width: 40px;
-}
-
-.ui-awards .list,
-.ui-tasks .ui-task .awards .list,
-.ui-tasks .ui-task .condition .list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
-    grid-gap: 10px;
-}
-
-.ui-awards .list .item,
-.ui-tasks .ui-task .condition .list .item,
-.ui-tasks .ui-task .awards .list .item {
-    background: #f9f9f9;
-    border-radius: var(--br-main);
-    border: 1px solid var(--color-body-background);
-    padding: 10px;
-}
-
-.ui-awards .list .item,
-.ui-awards .list .item .content,
-.ui-tasks .ui-task .awards .list .item,
-.ui-tasks .ui-task .condition .list .item,
-.ui-tasks .ui-task .awards .list .item .content,
-.ui-tasks .ui-task .condition .list .item .content {
     display: flex;
-    flex-direction: column;
-    grid-gap: 10px;
+    justify-content: center;
+    align-items: center;
 }
 
-[class$="-control"]:hover {
-    border-color: var(--color-accent) !important;
+.ui-icon.dots span {
+    position: absolute;
+    top: calc(50% - 2.5px);
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--color-graylite);
+    transition: left 150ms ease-in-out, transform 300ms ease-out;
+}
+
+.ui-icon.dots span:nth-child(1) {
+    left: calc(50% - 10.5px);
+}
+
+.ui-icon.dots span:nth-child(2) {
+    left: calc(50% - 2.5px);
+}
+
+.ui-icon.dots span:nth-child(3) {
+    left: calc(50% + 5px);
+}
+
+.ui-icon.dots.active span:nth-child(1),
+.ui-icon.dots.active span:nth-child(3) {
+    z-index: var(--z-eleven);
+    left: calc(50% - 2.5px);
+    background: var(--color-graydark);
+    transform: scale(1.75);
+}
+
+.ui-icon.dots.active span:nth-child(2) {
+    left: calc(50% - 2.5px);
+    transform: scale(5);
 }
 
 .fadeIn {
@@ -582,15 +652,73 @@ main.chats aside:first-child .loader {
 }
 
 @media only screen and (max-width: 1299px) {
-    main,
-    .ui-navigation {
-        width: calc(100% - 30px);
-        padding: 25px 15px;
-    }
-
     main {
         grid-template-columns: 1fr !important;
         padding-bottom: 180px;
+    }
+}
+
+@media only screen and (max-width: 998px) {
+    main.profile > aside.body > .ui-row {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    main.profile > aside.head > .ui-row {
+        grid-template-columns: 128px 1fr;
+    }
+
+    main.profile > aside.head .info > .ui-row:last-child {
+        margin-block-start: 20px;
+        margin-inline-start: -150px;
+        width: calc(100% + 150px);
+    }
+
+    main.profile > aside.head .info > .ui-row:last-child .user-overview {
+        width: 100%;
+    }
+
+    main.profile > aside.head .info > .ui-row:last-child .user-overview .user-overview-stat {
+        flex-grow: 1;
+    }
+
+    main.profile > aside.head .circle {
+        width: 128px;
+        height: 128px;
+    }
+
+    main.profile > aside.head .circle .ui-avatar {
+        width: calc(100% - 35px);
+        height: calc(100% - 35px);
+    }
+
+    main.profile > aside.head .circle .ui-counter-badge {
+        bottom: -5px;
+        width: 35px;
+        height: 35px;
+        font-size: 20px;
+    }
+
+    main.profile > aside.head .info .user-experience .icon, main.profile > aside.head .info .user-gem .icon {
+        width: 20px;
+        height: 20px;
+        padding: 5px;
+    }
+
+    main.profile > aside.head .info .user-experience .icon img, main.profile > aside.head .info .user-gem .icon img {
+        width: 12px;
+        height: 12px;
+        padding: 4px;
+    }
+
+    .ui-headline {
+        font-size: 1.45rem;
+    }
+    
+    .ui-frame h2 {
+        font-size: 18px;
     }
 }
 
@@ -598,10 +726,62 @@ main.chats aside:first-child .loader {
     main {
         display: flex;
         flex-direction: column;
-        padding-bottom: 75px;
+        padding: 35px 15px;
     }
 
     .ui-chat .messages .message .content {
         max-width: 85%;
+    }
+
+    main.profile > aside.head > .ui-row {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    main.profile > aside.head .info > .ui-row:last-child {
+        margin-block-start: 0;
+        margin-inline-start: 0;
+        width: auto;
+    }
+
+    main.profile > aside.head .circle {
+        width: 245px;
+        height: 245px;
+    }
+
+    main.profile > aside.head .circle .ui-avatar {
+        width: calc(100% - 45px);
+        height: calc(100% - 45px);
+    }
+
+    main.profile > aside.head .circle .ui-counter-badge {
+        bottom: -5px;
+        width: 58px;
+        height: 58px;
+        font-size: 32px;
+    }
+
+    main.profile > aside.head .info > .ui-row:last-child .user-overview {
+        flex-wrap: wrap;
+    }
+}
+
+@media only screen and (max-width: 320px) {
+    main.profile > aside.head .circle {
+        width: 196px;
+        height: 196px;
+    }
+
+    main.profile > aside.head .circle .ui-avatar {
+        width: calc(100% - 40px);
+        height: calc(100% - 40px);
+    }
+
+    main.profile > aside.head .circle .ui-counter-badge {
+        bottom: -10px;
+        width: 50px;
+        height: 50px;
+        font-size: 22px;
     }
 }

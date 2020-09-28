@@ -32,7 +32,9 @@ export default (props) => {
             {list.map((item, key) => (
                 <div
                     key={key}
-                    className={`ui-item${(state.id === item.id) ? ' checked' : ''}`}
+                    className={`ui-item${
+                        ((state.id === item.id) || item._condition) ? ' checked' : ''
+                    }`}
                     onClick={() => (handlerItem) ? handlerItem(item) : null}
                 >
                     <Children item={item} />
