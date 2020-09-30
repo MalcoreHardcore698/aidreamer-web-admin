@@ -1,9 +1,0 @@
-.ui-column {
-    display: flex;
-    flex-direction: column;
-}
-
-.ui-column.center {
-    justify-content: center;
-    align-items: center;
-}
